@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './screens/home.dart';
+import 'screens/homeCoach.dart';
 import './screens/workout.dart';
 import './screens/signup.dart';
 
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const SignUpScreen(),
+      home: const HomeCoachScreen(),
     );
   }
 }
