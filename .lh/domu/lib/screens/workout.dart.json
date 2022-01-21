@@ -1,0 +1,26 @@
+{
+    "sourceFile": "domu/lib/screens/workout.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1642742102784,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1642742116728,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     return Scaffold(\r\n       appBar: AppBar(\r\n         // Here we take the value from the MyHomePage object that was created by\r\n         // the App.build method, and use it to set our appbar title.\r\n-        title: const Text(\"Signup Page\"),\r\n+        title: const Text(\"Workout\"),\r\n       ),\r\n     );\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1642742337653,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,11 +11,14 @@\n   @override\r\n   Widget build(BuildContext context) {\r\n     return Scaffold(\r\n       appBar: AppBar(\r\n-        // Here we take the value from the MyHomePage object that was created by\r\n-        // the App.build method, and use it to set our appbar title.\r\n-        title: const Text(\"Workout\"),\r\n-      ),\r\n+          // Here we take the value from the MyHomePage object that was created by\r\n+          // the App.build method, and use it to set our appbar title.\r\n+          title: const Text(\"Workout\"),\r\n+          actions: const [\r\n+            Text(\"3/7\"),\r\n+            Text(\"2000\"),\r\n+          ]),\r\n     );\r\n   }\r\n }\r\n"
+                }
+            ],
+            "date": 1642742102784,
+            "name": "Commit-0",
+            "content": "import 'package:flutter/material.dart';\r\n\r\nclass WorkoutScreen extends StatefulWidget {\r\n  const WorkoutScreen({Key? key}) : super(key: key);\r\n\r\n  @override\r\n  _WorkoutScreenState createState() => _WorkoutScreenState();\r\n}\r\n\r\nclass _WorkoutScreenState extends State<WorkoutScreen> {\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return Scaffold(\r\n      appBar: AppBar(\r\n        // Here we take the value from the MyHomePage object that was created by\r\n        // the App.build method, and use it to set our appbar title.\r\n        title: const Text(\"Signup Page\"),\r\n      ),\r\n    );\r\n  }\r\n}\r\n"
+        }
+    ]
+}
