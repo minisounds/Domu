@@ -1,4 +1,6 @@
+import 'package:domu/screens/workout.dart';
 import 'package:flutter/material.dart';
+import 'package:domu/screens/signup.dart';
 
 class HomeStudentScreen extends StatefulWidget {
   const HomeStudentScreen({Key? key}) : super(key: key);
@@ -104,7 +106,14 @@ class _HomeStudentScreenState extends State<HomeStudentScreen> {
                             style: TextStyle(fontSize: 30))),
                     ...workoutRows,
                     ElevatedButton(
-                        onPressed: () {}, child: const Text("Go to Workout!"))
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const WorkoutScreen()),
+                          );
+                        },
+                        child: const Text("Go to Workout!"))
                   ],
                 ),
               ),

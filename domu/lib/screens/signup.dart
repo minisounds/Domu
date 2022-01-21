@@ -1,6 +1,7 @@
+import 'package:domu/screens/homeCoach.dart';
+import 'package:domu/screens/homeStudent.dart';
 import 'package:flutter/material.dart';
 import '../widgets/labeledCheckbox.dart';
-import 'package:flutter/scheduler.dart' show timeDilation;
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -80,6 +81,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             Container(
+                padding: const EdgeInsets.all(10),
+                child: TextButton(
+                  child: const Text("Return Home"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeCoachScreen()),
+                    );
+                  },
+                )),
+            Container(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               alignment: Alignment.centerLeft,
               child: const Text(
@@ -100,7 +113,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 padding: const EdgeInsets.all(10),
                 child: TextButton(
                   child: const Text("Return Home"),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeStudentScreen()),
+                    );
+                  },
                 )),
           ],
         ),

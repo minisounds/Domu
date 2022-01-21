@@ -1,5 +1,5 @@
-import 'package:domu/screens/homeStudent.dart';
 import 'package:flutter/material.dart';
+import 'package:domu/screens/homeStudent.dart';
 import 'screens/homeCoach.dart';
 import './screens/workout.dart';
 import './screens/signup.dart';
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const HomeStudentScreen(),
+      home: const SignUpScreen(),
     );
   }
 }
