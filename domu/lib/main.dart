@@ -1,3 +1,4 @@
+import 'package:domu/screens/homeStudent.dart';
 import 'package:flutter/material.dart';
 import 'screens/homeCoach.dart';
 import './screens/workout.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const HomeCoachScreen(),
+      home: const HomeStudentScreen(),
     );
   }
 }
