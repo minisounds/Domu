@@ -46,6 +46,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             Container(
+                padding: const EdgeInsets.all(20),
+                child: const Text('Password: ')),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: const TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Enter your password here',
+                ),
+              ),
+            ),
+            Container(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
               alignment: Alignment.centerLeft,
               child: const Text(
