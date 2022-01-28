@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "591742475220",
+    "project_id": "domu-34f51",
+    "storage_bucket": "domu-34f51.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591742475220:android:ab6fe94b450ef7872e1441",
+        "android_client_info": {
+          "package_name": "com.example.domu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591742475220-10crrimmeg4cpvdlag1g279fbpefhj5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUpVNpeMEcUJNnsfD52nYZjpCmO2r9e-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591742475220-10crrimmeg4cpvdlag1g279fbpefhj5h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "591742475220-4c497f483csqsfleehp7skdlgns82l08.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.domu.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

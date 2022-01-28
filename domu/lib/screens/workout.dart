@@ -8,6 +8,11 @@ class WorkoutScreen extends StatefulWidget {
 }
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
+
+  void changeWorkout(){
+    //do the thing and change the workout for real
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,21 +32,21 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               margin: const EdgeInsets.all(10.0),
             ),
           ]),
-      body: SizedBox.expand(
-        child: Container(
-          child: Column(children: const [
-            Center(
-              child: Card(
-                child: SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: Text("Card"),
-                )
-              ),
-            ),
-          ]),
-          alignment: Alignment.center,
-        )
+      body: Column(
+        children: [
+          Container(
+            child: const Text("Card"),
+            alignment: Alignment.center,
+          ),
+          Container(
+            child: Image.asset("assets/sampleWorkoutImage.png"),
+            alignment: Alignment.center,
+          ),
+          TextButton(
+            child: const Text("Next"),
+            onPressed: changeWorkout,
+          ),
+        ]
       )
     );
   }

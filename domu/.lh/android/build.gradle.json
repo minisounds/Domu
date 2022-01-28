@@ -1,0 +1,18 @@
+{
+    "sourceFile": "android/build.gradle",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1643347825598,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1643347825598,
+            "name": "Commit-0",
+            "content": "buildscript {\r\n    ext.kotlin_version = '1.3.50'\r\n    repositories {\r\n        google()\r\n        mavenCentral()\r\n    }\r\n\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:4.1.0'\r\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version\"\r\n        classpath 'com.google.gms:google-services:4.3.10'\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        mavenCentral()\r\n    }\r\n}\r\n\r\nrootProject.buildDir = '../build'\r\nsubprojects {\r\n    project.buildDir = \"${rootProject.buildDir}/${project.name}\"\r\n}\r\nsubprojects {\r\n    project.evaluationDependsOn(':app')\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}\r\n"
+        }
+    ]
+}

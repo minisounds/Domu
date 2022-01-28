@@ -21,7 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         // the App.build method, and use it to set our appbar title.
         title: const Text("Signup Page"),
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Align(
