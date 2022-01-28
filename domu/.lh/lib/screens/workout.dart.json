@@ -1,0 +1,18 @@
+{
+    "sourceFile": "lib/screens/workout.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1643343060908,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1643343060908,
+            "name": "Commit-0",
+            "content": "import 'package:flutter/material.dart';\r\n\r\nclass WorkoutScreen extends StatefulWidget {\r\n  const WorkoutScreen({Key? key}) : super(key: key);\r\n\r\n  @override\r\n  _WorkoutScreenState createState() => _WorkoutScreenState();\r\n}\r\n\r\nclass _WorkoutScreenState extends State<WorkoutScreen> {\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return Scaffold(\r\n      appBar: AppBar(\r\n          // Here we take the value from the MyHomePage object that was created by\r\n          // the App.build method, and use it to set our appbar title.\r\n          title: const Text(\"Workout\"),\r\n          actions: [\r\n            Container(\r\n              child: const Text(\"3/7\"),\r\n              alignment: Alignment.center,\r\n              margin: const EdgeInsets.all(10.0),\r\n            ),\r\n            Container(\r\n              child: const Text(\"2000\"),\r\n              alignment: Alignment.center,\r\n              margin: const EdgeInsets.all(10.0),\r\n            ),\r\n          ]),\r\n      body: SizedBox.expand(\r\n        child: Container(\r\n          child: Column(children: const [\r\n            Center(\r\n              child: Card(\r\n                child: SizedBox(\r\n                  width: 200,\r\n                  height: 200,\r\n                  child: Text(\"Card\"),\r\n                )\r\n              ),\r\n            ),\r\n          ]),\r\n          alignment: Alignment.center,\r\n        )\r\n      )\r\n    );\r\n  }\r\n}\r\n"
+        }
+    ]
+}

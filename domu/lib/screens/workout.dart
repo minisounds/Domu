@@ -17,7 +17,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           title: const Text("Workout"),
           actions: [
             Container(
-              child: Text("3/7"),
+              child: const Text("3/7"),
               alignment: Alignment.center,
               margin: const EdgeInsets.all(10.0),
             ),
