@@ -1,0 +1,102 @@
+{
+    "sourceFile": "domu/lib/screens/workout.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 21,
+            "patches": [
+                {
+                    "date": 1642742102784,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1642742116728,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     return Scaffold(\r\n       appBar: AppBar(\r\n         // Here we take the value from the MyHomePage object that was created by\r\n         // the App.build method, and use it to set our appbar title.\r\n-        title: const Text(\"Signup Page\"),\r\n+        title: const Text(\"Workout\"),\r\n       ),\r\n     );\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1642742337653,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,11 +11,14 @@\n   @override\r\n   Widget build(BuildContext context) {\r\n     return Scaffold(\r\n       appBar: AppBar(\r\n-        // Here we take the value from the MyHomePage object that was created by\r\n-        // the App.build method, and use it to set our appbar title.\r\n-        title: const Text(\"Workout\"),\r\n-      ),\r\n+          // Here we take the value from the MyHomePage object that was created by\r\n+          // the App.build method, and use it to set our appbar title.\r\n+          title: const Text(\"Workout\"),\r\n+          actions: const [\r\n+            Text(\"3/7\"),\r\n+            Text(\"2000\"),\r\n+          ]),\r\n     );\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1642743855891,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,16 @@\n           // Here we take the value from the MyHomePage object that was created by\r\n           // the App.build method, and use it to set our appbar title.\r\n           title: const Text(\"Workout\"),\r\n           actions: const [\r\n-            Text(\"3/7\"),\r\n-            Text(\"2000\"),\r\n+            Align(\r\n+              child: const Text(\"2000\"),\r\n+              alignment: Alignment.topRight,\r\n+            ),\r\n+            Align(\r\n+              child: const Text(\"3/7\"),\r\n+              alignment: \r\n+            ),\r\n           ]),\r\n     );\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1642743881851,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,11 +19,10 @@\n             Align(\r\n               child: const Text(\"2000\"),\r\n               alignment: Alignment.topRight,\r\n             ),\r\n-            Align(\r\n+            Container(\r\n               child: const Text(\"3/7\"),\r\n-              alignment: \r\n             ),\r\n           ]),\r\n     );\r\n   }\r\n"
+                },
+                {
+                    "date": 1642743910549,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,10 +19,11 @@\n             Align(\r\n               child: const Text(\"2000\"),\r\n               alignment: Alignment.topRight,\r\n             ),\r\n-            Container(\r\n+            Align(\r\n               child: const Text(\"3/7\"),\r\n+              alignment: Alignment.topCenter,\r\n             ),\r\n           ]),\r\n     );\r\n   }\r\n"
+                },
+                {
+                    "date": 1642743928854,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n               alignment: Alignment.topRight,\r\n             ),\r\n             Align(\r\n               child: const Text(\"3/7\"),\r\n-              alignment: Alignment.topCenter,\r\n+              alignment: Alignment.center,\r\n             ),\r\n           ]),\r\n     );\r\n   }\r\n"
+                },
+                {
+                    "date": 1642744035494,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,12 +19,12 @@\n             Align(\r\n               child: const Text(\"2000\"),\r\n               alignment: Alignment.topRight,\r\n             ),\r\n-            Align(\r\n-              child: const Text(\"3/7\"),\r\n+            Container(\r\n+              child: Text(\"3/7\"),\r\n               alignment: Alignment.center,\r\n-            ),\r\n+            )\r\n           ]),\r\n     );\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1642744074536,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,10 @@\n       appBar: AppBar(\r\n           // Here we take the value from the MyHomePage object that was created by\r\n           // the App.build method, and use it to set our appbar title.\r\n           title: const Text(\"Workout\"),\r\n-          actions: const [\r\n-            Align(\r\n+          actions: [\r\n+            Container(\r\n               child: const Text(\"2000\"),\r\n               alignment: Alignment.topRight,\r\n             ),\r\n             Container(\r\n"
+                },
+                {
+                    "date": 1642744172297,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,8 +18,9 @@\n           actions: [\r\n             Container(\r\n               child: const Text(\"2000\"),\r\n               alignment: Alignment.topRight,\r\n+              margin: const EdgeInsets.all(10.0),\r\n             ),\r\n             Container(\r\n               child: Text(\"3/7\"),\r\n               alignment: Alignment.center,\r\n"
+                },
+                {
+                    "date": 1642744187257,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,8 +23,9 @@\n             ),\r\n             Container(\r\n               child: Text(\"3/7\"),\r\n               alignment: Alignment.center,\r\n+              margin: const EdgeInsets.all(10.0),\r\n             )\r\n           ]),\r\n     );\r\n   }\r\n"
+                },
+                {
+                    "date": 1642744196121,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n           title: const Text(\"Workout\"),\r\n           actions: [\r\n             Container(\r\n               child: const Text(\"2000\"),\r\n-              alignment: Alignment.topRight,\r\n+              alignment: Alignment.center,\r\n               margin: const EdgeInsets.all(10.0),\r\n             ),\r\n             Container(\r\n               child: Text(\"3/7\"),\r\n"
+                },
+                {
+                    "date": 1642744209596,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,17 +16,17 @@\n           // the App.build method, and use it to set our appbar title.\r\n           title: const Text(\"Workout\"),\r\n           actions: [\r\n             Container(\r\n-              child: const Text(\"2000\"),\r\n+              child: Text(\"3/7\"),\r\n               alignment: Alignment.center,\r\n               margin: const EdgeInsets.all(10.0),\r\n             ),\r\n             Container(\r\n-              child: Text(\"3/7\"),\r\n+              child: const Text(\"2000\"),\r\n               alignment: Alignment.center,\r\n               margin: const EdgeInsets.all(10.0),\r\n-            )\r\n+            ),\r\n           ]),\r\n     );\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1642744394229,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,8 +25,14 @@\n               child: const Text(\"2000\"),\r\n               alignment: Alignment.center,\r\n               margin: const EdgeInsets.all(10.0),\r\n             ),\r\n+            Center(\r\n+              child: Card(\r\n+                  child: const SizedBox(\r\n+                child: const Text(\"Card\"),\r\n+              )),\r\n+            ),\r\n           ]),\r\n     );\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1642744481621,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,8 +28,10 @@\n             ),\r\n             Center(\r\n               child: Card(\r\n                   child: const SizedBox(\r\n+                width: 200,\r\n+                height: 200,\r\n                 child: const Text(\"Card\"),\r\n               )),\r\n             ),\r\n           ]),\r\n"
+                },
+                {
+                    "date": 1642744536594,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,14 +25,14 @@\n               child: const Text(\"2000\"),\r\n               alignment: Alignment.center,\r\n               margin: const EdgeInsets.all(10.0),\r\n             ),\r\n-            Center(\r\n+            const Center(\r\n               child: Card(\r\n-                  child: const SizedBox(\r\n+                  child: SizedBox(\r\n                 width: 200,\r\n                 height: 200,\r\n-                child: const Text(\"Card\"),\r\n+                child: Text(\"Card\"),\r\n               )),\r\n             ),\r\n           ]),\r\n     );\r\n"
+                },
+                {
+                    "date": 1642744704736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,31 +10,33 @@\n class _WorkoutScreenState extends State<WorkoutScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n     return Scaffold(\r\n-      appBar: AppBar(\r\n-          // Here we take the value from the MyHomePage object that was created by\r\n-          // the App.build method, and use it to set our appbar title.\r\n-          title: const Text(\"Workout\"),\r\n-          actions: [\r\n-            Container(\r\n-              child: Text(\"3/7\"),\r\n-              alignment: Alignment.center,\r\n-              margin: const EdgeInsets.all(10.0),\r\n-            ),\r\n-            Container(\r\n-              child: const Text(\"2000\"),\r\n-              alignment: Alignment.center,\r\n-              margin: const EdgeInsets.all(10.0),\r\n-            ),\r\n-            const Center(\r\n-              child: Card(\r\n-                  child: SizedBox(\r\n-                width: 200,\r\n-                height: 200,\r\n-                child: Text(\"Card\"),\r\n-              )),\r\n-            ),\r\n-          ]),\r\n-    );\r\n+        appBar: AppBar(\r\n+            // Here we take the value from the MyHomePage object that was created by\r\n+            // the App.build method, and use it to set our appbar title.\r\n+            title: const Text(\"Workout\"),\r\n+            actions: [\r\n+              Container(\r\n+                child: Text(\"3/7\"),\r\n+                alignment: Alignment.center,\r\n+                margin: const EdgeInsets.all(10.0),\r\n+              ),\r\n+              Container(\r\n+                child: const Text(\"2000\"),\r\n+                alignment: Alignment.center,\r\n+                margin: const EdgeInsets.all(10.0),\r\n+              ),\r\n+            ]),\r\n+        body: Container(\r\n+            child: Column(children: const [\r\n+          Center(\r\n+            child: Card(\r\n+                child: SizedBox(\r\n+              width: 200,\r\n+              height: 200,\r\n+              child: Text(\"Card\"),\r\n+            )),\r\n+          ),\r\n+        ])));\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1642744940626,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,13 +30,16 @@\n         body: Container(\r\n             child: Column(children: const [\r\n           Center(\r\n             child: Card(\r\n-                child: SizedBox(\r\n-              width: 200,\r\n-              height: 200,\r\n-              child: Text(\"Card\"),\r\n-            )),\r\n+              child: SizedBox(\r\n+                width: 200,\r\n+                height: 200,\r\n+                child: Text(\"Card\"),\r\n+              )\r\n+            ),\r\n           ),\r\n-        ])));\r\n+        ])\r\n+      )\r\n+    );\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1642745003391,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,26 +10,26 @@\n class _WorkoutScreenState extends State<WorkoutScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n     return Scaffold(\r\n-        appBar: AppBar(\r\n-            // Here we take the value from the MyHomePage object that was created by\r\n-            // the App.build method, and use it to set our appbar title.\r\n-            title: const Text(\"Workout\"),\r\n-            actions: [\r\n-              Container(\r\n-                child: Text(\"3/7\"),\r\n-                alignment: Alignment.center,\r\n-                margin: const EdgeInsets.all(10.0),\r\n-              ),\r\n-              Container(\r\n-                child: const Text(\"2000\"),\r\n-                alignment: Alignment.center,\r\n-                margin: const EdgeInsets.all(10.0),\r\n-              ),\r\n-            ]),\r\n-        body: Container(\r\n-            child: Column(children: const [\r\n+      appBar: AppBar(\r\n+          // Here we take the value from the MyHomePage object that was created by\r\n+          // the App.build method, and use it to set our appbar title.\r\n+          title: const Text(\"Workout\"),\r\n+          actions: [\r\n+            Container(\r\n+              child: Text(\"3/7\"),\r\n+              alignment: Alignment.center,\r\n+              margin: const EdgeInsets.all(10.0),\r\n+            ),\r\n+            Container(\r\n+              child: const Text(\"2000\"),\r\n+              alignment: Alignment.center,\r\n+              margin: const EdgeInsets.all(10.0),\r\n+            ),\r\n+          ]),\r\n+      body: Container(\r\n+        child: Column(children: const [\r\n           Center(\r\n             child: Card(\r\n               child: SizedBox(\r\n                 width: 200,\r\n"
+                },
+                {
+                    "date": 1642745168468,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,10 @@\n                 child: Text(\"Card\"),\r\n               )\r\n             ),\r\n           ),\r\n-        ])\r\n+        ]),\r\n+        alignment: Alignment.center,\r\n       )\r\n     );\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1642745411703,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n       body: Container(\r\n         child: Column(children: const [\r\n           Center(\r\n             child: Card(\r\n-              child: SizedBox(\r\n+              child: SizedBox.expand(\r\n                 width: 200,\r\n                 height: 200,\r\n                 child: Text(\"Card\"),\r\n               )\r\n"
+                },
+                {
+                    "date": 1642745725789,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,21 +26,23 @@\n               alignment: Alignment.center,\r\n               margin: const EdgeInsets.all(10.0),\r\n             ),\r\n           ]),\r\n-      body: Container(\r\n-        child: Column(children: const [\r\n-          Center(\r\n-            child: Card(\r\n-              child: SizedBox.expand(\r\n-                width: 200,\r\n-                height: 200,\r\n-                child: Text(\"Card\"),\r\n-              )\r\n+      body: SizedBox.expand(\r\n+        child: Container(\r\n+          child: Column(children: const [\r\n+            Center(\r\n+              child: Card(\r\n+                child: SizedBox(\r\n+                  width: 200,\r\n+                  height: 200,\r\n+                  child: Text(\"Card\"),\r\n+                )\r\n+              ),\r\n             ),\r\n-          ),\r\n-        ]),\r\n-        alignment: Alignment.center,\r\n+          ]),\r\n+          alignment: Alignment.center,\r\n+        )\r\n       )\r\n     );\r\n   }\r\n }\r\n"
+                }
+            ],
+            "date": 1642742102784,
+            "name": "Commit-0",
+            "content": "import 'package:flutter/material.dart';\r\n\r\nclass WorkoutScreen extends StatefulWidget {\r\n  const WorkoutScreen({Key? key}) : super(key: key);\r\n\r\n  @override\r\n  _WorkoutScreenState createState() => _WorkoutScreenState();\r\n}\r\n\r\nclass _WorkoutScreenState extends State<WorkoutScreen> {\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return Scaffold(\r\n      appBar: AppBar(\r\n        // Here we take the value from the MyHomePage object that was created by\r\n        // the App.build method, and use it to set our appbar title.\r\n        title: const Text(\"Signup Page\"),\r\n      ),\r\n    );\r\n  }\r\n}\r\n"
+        }
+    ]
+}
