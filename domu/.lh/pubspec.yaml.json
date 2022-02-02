@@ -3,11 +3,23 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1643351040933,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1643778612517,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,8 +28,9 @@\n # versions available, run `flutter pub outdated`.\r\n dependencies:\r\n   flutter:\r\n     sdk: flutter\r\n+  flutter_countdown_timer: ^4.1.0\r\n   cloud_firestore: ^1.0.0\r\n   firebase_auth: ^1.0.0  \r\n   provider: ^5.0.0\r\n   google_fonts: ^2.0.0\r\n"
+                },
+                {
+                    "date": 1643778881163,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n # versions available, run `flutter pub outdated`.\r\n dependencies:\r\n   flutter:\r\n     sdk: flutter\r\n-  flutter_countdown_timer: ^4.1.0\r\n+  timer_count_down: ^2.2.1\r\n   cloud_firestore: ^1.0.0\r\n   firebase_auth: ^1.0.0  \r\n   provider: ^5.0.0\r\n   google_fonts: ^2.0.0\r\n"
+                },
+                {
+                    "date": 1643778942867,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n # versions available, run `flutter pub outdated`.\r\n dependencies:\r\n   flutter:\r\n     sdk: flutter\r\n-  timer_count_down: ^2.2.1\r\n+  flutter_countdown_timer: ^4.1.0\r\n   cloud_firestore: ^1.0.0\r\n   firebase_auth: ^1.0.0  \r\n   provider: ^5.0.0\r\n   google_fonts: ^2.0.0\r\n"
                 }
             ],
             "date": 1643351040933,

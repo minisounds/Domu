@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 12,
+            "activePatchIndex": 28,
             "patches": [
                 {
                     "date": 1643343060908,
@@ -56,6 +56,70 @@
                 {
                     "date": 1643351578999,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,11 +38,9 @@\n             child: const Text(\"Card\"),\r\n             alignment: Alignment.center,\r\n           ),\r\n           Container(\r\n-            child: Image(\r\n-              image: ,\r\n-            ),\r\n+            child: Image.asset(\"assets/sampleWorkoutImage.png\"),\r\n             alignment: Alignment.center,\r\n           ),\r\n           TextButton(\r\n             child: const Text(\"Next\"),\r\n"
+                },
+                {
+                    "date": 1643778531756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,34 +7,36 @@\n   _WorkoutScreenState createState() => _WorkoutScreenState();\r\n }\r\n \r\n class _WorkoutScreenState extends State<WorkoutScreen> {\r\n+  int endTime;\r\n \r\n-  void changeWorkout(){\r\n+  void changeWorkout() {\r\n     //do the thing and change the workout for real\r\n+    endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;\r\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n+    endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;\r\n     return Scaffold(\r\n-      appBar: AppBar(\r\n-          // Here we take the value from the MyHomePage object that was created by\r\n-          // the App.build method, and use it to set our appbar title.\r\n-          title: const Text(\"Workout\"),\r\n-          actions: [\r\n-            Container(\r\n-              child: const Text(\"3/7\"),\r\n-              alignment: Alignment.center,\r\n-              margin: const EdgeInsets.all(10.0),\r\n-            ),\r\n-            Container(\r\n-              child: const Text(\"2000\"),\r\n-              alignment: Alignment.center,\r\n-              margin: const EdgeInsets.all(10.0),\r\n-            ),\r\n-          ]),\r\n-      body: Column(\r\n-        children: [\r\n+        appBar: AppBar(\r\n+            // Here we take the value from the MyHomePage object that was created by\r\n+            // the App.build method, and use it to set our appbar title.\r\n+            title: const Text(\"Workout\"),\r\n+            actions: [\r\n+              Container(\r\n+                child: const Text(\"3/7\"),\r\n+                alignment: Alignment.center,\r\n+                margin: const EdgeInsets.all(10.0),\r\n+              ),\r\n+              Container(\r\n+                child: const Text(\"2000\"),\r\n+                alignment: Alignment.center,\r\n+                margin: const EdgeInsets.all(10.0),\r\n+              ),\r\n+            ]),\r\n+        body: Column(children: [\r\n           Container(\r\n             child: const Text(\"Card\"),\r\n             alignment: Alignment.center,\r\n           ),\r\n@@ -45,9 +47,7 @@\n           TextButton(\r\n             child: const Text(\"Next\"),\r\n             onPressed: changeWorkout,\r\n           ),\r\n-        ]\r\n-      )\r\n-    );\r\n+        ]));\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1643778546645,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,18 +7,17 @@\n   _WorkoutScreenState createState() => _WorkoutScreenState();\r\n }\r\n \r\n class _WorkoutScreenState extends State<WorkoutScreen> {\r\n-  int endTime;\r\n+  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;\r\n \r\n   void changeWorkout() {\r\n     //do the thing and change the workout for real\r\n     endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;\r\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n-    endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;\r\n     return Scaffold(\r\n         appBar: AppBar(\r\n             // Here we take the value from the MyHomePage object that was created by\r\n             // the App.build method, and use it to set our appbar title.\r\n"
+                },
+                {
+                    "date": 1643778575844,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,11 @@\n           Container(\r\n             child: Image.asset(\"assets/sampleWorkoutImage.png\"),\r\n             alignment: Alignment.center,\r\n           ),\r\n+          CountdownTimer(\r\n+            endTime: endTime,\r\n+          ),\r\n           TextButton(\r\n             child: const Text(\"Next\"),\r\n             onPressed: changeWorkout,\r\n           ),\r\n"
+                },
+                {
+                    "date": 1643778916820,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,10 +42,15 @@\n           Container(\r\n             child: Image.asset(\"assets/sampleWorkoutImage.png\"),\r\n             alignment: Alignment.center,\r\n           ),\r\n-          CountdownTimer(\r\n-            endTime: endTime,\r\n+          Countdown(\r\n+            seconds: 20,\r\n+            build: (BuildContext context, double time) => Text(time.toString()),\r\n+            interval: Duration(milliseconds: 100),\r\n+            onFinished: () {\r\n+              print('Timer is done!');\r\n+            },\r\n           ),\r\n           TextButton(\r\n             child: const Text(\"Next\"),\r\n             onPressed: changeWorkout,\r\n"
+                },
+                {
+                    "date": 1643778955639,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,15 +42,10 @@\n           Container(\r\n             child: Image.asset(\"assets/sampleWorkoutImage.png\"),\r\n             alignment: Alignment.center,\r\n           ),\r\n-          Countdown(\r\n-            seconds: 20,\r\n-            build: (BuildContext context, double time) => Text(time.toString()),\r\n-            interval: Duration(milliseconds: 100),\r\n-            onFinished: () {\r\n-              print('Timer is done!');\r\n-            },\r\n+          CountdownTimer(\r\n+            endTime: endTime,\r\n           ),\r\n           TextButton(\r\n             child: const Text(\"Next\"),\r\n             onPressed: changeWorkout,\r\n"
+                },
+                {
+                    "date": 1643778969122,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n import 'package:flutter/material.dart';\r\n+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';\r\n \r\n class WorkoutScreen extends StatefulWidget {\r\n   const WorkoutScreen({Key? key}) : super(key: key);\r\n \r\n"
+                },
+                {
+                    "date": 1643779167905,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,11 @@\n   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;\r\n \r\n   void changeWorkout() {\r\n     //do the thing and change the workout for real\r\n-    endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;\r\n+    setState(() {\r\n+      endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;\r\n+    });\r\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n"
+                },
+                {
+                    "date": 1643779282622,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n }\r\n \r\n class _WorkoutScreenState extends State<WorkoutScreen> {\r\n   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;\r\n+  String imageString = \"assets/sampleWorkoutImage.png\";\r\n \r\n   void changeWorkout() {\r\n     //do the thing and change the workout for real\r\n     setState(() {\r\n@@ -42,9 +43,9 @@\n             child: const Text(\"Card\"),\r\n             alignment: Alignment.center,\r\n           ),\r\n           Container(\r\n-            child: Image.asset(\"assets/sampleWorkoutImage.png\"),\r\n+            child: Image.asset(imageString),\r\n             alignment: Alignment.center,\r\n           ),\r\n           CountdownTimer(\r\n             endTime: endTime,\r\n"
+                },
+                {
+                    "date": 1643779369097,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -46,10 +46,13 @@\n           Container(\r\n             child: Image.asset(imageString),\r\n             alignment: Alignment.center,\r\n           ),\r\n-          CountdownTimer(\r\n-            endTime: endTime,\r\n+          Container(\r\n+            child: CountdownTimer(\r\n+              endTime: endTime,\r\n+            ),\r\n+            padding: const EdgeInsets.all(8.0),\r\n           ),\r\n           TextButton(\r\n             child: const Text(\"Next\"),\r\n             onPressed: changeWorkout,\r\n"
+                },
+                {
+                    "date": 1643779378101,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,9 +50,9 @@\n           Container(\r\n             child: CountdownTimer(\r\n               endTime: endTime,\r\n             ),\r\n-            padding: const EdgeInsets.all(8.0),\r\n+            padding: const EdgeInsets.all(18.0),\r\n           ),\r\n           TextButton(\r\n             child: const Text(\"Next\"),\r\n             onPressed: changeWorkout,\r\n"
+                },
+                {
+                    "date": 1643779437013,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,11 +52,15 @@\n               endTime: endTime,\r\n             ),\r\n             padding: const EdgeInsets.all(18.0),\r\n           ),\r\n-          TextButton(\r\n-            child: const Text(\"Next\"),\r\n-            onPressed: changeWorkout,\r\n-          ),\r\n+          Container(\r\n+            child: TextButton(\r\n+              child: const Text(\"Next\"),\r\n+              onPressed: changeWorkout,\r\n+            ),\r\n+            padding: const EdgeInsets.all(18.0),\r\n+          )\r\n+          \r\n         ]));\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1643779444979,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -50,16 +50,16 @@\n           Container(\r\n             child: CountdownTimer(\r\n               endTime: endTime,\r\n             ),\r\n-            padding: const EdgeInsets.all(18.0),\r\n+            padding: const EdgeInsets.all(5.0),\r\n           ),\r\n           Container(\r\n             child: TextButton(\r\n               child: const Text(\"Next\"),\r\n               onPressed: changeWorkout,\r\n             ),\r\n-            padding: const EdgeInsets.all(18.0),\r\n+            padding: const EdgeInsets.all(5.0),\r\n           )\r\n           \r\n         ]));\r\n   }\r\n"
+                },
+                {
+                    "date": 1643779452727,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,8 +45,9 @@\n           ),\r\n           Container(\r\n             child: Image.asset(imageString),\r\n             alignment: Alignment.center,\r\n+            padding: const EdgeInsets.all(18.0),\r\n           ),\r\n           Container(\r\n             child: CountdownTimer(\r\n               endTime: endTime,\r\n"
+                },
+                {
+                    "date": 1643779472143,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n               ),\r\n             ]),\r\n         body: Column(children: [\r\n           Container(\r\n-            child: const Text(\"Card\"),\r\n+            child: const Text(\"Exercise:\"),\r\n             alignment: Alignment.center,\r\n           ),\r\n           Container(\r\n             child: Image.asset(imageString),\r\n"
+                },
+                {
+                    "date": 1643779479458,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -41,8 +41,9 @@\n         body: Column(children: [\r\n           Container(\r\n             child: const Text(\"Exercise:\"),\r\n             alignment: Alignment.center,\r\n+            padding: const EdgeInsets.all(18.0),\r\n           ),\r\n           Container(\r\n             child: Image.asset(imageString),\r\n             alignment: Alignment.center,\r\n"
+                },
+                {
+                    "date": 1643779484851,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -41,9 +41,9 @@\n         body: Column(children: [\r\n           Container(\r\n             child: const Text(\"Exercise:\"),\r\n             alignment: Alignment.center,\r\n-            padding: const EdgeInsets.all(18.0),\r\n+            padding: const EdgeInsets.all(8.0),\r\n           ),\r\n           Container(\r\n             child: Image.asset(imageString),\r\n             alignment: Alignment.center,\r\n"
                 }
             ],
             "date": 1643343060908,
