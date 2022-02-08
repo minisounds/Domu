@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'firebase_options.dart';
 import 'package:domu/screens/homeStudent.dart';
 import 'screens/homeCoach.dart';
 import './screens/workout.dart';
 import './screens/signup.dart';
 
+final FirebaseAuth auth = FirebaseAuth.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -38,3 +41,15 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+// class _RegisterEmailSection extends StatefulWidget {
+//   final String title = 'Registration';
+//   @override
+//   State<StatefulWidget> createState() => 
+//       _RegisterEmailSectionState();
+// }
+// class _RegisterEmailSectionState extends State<_RegisterEmailSection> {
+// @override
+//   Widget build(BuildContext context) {
+//     //TODO UI content here
+//   }
+// }

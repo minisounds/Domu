@@ -1,4 +1,6 @@
 import 'package:domu/screens/homeCoach.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:domu/screens/homeStudent.dart';
 import 'package:flutter/material.dart';
 import '../widgets/labeledCheckbox.dart';
@@ -11,6 +13,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   @override
@@ -24,44 +27,74 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: const Text(
-                  "Name:",
-                  style: TextStyle(fontSize: 20),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ),
             Container(
-              padding: const EdgeInsets.all(10),
-              height: 100,
-              child: const TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter your name here',
-                ),
-              ),
-            ),
-            Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: const Text(
-                  'Password: ',
-                  style: TextStyle(fontSize: 20),
-                  textAlign: TextAlign.left,
-                )),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
-              child: const TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter your password here',
-                ),
-              ),
-            ),
+              child: SignInButton(
+                Buttons.Google,
+                onPressed: () {},
+              )
+            ),  
+
+            // Align(
+            //   alignment: Alignment.centerLeft,
+            //   child: Container(
+            //     padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            //     child: const Text(
+            //       "Name:",
+            //       style: TextStyle(fontSize: 20),
+            //       textAlign: TextAlign.left,
+            //     ),
+            //   ),
+            // ),
+            // Container(
+            //   padding: const EdgeInsets.all(10),
+            //   height: 100,
+            //   child: const TextField(
+            //     decoration: InputDecoration(
+            //       border: OutlineInputBorder(),
+            //       hintText: 'Enter your name here',
+            //     ),
+            //   ),
+            // ),
+            // Align(
+            //   alignment: Alignment.centerLeft,
+            //   child: Container(
+            //     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            //     child: const Text(
+            //       "Email:",
+            //       style: TextStyle(fontSize: 20),
+            //       textAlign: TextAlign.left,
+            //     ),
+            //   ),
+            // ),
+            // Container(
+            //   padding: const EdgeInsets.all(10),
+            //   height: 100,
+            //   child: TextField(
+            //     controller: emailController,
+            //     decoration: const InputDecoration(
+            //       border: OutlineInputBorder(),
+            //       hintText: 'Enter your email',
+            //     ),
+            //   ),
+            // ),
+            // Container(
+            //     alignment: Alignment.centerLeft,
+            //     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            //     child: const Text(
+            //       'Password: ',
+            //       style: TextStyle(fontSize: 20),
+            //       textAlign: TextAlign.left,
+            //     )),
+            // Container(
+            //   padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+            //   child: TextField(
+            //     controller: passwordController,
+            //     decoration: const InputDecoration(
+            //       border: OutlineInputBorder(),
+            //       hintText: 'Enter your password here',
+            //     ),
+            //   ),
+            // ),
             Container(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
               alignment: Alignment.centerLeft,
@@ -89,6 +122,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     _isSelected2 = newValue;
                   });
                 }),
+            Container(
+                padding: const EdgeInsets.all(10),
+                child: TextButton(
+                  child: const Text("Create Your Domú Account"),
+                  onPressed: () async {
+                    //Create a new firebase account here.
+                    // try {
+                    //   UserCredential userCredential = await FirebaseAuth
+                    //       .instance
+                    //       .createUserWithEmailAndPassword(
+                    //           email: emailController.text,
+                    //           password: passwordController.text);
+                    // } on FirebaseAuthException catch (e) {
+                    //   if (e.code == 'weak-password') {
+                    //     print('The password provided is too weak.');
+                    //   } else if (e.code == 'email-already-in-use') {
+                    //     print('The account already exists for that email.');
+                    //   }
+                    // } catch (e) {
+                    //   print(e);
+                    // }
+
+                    // ** NAVIGATOR FUNCTIONALITY TO NAVIGATE TO HOME SCREEN **
+
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => const HomeStudentScreen()),
+                    // );
+                  },
+                )),
+
+            //** HERE: ADD CONDITIONAL RENDERING. IF PROBLEM REGISTERING USER FOR FIREBASE, RENDER
+            //   ERROR MESSAGES HERE. IF ALL GOES WELL AND ACCOUNT IS CREATED, RENDER TEXT ELEMENT
+            //   TO SCREEN GIVING COACHES THEIR CLASSROOM CODE OR STUDENTS A TEXT INPUT FIELD FOR
+            //   THEIR CLASSROOM CODE **/
+
             // Container(
             //   padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
             //   alignment: Alignment.centerLeft,
@@ -109,35 +179,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
             //         );
             //       },
             //     )),
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                "Enter 6 Digit Classroom Code:",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: const TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter Your 6 Digit Classroom Code',
-                ),
-              ),
-            ),
-            Container(
-                padding: const EdgeInsets.all(10),
-                child: TextButton(
-                  child: const Text("Go to Home Page"),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeStudentScreen()),
-                    );
-                  },
-                )),
+            // Container(
+            //   padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+            //   alignment: Alignment.centerLeft,
+            //   child: const Text(
+            //     "Enter 6 Digit Classroom Code:",
+            //     style: TextStyle(fontSize: 20),
+            //   ),
+            // ),
+            // Container(
+            //   padding: const EdgeInsets.all(10),
+            //   child: const TextField(
+            //     decoration: InputDecoration(
+            //       border: OutlineInputBorder(),
+            //       hintText: 'Enter Your 6 Digit Classroom Code',
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
