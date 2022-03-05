@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 10,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1643349249655,
@@ -48,6 +48,10 @@
                 {
                     "date": 1644645818241,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -46,11 +46,11 @@\n             ),\r\n             Container(\r\n               padding: const EdgeInsets.all(10),\r\n               height: 100,\r\n-              child: const TextField(\r\n+              child: TextField(\r\n                 controller: nameController,\r\n-                decoration: InputDecoration(\r\n+                decoration: const InputDecoration(\r\n                   border: OutlineInputBorder(),\r\n                   hintText: 'Enter your name here',\r\n                 ),\r\n               ),\r\n"
+                },
+                {
+                    "date": 1644648541917,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,9 @@\n import 'package:flutter/material.dart';\r\n import '../widgets/labeledCheckbox.dart';\r\n import 'package:cloud_firestore/cloud_firestore.dart';\r\n \r\n+\r\n class SignUpScreen extends StatefulWidget {\r\n   const SignUpScreen({Key? key}) : super(key: key);\r\n \r\n   @override\r\n"
                 }
             ],
             "date": 1643349249655,

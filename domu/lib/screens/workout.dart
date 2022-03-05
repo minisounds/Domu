@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-//import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key}) : super(key: key);
@@ -11,17 +11,50 @@ class WorkoutScreen extends StatefulWidget {
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
-  String imageString = "assets/sampleWorkoutImage.png";
+  int index = 0;
+  String imageString =
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/capsule_616x353.jpg?t=1646296970";
 
-  void changeWorkout() {
-    //do the thing and change the workout for real
+  CollectionReference workouts =
+      FirebaseFirestore.instance.collection('workouts');
+
+  void getWorkoutImage() {
+    var newImageString = "";
+
+    FutureBuilder<DocumentSnapshot>(
+      future: workouts.doc("5BawjBh258iKMcgi5wPm").get(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        debugPrint("builder");
+        if (snapshot.hasError) {
+          debugPrint("Something went wrong");
+        }
+
+        if (snapshot.hasData && !snapshot.data!.exists) {
+          debugPrint("Document does not exist");
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          Map<String, dynamic> data =
+              snapshot.data!.data() as Map<String, dynamic>;
+          debugPrint(data['images'][index]);
+          newImageString = data['images'][index];
+        }
+
+        return const Text("loading");
+      },
+    );
+
     setState(() {
       endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
+      imageString = newImageString;
+      index = index + 1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("build things");
     return Scaffold(
         appBar: AppBar(
             // Here we take the value from the MyHomePage object that was created by
@@ -46,7 +79,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             padding: const EdgeInsets.all(8.0),
           ),
           Container(
-            child: Image.asset(imageString),
+            child: Image.network(imageString),
             alignment: Alignment.center,
             padding: const EdgeInsets.all(18.0),
           ),
@@ -59,11 +92,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           Container(
             child: TextButton(
               child: const Text("Next"),
-              onPressed: changeWorkout,
+              onPressed: getWorkoutImage,
             ),
             padding: const EdgeInsets.all(5.0),
           )
-          
         ]));
   }
 }

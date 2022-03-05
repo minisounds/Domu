@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../widgets/labeledCheckbox.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
