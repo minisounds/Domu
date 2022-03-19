@@ -12,48 +12,47 @@ class WorkoutScreen extends StatefulWidget {
 class _WorkoutScreenState extends State<WorkoutScreen> {
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
   int index = 0;
-  String imageString =
-      "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/capsule_616x353.jpg?t=1646296970";
+  var imageStrings = [];
 
   CollectionReference workouts =
       FirebaseFirestore.instance.collection('workouts');
 
+  _WorkoutScreenState() {
+    debugPrint("Workout");
+    imageStrings.add(
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/capsule_616x353.jpg?t=1646296970");
+    FirebaseFirestore.instance
+        .collection('workouts')
+        .doc("5BawjBh258iKMcgi5wPm")
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        var data = documentSnapshot.data();
+        debugPrint("Firebase");
+        for (var imgString in data?["images"]) {
+          imageStrings.add(imgString);
+        }
+        setState(() {
+          imageStrings;
+        });
+      }
+    });
+  }
+
   void getWorkoutImage() {
-    var newImageString = "";
-
-    FutureBuilder<DocumentSnapshot>(
-      future: workouts.doc("5BawjBh258iKMcgi5wPm").get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        debugPrint("builder");
-        if (snapshot.hasError) {
-          debugPrint("Something went wrong");
-        }
-
-        if (snapshot.hasData && !snapshot.data!.exists) {
-          debugPrint("Document does not exist");
-        }
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-          debugPrint(data['images'][index]);
-          newImageString = data['images'][index];
-        }
-
-        return const Text("loading");
-      },
-    );
-
     setState(() {
-      endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
-      imageString = newImageString;
-      index = index + 1;
+      if(index < (imageStrings.length - 1)){
+        index += 1;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    /*
+    debugPrint(imageStrings.toString());
+    return Text(imageStrings.toString());
+    */
     debugPrint("build things");
     return Scaffold(
         appBar: AppBar(
@@ -72,30 +71,32 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 margin: const EdgeInsets.all(10.0),
               ),
             ]),
-        body: Column(children: [
-          Container(
-            child: const Text("Exercise:"),
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(8.0),
-          ),
-          Container(
-            child: Image.network(imageString),
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(18.0),
-          ),
-          Container(
-            child: CountdownTimer(
-              endTime: endTime,
+        body: SingleChildScrollView(
+          child: Column(children: [
+            Container(
+              child: const Text("Exercise:"),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(8.0),
             ),
-            padding: const EdgeInsets.all(5.0),
-          ),
-          Container(
-            child: TextButton(
-              child: const Text("Next"),
-              onPressed: getWorkoutImage,
+            Container(
+              child: Image.network(imageStrings[index]),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(18.0),
             ),
-            padding: const EdgeInsets.all(5.0),
-          )
-        ]));
+            Container(
+              child: CountdownTimer(
+                endTime: endTime,
+              ),
+              padding: const EdgeInsets.all(5.0),
+            ),
+            Container(
+              child: TextButton(
+                child: const Text("Next"),
+                onPressed: getWorkoutImage,
+              ),
+              padding: const EdgeInsets.all(5.0),
+            )
+          ]))
+        );
   }
 }
