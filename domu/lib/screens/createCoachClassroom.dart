@@ -16,6 +16,8 @@ class CreateCoachClassroomScreen extends StatefulWidget {
 
 class _CreateCoachClassroomScreenState
     extends State<CreateCoachClassroomScreen> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   _CreateCoachClassroomScreenState() {
     getClassroomCode();
   }
@@ -23,17 +25,19 @@ class _CreateCoachClassroomScreenState
   String classroomCode = "";
 
   void getClassroomCode() async {
-    final prefs = await SharedPreferences.getInstance();
     FirebaseFirestore.instance
         .collection('users')
-        .doc(prefs.getString('uid'))
+        .doc(auth.currentUser?.uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
+        print(auth.currentUser?.uid);
+        print('Document data: ${documentSnapshot.data()}');
         setState(() {
           classroomCode = documentSnapshot.data()?['classroom_codes'];
         });
       } else {
+        print("this document didn't exist");
         return;
       }
     });

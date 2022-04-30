@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/labeledCheckbox.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -32,12 +34,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-    // Change to become automatically generated 6 digit number
-    String classroomCode = "6666666";
-    final prefs = await SharedPreferences.getInstance();
+    //auto generate 6 dig number
+    var rng = Random();
+    var code = rng.nextInt(900000) + 100000;
+    String classroomCode = code.toString();
 
     // creates classroom
-    classrooms
+    await classrooms
         .add({
           'classroomCode':
               classroomCode, // Replace with automatically generated number
@@ -46,31 +49,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
         .then((value) => print("Classroom Added"))
         .catchError((error) => print("Failed to add user: $error"));
 
-    users
-        .doc(prefs.getString('uid'))
+    await users
+        .doc(auth.currentUser?.uid)
         .update({'classroom_codes': classroomCode});
     // add classroom code to coach's user properties under "classroom_codes"
   }
 
-  void createAccount() async {
-    final prefs = await SharedPreferences.getInstance();
+  Future<void> createAccount() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text);
 
-      String? uid = userCredential.user?.uid;
+      String? uid = auth.currentUser?.uid;
       if (uid == null) {
         throw Exception('uid Null');
-      } else {
-        prefs.setString('uid', uid);
       }
 
       var identity = "Coach";
       //if identity is selected as Student, creates an account w/o classroom code
       if (_isSelected2 == true) {
         identity = "Student";
-        users.doc(userCredential.user?.uid).set({
+        await users.doc(userCredential.user?.uid).set({
           'name': nameController.text,
           'email': emailController.text,
           'identity': identity,
@@ -79,7 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         print("Student Account Created");
       } else {
         //if identity is coach, then creates a classroom and adds the id to the coach's classroom codes property
-        users.doc(userCredential.user?.uid).set({
+        await users.doc(userCredential.user?.uid).set({
           'name': nameController.text,
           'email': emailController.text,
           'identity': identity,
@@ -204,7 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: const Text("Create Your Account and Get In Class!"),
                   onPressed: () async {
                     //Create a new firebase account here.
-                    createAccount();
+                    await createAccount();
 
                     // if user is a Coach, take him/her to Coach Classroom Screen, where they can see their classroom code and share with students
                     if (_isSelected1 == true) {
