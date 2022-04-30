@@ -223,53 +223,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             builder: (context) => const StudentJoinClassroom()),
                       );
                     }
-
-                    //** NAVIGATOR FUNCTIONALITY TO NAVIGATE TO HOME SCREEN **
                   },
                 )),
-
-            //** HERE: ADD CONDITIONAL RENDERING. IF PROBLEM REGISTERING USER FOR FIREBASE, RENDER
-            //   ERROR MESSAGES HERE. IF ALL GOES WELL AND ACCOUNT IS CREATED, RENDER TEXT ELEMENT
-            //   TO SCREEN GIVING COACHES THEIR CLASSROOM CODE OR STUDENTS A TEXT INPUT FIELD FOR
-            //   THEIR CLASSROOM CODE **/
-
-            // Container(
-            //   padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-            //   alignment: Alignment.centerLeft,
-            //   child: const Text(
-            //     "*IF COACH* Coach 6 Digit Classroom Code: NRMQ7J",
-            //     style: TextStyle(fontSize: 20),
-            //   ),
-            // ),
-            // Container(
-            //     padding: const EdgeInsets.all(0),
-            //     child: TextButton(
-            //       child: const Text("Return Home"),
-            //       onPressed: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (context) => const HomeCoachScreen()),
-            //         );
-            //       },
-            //     )),
-            // Container(
-            //   padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-            //   alignment: Alignment.centerLeft,
-            //   child: const Text(
-            //     "Enter 6 Digit Classroom Code:",
-            //     style: TextStyle(fontSize: 20),
-            //   ),
-            // ),
-            // Container(
-            //   padding: const EdgeInsets.all(10),
-            //   child: const TextField(
-            //     decoration: InputDecoration(
-            //       border: OutlineInputBorder(),
-            //       hintText: 'Enter Your 6 Digit Classroom Code',
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

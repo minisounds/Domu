@@ -13,6 +13,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
   int index = 0;
   var imageStrings = [];
+  var workoutName = "workout1";
 
   CollectionReference workouts =
       FirebaseFirestore.instance.collection('workouts');
@@ -22,14 +23,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     imageStrings.add(
         "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/capsule_616x353.jpg?t=1646296970");
     FirebaseFirestore.instance
-        .collection('workouts')
-        .doc("5BawjBh258iKMcgi5wPm")
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        var data = documentSnapshot.data();
+      .collection('workouts')
+      .where('name', isEqualTo: workoutName)
+      .get()
+      .then((querySnapshot) {
+      for(var doc in querySnapshot.docs) {
+        var data = doc.data();
         debugPrint("Firebase");
-        for (var imgString in data?["images"]) {
+        for (var imgString in data["images"]) {
           imageStrings.add(imgString);
         }
         setState(() {
@@ -39,10 +40,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     });
   }
 
-  void getWorkoutImage() {
+  void changeWorkoutImage() {
     setState(() {
-      if(index < (imageStrings.length - 1)){
+      if (index < (imageStrings.length - 1)) {
         index += 1;
+        endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
       }
     });
   }
@@ -72,31 +74,31 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               ),
             ]),
         body: SingleChildScrollView(
-          child: Column(children: [
-            Container(
-              child: const Text("Exercise:"),
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(8.0),
+            child: Column(children: [
+          Container(
+            child: const Text("Exercise:"),
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(8.0),
+          ),
+          Container(
+            child: Image.network(imageStrings[index]),
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(18.0),
+          ),
+          Container(
+            child: CountdownTimer(
+              endTime: endTime,
+              onEnd: changeWorkoutImage,
             ),
-            Container(
-              child: Image.network(imageStrings[index]),
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(18.0),
+            padding: const EdgeInsets.all(5.0),
+          ),
+          Container(
+            child: TextButton(
+              child: const Text("Next"),
+              onPressed: changeWorkoutImage,
             ),
-            Container(
-              child: CountdownTimer(
-                endTime: endTime,
-              ),
-              padding: const EdgeInsets.all(5.0),
-            ),
-            Container(
-              child: TextButton(
-                child: const Text("Next"),
-                onPressed: getWorkoutImage,
-              ),
-              padding: const EdgeInsets.all(5.0),
-            )
-          ]))
-        );
+            padding: const EdgeInsets.all(5.0),
+          )
+        ])));
   }
 }
