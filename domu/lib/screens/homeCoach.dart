@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:domu/screens/coachWorkout.dart';
 
 class HomeCoachScreen extends StatefulWidget {
   const HomeCoachScreen({Key? key}) : super(key: key);
@@ -86,7 +87,14 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
                         child: const Text("This Week's Workout: ",
                             style: TextStyle(fontSize: 30))),
                     ElevatedButton(
-                        onPressed: () {}, child: const Text("Add a Workout")),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CoachWorkoutScreen()),
+                        );
+                      }, 
+                      child: const Text("Add a Workout")),
                   ],
                 ),
               ),

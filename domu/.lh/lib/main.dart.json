@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1643342891580,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1648786837633,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,15 @@\n import 'package:flutter/material.dart';\r\n+import 'package:firebase_auth/firebase_auth.dart';\r\n import 'package:firebase_core/firebase_core.dart';\r\n+//import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';\r\n import 'firebase_options.dart';\r\n import 'package:domu/screens/homeStudent.dart';\r\n import 'screens/homeCoach.dart';\r\n import './screens/workout.dart';\r\n import './screens/signup.dart';\r\n \r\n+final FirebaseAuth auth = FirebaseAuth.instance;\r\n void main() async {\r\n   WidgetsFlutterBinding.ensureInitialized();\r\n   await Firebase.initializeApp(\r\n     options: DefaultFirebaseOptions.currentPlatform,\r\n@@ -37,4 +40,16 @@\n       home: const SignUpScreen(),\r\n     );\r\n   }\r\n }\r\n+// class _RegisterEmailSection extends StatefulWidget {\r\n+//   final String title = 'Registration';\r\n+//   @override\r\n+//   State<StatefulWidget> createState() => \r\n+//       _RegisterEmailSectionState();\r\n+// }\r\n+// class _RegisterEmailSectionState extends State<_RegisterEmailSection> {\r\n+// @override\r\n+//   Widget build(BuildContext context) {\r\n+//     //TODO UI content here\r\n+//   }\r\n+// }\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1643342891580,
