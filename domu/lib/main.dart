@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'globalVars.dart' as globals;
 //import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'firebase_options.dart';
 import 'package:domu/screens/homeStudent.dart';
 import 'screens/homeCoach.dart';
 import './screens/workout.dart';
+import './screens/signup.dart';
 import './screens/signup.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
@@ -14,6 +16,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    if (user == null) {
+      print('User is currently signed out!');
+    } else {
+      print('User is signed in!');
+      print(user);
+    }
+    globals.user = user;
+  });
   runApp(const MyApp());
 }
 

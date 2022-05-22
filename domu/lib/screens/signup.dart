@@ -6,6 +6,8 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:domu/screens/homeStudent.dart';
 import 'package:domu/screens/studentJoinClassroom.dart';
 import 'package:flutter/material.dart';
+import '../globalVars.dart' as globals;
+import '../utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/labeledCheckbox.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -55,6 +57,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // add classroom code to coach's user properties under "classroom_codes"
   }
 
+  //function to decide where to direct the user. Check if user exists, then check if user is coach or not. Void return, handle redirects in function
+  Future<void> redirectUser() async {
+    if (globals.user != null) {
+      // check identity of user
+      Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);
+      if (userData?["identity"] == "coach") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeCoachScreen()),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeStudentScreen()),
+        );
+      }
+    }
+  }
+
   Future<void> createAccount() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -100,6 +121,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    redirectUser();
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -230,4 +252,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
+  // }
 }
