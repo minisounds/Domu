@@ -1,3 +1,4 @@
+import 'package:domu/screens/homeCoach.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:domu/screens/homeStudent.dart';
@@ -60,6 +61,18 @@ class _CreateCoachClassroomScreenState
                 style: TextStyle(fontSize: 30),
               ),
             ),
+            Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(20),
+                child: TextButton(
+                    child: const Text("Coach Home Page"),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeCoachScreen()),
+                      );
+                    }))
           ]),
         ));
   }
