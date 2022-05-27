@@ -1,0 +1,102 @@
+{
+    "sourceFile": "domu/lib/screens/coachWorkout.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 21,
+            "patches": [
+                {
+                    "date": 1653195124323,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1653195157446,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n   _CoachWorkoutScreenState createState() => _CoachWorkoutScreenState();\r\n }\r\n \r\n class _CoachWorkoutScreenState extends State<CoachWorkoutScreen> {\r\n-  var workoutNames = new List();\r\n+  var workoutNames = [];\r\n   var className;\r\n   var classCode;\r\n \r\n   CollectionReference workouts =\r\n"
+                },
+                {
+                    "date": 1653195169753,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n   _CoachWorkoutScreenState createState() => _CoachWorkoutScreenState();\r\n }\r\n \r\n class _CoachWorkoutScreenState extends State<CoachWorkoutScreen> {\r\n+  var workoutName;\r\n   var workoutNames = [];\r\n   var className;\r\n   var classCode;\r\n \r\n"
+                },
+                {
+                    "date": 1653195337827,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,18 +28,23 @@\n     FirebaseAuth auth = FirebaseAuth.instance;\r\n     var currentUserUid = auth.currentUser?.uid;\r\n \r\n     FirebaseFirestore.instance\r\n-    .collection(\"users\")\r\n-    .doc(currentUserUid)\r\n-    .get()\r\n-    .then((DocumentSnapshot docSnapshot) {\r\n+        .collection(\"users\")\r\n+        .doc(currentUserUid)\r\n+        .get()\r\n+        .then((DocumentSnapshot docSnapshot) {\r\n       classCode = docSnapshot.data()?[\"classroom_codes\"];\r\n     });\r\n \r\n     FirebaseFirestore.instance\r\n-    .collection(\"workouts\")\r\n-\r\n+        .collection(\"workouts\")\r\n+        .get()\r\n+        .then((QuerySnapshot querySnapshot) {\r\n+      for(var doc in querySnapshot.docs) {\r\n+        workoutNames.add(doc[\"name\"]);\r\n+      };\r\n+    });\r\n   }\r\n \r\n   void goBack() {\r\n     // go back a page\r\n"
+                },
+                {
+                    "date": 1653195393447,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,12 +39,13 @@\n     FirebaseFirestore.instance\r\n         .collection(\"workouts\")\r\n         .get()\r\n         .then((QuerySnapshot querySnapshot) {\r\n-      for(var doc in querySnapshot.docs) {\r\n+      for (var doc in querySnapshot.docs) {\r\n         workoutNames.add(doc[\"name\"]);\r\n-      };\r\n+      }\r\n     });\r\n+    \r\n   }\r\n \r\n   void goBack() {\r\n     // go back a page\r\n"
+                },
+                {
+                    "date": 1653195405251,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,9 +43,9 @@\n       for (var doc in querySnapshot.docs) {\r\n         workoutNames.add(doc[\"name\"]);\r\n       }\r\n     });\r\n-    \r\n+    print(workoutNames);\r\n   }\r\n \r\n   void goBack() {\r\n     // go back a page\r\n"
+                },
+                {
+                    "date": 1653195425502,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,8 +40,9 @@\n         .collection(\"workouts\")\r\n         .get()\r\n         .then((QuerySnapshot querySnapshot) {\r\n       for (var doc in querySnapshot.docs) {\r\n+        print(doc[\"name\"]);\r\n         workoutNames.add(doc[\"name\"]);\r\n       }\r\n     });\r\n     print(workoutNames);\r\n"
+                },
+                {
+                    "date": 1653195738376,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,13 +40,11 @@\n         .collection(\"workouts\")\r\n         .get()\r\n         .then((QuerySnapshot querySnapshot) {\r\n       for (var doc in querySnapshot.docs) {\r\n-        print(doc[\"name\"]);\r\n         workoutNames.add(doc[\"name\"]);\r\n       }\r\n     });\r\n-    print(workoutNames);\r\n   }\r\n \r\n   void goBack() {\r\n     // go back a page\r\n@@ -79,12 +77,12 @@\n                 shrinkWrap: true,\r\n                 padding: const EdgeInsets.all(8),\r\n                 children: <Widget>[\r\n                   Container(\r\n-                    child: const Center(child: Text('Workout 1')),\r\n+                    child: Center(child: Text(workoutNames[0])),\r\n                   ),\r\n                   Container(\r\n-                    child: const Center(child: Text('Workout 2')),\r\n+                    child: Center(child: Text(workoutNames[1])),\r\n                   ),\r\n                 ]),\r\n           )),\r\n         ]));\r\n"
+                },
+                {
+                    "date": 1653196114409,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -49,8 +49,15 @@\n   void goBack() {\r\n     // go back a page\r\n   }\r\n \r\n+  Widget renderWorkoutNames() {\r\n+    List<Widget> list = [];\r\n+    for (var i = 0; i < workoutNames.length; i++) {\r\n+      list.add(Text(workoutNames[i]));\r\n+    }\r\n+  }\r\n+\r\n   @override\r\n   Widget build(BuildContext context) {\r\n     /*\r\n     debugPrint(imageStrings.toString());\r\n"
+                },
+                {
+                    "date": 1653196182163,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,8 +54,10 @@\n     List<Widget> list = [];\r\n     for (var i = 0; i < workoutNames.length; i++) {\r\n       list.add(Text(workoutNames[i]));\r\n     }\r\n+\r\n+    return Row(children: list);\r\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n"
+                },
+                {
+                    "date": 1653196253304,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -49,15 +49,15 @@\n   void goBack() {\r\n     // go back a page\r\n   }\r\n \r\n-  Widget renderWorkoutNames() {\r\n+  List<Widget> renderWorkoutNames() {\r\n     List<Widget> list = [];\r\n     for (var i = 0; i < workoutNames.length; i++) {\r\n       list.add(Text(workoutNames[i]));\r\n     }\r\n \r\n-    return Row(children: list);\r\n+    return list;\r\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n@@ -84,16 +84,10 @@\n             height: 300,\r\n             child: ListView(\r\n                 shrinkWrap: true,\r\n                 padding: const EdgeInsets.all(8),\r\n-                children: <Widget>[\r\n-                  Container(\r\n-                    child: Center(child: Text(workoutNames[0])),\r\n-                  ),\r\n-                  Container(\r\n-                    child: Center(child: Text(workoutNames[1])),\r\n-                  ),\r\n-                ]),\r\n+                children: renderWorkoutNames(),\r\n+              ),\r\n           )),\r\n         ]));\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1653196378244,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,11 @@\n         .then((QuerySnapshot querySnapshot) {\r\n       for (var doc in querySnapshot.docs) {\r\n         workoutNames.add(doc[\"name\"]);\r\n       }\r\n+      setState(() {\r\n+        workoutNames;\r\n+      });\r\n     });\r\n   }\r\n \r\n   void goBack() {\r\n@@ -82,12 +85,12 @@\n           Expanded(\r\n               child: SizedBox(\r\n             height: 300,\r\n             child: ListView(\r\n-                shrinkWrap: true,\r\n-                padding: const EdgeInsets.all(8),\r\n-                children: renderWorkoutNames(),\r\n-              ),\r\n+              shrinkWrap: true,\r\n+              padding: const EdgeInsets.all(8),\r\n+              children: renderWorkoutNames(),\r\n+            ),\r\n           )),\r\n         ]));\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1653196433356,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,8 +33,11 @@\n         .doc(currentUserUid)\r\n         .get()\r\n         .then((DocumentSnapshot docSnapshot) {\r\n       classCode = docSnapshot.data()?[\"classroom_codes\"];\r\n+      setState(() {\r\n+        classCode;\r\n+      });\r\n     });\r\n \r\n     FirebaseFirestore.instance\r\n         .collection(\"workouts\")\r\n"
+                },
+                {
+                    "date": 1653196914173,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,9 @@\n   var workoutName;\r\n   var workoutNames = [];\r\n   var className;\r\n   var classCode;\r\n+  final workoutNameController = TextEditingController();\r\n \r\n   CollectionReference workouts =\r\n       FirebaseFirestore.instance.collection('workouts');\r\n   CollectionReference classes =\r\n@@ -93,7 +94,8 @@\n               padding: const EdgeInsets.all(8),\r\n               children: renderWorkoutNames(),\r\n             ),\r\n           )),\r\n+          TextField()\r\n         ]));\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1653197356200,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -65,8 +65,24 @@\n \r\n     return list;\r\n   }\r\n \r\n+  void chooseWorkout() {\r\n+    workoutName = workoutNameController.text;\r\n+    FirebaseAuth auth = FirebaseAuth.instance;\r\n+    var currentUserUid = auth.currentUser?.uid;\r\n+\r\n+    FirebaseFirestore.instance\r\n+        .collection(\"classrooms\")\r\n+        .where(\"classroomCode\", isEqualTo: classCode)\r\n+        .get()\r\n+        .then((QuerySnapshot querySnapshot) {\r\n+      for (var doc in querySnapshot.docs) {\r\n+        doc[\"workoutName\"] = workoutName;\r\n+      }\r\n+    });\r\n+  }\r\n+\r\n   @override\r\n   Widget build(BuildContext context) {\r\n     /*\r\n     debugPrint(imageStrings.toString());\r\n@@ -94,8 +110,14 @@\n               padding: const EdgeInsets.all(8),\r\n               children: renderWorkoutNames(),\r\n             ),\r\n           )),\r\n-          TextField()\r\n+          TextField(\r\n+            controller: workoutNameController,\r\n+          ),\r\n+          TextButton(\r\n+            child: const Text(\"Choose\"),\r\n+            onPressed: chooseWorkout,\r\n+          ),\r\n         ]));\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1653197924899,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -65,21 +65,20 @@\n \r\n     return list;\r\n   }\r\n \r\n-  void chooseWorkout() {\r\n+  void chooseWorkout() async {\r\n     workoutName = workoutNameController.text;\r\n     FirebaseAuth auth = FirebaseAuth.instance;\r\n     var currentUserUid = auth.currentUser?.uid;\r\n+    var docId;\r\n \r\n-    FirebaseFirestore.instance\r\n+    await FirebaseFirestore.instance\r\n         .collection(\"classrooms\")\r\n         .where(\"classroomCode\", isEqualTo: classCode)\r\n         .get()\r\n         .then((QuerySnapshot querySnapshot) {\r\n-      for (var doc in querySnapshot.docs) {\r\n-        doc[\"workoutName\"] = workoutName;\r\n-      }\r\n+      for (var doc in querySnapshot.docs) {}\r\n     });\r\n   }\r\n \r\n   @override\r\n"
+                },
+                {
+                    "date": 1653197944080,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -76,9 +76,11 @@\n         .collection(\"classrooms\")\r\n         .where(\"classroomCode\", isEqualTo: classCode)\r\n         .get()\r\n         .then((QuerySnapshot querySnapshot) {\r\n-      for (var doc in querySnapshot.docs) {}\r\n+      for (var doc in querySnapshot.docs) {\r\n+        docId = doc.id;\r\n+      }\r\n     });\r\n   }\r\n \r\n   @override\r\n"
+                },
+                {
+                    "date": 1653198049649,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -80,8 +80,15 @@\n       for (var doc in querySnapshot.docs) {\r\n         docId = doc.id;\r\n       }\r\n     });\r\n+\r\n+    FirebaseFirestore.instance\r\n+    .collection(\"classrooms\")\r\n+    .doc(docId)\r\n+    .set({\r\n+      \"workoutName\": workoutName,\r\n+    })\r\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n"
+                },
+                {
+                    "date": 1653198204079,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -81,14 +81,11 @@\n         docId = doc.id;\r\n       }\r\n     });\r\n \r\n-    FirebaseFirestore.instance\r\n-    .collection(\"classrooms\")\r\n-    .doc(docId)\r\n-    .set({\r\n+    FirebaseFirestore.instance.collection(\"classrooms\").doc(docId).update({\r\n       \"workoutName\": workoutName,\r\n-    })\r\n+    });\r\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n"
+                },
+                {
+                    "date": 1653198568216,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -117,8 +117,12 @@\n             ),\r\n           )),\r\n           TextField(\r\n             controller: workoutNameController,\r\n+            decoration: const InputDecoration(\r\n+              border: OutlineInputBorder(),\r\n+              hintText: 'Enter name of the workout here:',\r\n+            ),\r\n           ),\r\n           TextButton(\r\n             child: const Text(\"Choose\"),\r\n             onPressed: chooseWorkout,\r\n"
+                },
+                {
+                    "date": 1653198724827,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -106,17 +106,22 @@\n               ),\r\n             ]),\r\n         body: Column(children: [\r\n           const Text('Choose Workout for your class:'),\r\n-          Expanded(\r\n+          Align(\r\n+            alignment: Alignment.center,\r\n+            child: Expanded(\r\n               child: SizedBox(\r\n-            height: 300,\r\n-            child: ListView(\r\n-              shrinkWrap: true,\r\n-              padding: const EdgeInsets.all(8),\r\n-              children: renderWorkoutNames(),\r\n-            ),\r\n-          )),\r\n+                \r\n+                height: 300,\r\n+                child: ListView(\r\n+                  \r\n+                  shrinkWrap: true,\r\n+                  padding: const EdgeInsets.all(8),\r\n+                  children: renderWorkoutNames(),\r\n+                ),\r\n+            )),\r\n+          ),\r\n           TextField(\r\n             controller: workoutNameController,\r\n             decoration: const InputDecoration(\r\n               border: OutlineInputBorder(),\r\n"
+                },
+                {
+                    "date": 1653198756738,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -106,11 +106,9 @@\n               ),\r\n             ]),\r\n         body: Column(children: [\r\n           const Text('Choose Workout for your class:'),\r\n-          Align(\r\n-            alignment: Alignment.center,\r\n-            child: Expanded(\r\n+          Expanded(\r\n               child: SizedBox(\r\n                 \r\n                 height: 300,\r\n                 child: ListView(\r\n@@ -118,10 +116,9 @@\n                   shrinkWrap: true,\r\n                   padding: const EdgeInsets.all(8),\r\n                   children: renderWorkoutNames(),\r\n                 ),\r\n-            )),\r\n-          ),\r\n+          )),\r\n           TextField(\r\n             controller: workoutNameController,\r\n             decoration: const InputDecoration(\r\n               border: OutlineInputBorder(),\r\n"
+                }
+            ],
+            "date": 1653195124323,
+            "name": "Commit-0",
+            "content": "import 'package:flutter/material.dart';\r\nimport 'package:cloud_firestore/cloud_firestore.dart';\r\nimport 'package:firebase_auth/firebase_auth.dart';\r\n\r\nclass CoachWorkoutScreen extends StatefulWidget {\r\n  const CoachWorkoutScreen({Key? key}) : super(key: key);\r\n\r\n  @override\r\n  _CoachWorkoutScreenState createState() => _CoachWorkoutScreenState();\r\n}\r\n\r\nclass _CoachWorkoutScreenState extends State<CoachWorkoutScreen> {\r\n  var workoutNames = new List();\r\n  var className;\r\n  var classCode;\r\n\r\n  CollectionReference workouts =\r\n      FirebaseFirestore.instance.collection('workouts');\r\n  CollectionReference classes =\r\n      FirebaseFirestore.instance.collection('classes');\r\n\r\n  _CoachWorkoutScreenState() {\r\n    workoutName = \"workout\";\r\n    className = \"class\";\r\n\r\n    //firebase call to get classCode\r\n    FirebaseAuth auth = FirebaseAuth.instance;\r\n    var currentUserUid = auth.currentUser?.uid;\r\n\r\n    FirebaseFirestore.instance\r\n    .collection(\"users\")\r\n    .doc(currentUserUid)\r\n    .get()\r\n    .then((DocumentSnapshot docSnapshot) {\r\n      classCode = docSnapshot.data()?[\"classroom_codes\"];\r\n    });\r\n\r\n    FirebaseFirestore.instance\r\n    .collection(\"workouts\")\r\n\r\n  }\r\n\r\n  void goBack() {\r\n    // go back a page\r\n  }\r\n\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    /*\r\n    debugPrint(imageStrings.toString());\r\n    return Text(imageStrings.toString());\r\n    */\r\n    debugPrint(\"build things\");\r\n    return Scaffold(\r\n        appBar: AppBar(\r\n            // Here we take the value from the MyHomePage object that was created by\r\n            // the App.build method, and use it to set our appbar title.\r\n            title: const Text(\"Coach Workout\"),\r\n            actions: [\r\n              TextButton(\r\n                child: const Text(\"Back\"),\r\n                onPressed: goBack,\r\n              ),\r\n            ]),\r\n        body: Column(children: [\r\n          const Text('Choose Workout for your class:'),\r\n          Expanded(\r\n              child: SizedBox(\r\n            height: 300,\r\n            child: ListView(\r\n                shrinkWrap: true,\r\n                padding: const EdgeInsets.all(8),\r\n                children: <Widget>[\r\n                  Container(\r\n                    child: const Center(child: Text('Workout 1')),\r\n                  ),\r\n                  Container(\r\n                    child: const Center(child: Text('Workout 2')),\r\n                  ),\r\n                ]),\r\n          )),\r\n        ]));\r\n  }\r\n}\r\n"
+        }
+    ]
+}
