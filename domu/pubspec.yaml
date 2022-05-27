@@ -30,6 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_countdown_timer: ^4.1.0
+  circular_countdown_timer:
   cloud_firestore: ^1.0.0
   flutter_signin_button: ^2.0.0
   firebase_auth: ^1.0.0  
