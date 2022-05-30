@@ -1,7 +1,7 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:domu/screens/homeStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:simple_timer/simple_timer.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key}) : super(key: key);
@@ -25,9 +25,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   _WorkoutScreenState() {
     _countDownController = CountDownController();
     debugPrint("Workout");
+    /*
     imageStrings.add(
         "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/capsule_616x353.jpg?t=1646296970");
     exerciseNames.add("amongus");
+    */
     firebasePulls();
   }
 
@@ -55,39 +57,43 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     });
   }
 
-  void changeWorkoutImage() {
+  void changeWorkoutImage() async {
     setState(() {
       if (index < (imageStrings.length - 1)) {
         index += 1;
-        //endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
-        //reset timer
+        _countDownController.start();
+      }else{
+        //Show that workout is finished somehow
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const HomeStudentScreen()),
+        );
       }
-      _countDownController.restart();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    /*
-    debugPrint(imageStrings.toString());
-    return Text(imageStrings.toString());
-    */
     debugPrint("build things");
     return Scaffold(
-        appBar: AppBar(
-            // Here we take the value from the MyHomePage object that was created by
-            // the App.build method, and use it to set our appbar title.
-            title: const Text("Workout"),
-            actions: [
-              Container(
-                alignment: Alignment.topRight,
-              )
-              //put workout progress here?
-            ]),
+        appBar: AppBar(title: const Text("Workout"), actions: [
+          Container(
+            alignment: Alignment.centerRight,
+            child: Text(
+              "Progress: ${index + 1} / ${imageStrings.length}",
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15,),
+            )
+          )
+          //put workout progress here?
+        ]),
         body: SingleChildScrollView(
             child: Column(children: [
           Container(
-            child: Text(exerciseNames[index]),
+            child: Text(
+              exerciseNames[index],
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30,),
+            ),
             alignment: Alignment.center,
             padding: const EdgeInsets.all(8.0),
           ),
@@ -103,19 +109,22 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               initialDuration: 0,
               width: MediaQuery.of(context).size.width / 2,
               height: MediaQuery.of(context).size.height / 2,
-              ringColor: Colors.grey[300]!,
+              ringColor: Colors.blue[100]!,
               ringGradient: null,
-              fillColor: Colors.purpleAccent[100]!,
+              fillColor: Colors.blueAccent[100]!,
               fillGradient: null,
-              backgroundColor: Colors.purple[500],
+              backgroundColor: Colors.blue[500],
               backgroundGradient: null,
               strokeWidth: 20.0,
               strokeCap: StrokeCap.round,
               textStyle: const TextStyle(
-                  fontSize: 33.0, color: Colors.white, fontWeight: FontWeight.bold),
+                  fontSize: 33.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
               textFormat: CountdownTextFormat.S,
               controller: _countDownController,
               autoStart: true,
+              isReverse: true,
               onComplete: changeWorkoutImage,
             ),
             padding: const EdgeInsets.all(5.0),

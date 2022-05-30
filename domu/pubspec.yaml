@@ -37,6 +37,7 @@ dependencies:
   provider: ^5.0.0
   google_fonts: ^2.0.0
   shared_preferences: ^2.0.13
+  timer_count_down: ^2.2.1
 
 
   # The following adds the Cupertino Icons font to your application.

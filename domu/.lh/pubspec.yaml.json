@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 6,
             "patches": [
                 {
                     "date": 1643351040933,
@@ -20,6 +20,18 @@
                 {
                     "date": 1643778942867,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n # versions available, run `flutter pub outdated`.\r\n dependencies:\r\n   flutter:\r\n     sdk: flutter\r\n-  timer_count_down: ^2.2.1\r\n+  flutter_countdown_timer: ^4.1.0\r\n   cloud_firestore: ^1.0.0\r\n   firebase_auth: ^1.0.0  \r\n   provider: ^5.0.0\r\n   google_fonts: ^2.0.0\r\n"
+                },
+                {
+                    "date": 1653933332497,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,18 +29,24 @@\n dependencies:\r\n   flutter:\r\n     sdk: flutter\r\n   flutter_countdown_timer: ^4.1.0\r\n+  circular_countdown_timer:\r\n   cloud_firestore: ^1.0.0\r\n+  flutter_signin_button: ^2.0.0\r\n   firebase_auth: ^1.0.0  \r\n   provider: ^5.0.0\r\n   google_fonts: ^2.0.0\r\n+  shared_preferences: ^2.0.13\r\n+  timer_count_down: ^2.2.1\r\n \r\n \r\n   # The following adds the Cupertino Icons font to your application.\r\n   # Use with the CupertinoIcons class for iOS style icons.\r\n   cupertino_icons: ^1.0.2\r\n   firebase_core: ^1.11.0\r\n+  firebase_storage: ^10.2.7\r\n+  simple_timer: ^2.0.0\r\n \r\n dev_dependencies:\r\n   flutter_test:\r\n     sdk: flutter\r\n"
+                },
+                {
+                    "date": 1653933459508,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,19 +28,16 @@\n # versions available, run `flutter pub outdated`.\r\n dependencies:\r\n   flutter:\r\n     sdk: flutter\r\n-  flutter_countdown_timer: ^4.1.0\r\n-  circular_countdown_timer:\r\n   cloud_firestore: ^1.0.0\r\n   flutter_signin_button: ^2.0.0\r\n   firebase_auth: ^1.0.0  \r\n   provider: ^5.0.0\r\n   google_fonts: ^2.0.0\r\n   shared_preferences: ^2.0.13\r\n   timer_count_down: ^2.2.1\r\n \r\n-\r\n   # The following adds the Cupertino Icons font to your application.\r\n   # Use with the CupertinoIcons class for iOS style icons.\r\n   cupertino_icons: ^1.0.2\r\n   firebase_core: ^1.11.0\r\n"
+                },
+                {
+                    "date": 1653933485060,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,16 +28,19 @@\n # versions available, run `flutter pub outdated`.\r\n dependencies:\r\n   flutter:\r\n     sdk: flutter\r\n+  flutter_countdown_timer: ^4.1.0\r\n+  circular_countdown_timer:\r\n   cloud_firestore: ^1.0.0\r\n   flutter_signin_button: ^2.0.0\r\n   firebase_auth: ^1.0.0  \r\n   provider: ^5.0.0\r\n   google_fonts: ^2.0.0\r\n   shared_preferences: ^2.0.13\r\n   timer_count_down: ^2.2.1\r\n \r\n+\r\n   # The following adds the Cupertino Icons font to your application.\r\n   # Use with the CupertinoIcons class for iOS style icons.\r\n   cupertino_icons: ^1.0.2\r\n   firebase_core: ^1.11.0\r\n"
                 }
             ],
             "date": 1643351040933,
