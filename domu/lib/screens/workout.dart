@@ -2,6 +2,7 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:domu/screens/homeStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../utils.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   int index = 0;
   var imageStrings = [];
   var exerciseNames = [];
-  var workoutName = "workout1";
+  var workoutName = "BeginnerWorkout";
   var exerciseTime = 30;
   var _countDownController;
 
@@ -34,26 +35,16 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   }
 
   void firebasePulls() async {
-    await FirebaseFirestore.instance
-        .collection('workouts')
-        .where('name', isEqualTo: workoutName)
-        .get()
-        .then((querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        var data = doc.data();
-        debugPrint("Firebase");
-        var exerciseMap = data["exerciseMap"];
-        for (var exerciseName in exerciseMap.keys) {
-          exerciseNames.add(exerciseName);
-        }
-        for (var exerciseLink in exerciseMap.values) {
-          imageStrings.add(exerciseLink);
-        }
-        setState(() {
-          exerciseMap;
-          imageStrings;
-        });
-      }
+    var exerciseMap = await getWorkoutMap();
+    for (var exerciseName in exerciseMap!.keys) {
+        exerciseNames.add(exerciseName);
+    }
+    for (var exerciseLink in exerciseMap.values) {
+      imageStrings.add(exerciseLink);
+    }
+    setState(() {
+      exerciseMap;
+      imageStrings;
     });
   }
 
@@ -91,14 +82,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             child: Column(children: [
           Container(
             child: Text(
-              exerciseNames[index],
+              "${exerciseNames.isNotEmpty ? exerciseNames[index] : "Name"}",
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30,),
             ),
             alignment: Alignment.center,
             padding: const EdgeInsets.all(8.0),
           ),
           Container(
-            child: Image.network(imageStrings[index]),
+            child: Image.network(imageStrings.isNotEmpty ? imageStrings[index] : "https://www.freeiconspng.com/thumbs/load-icon-png/load-icon-png-8.png"),
             alignment: Alignment.center,
             padding: const EdgeInsets.all(18.0),
           ),

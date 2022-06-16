@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:domu/screens/homeCoach.dart';
 import 'package:domu/screens/createCoachClassroom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,4 +33,46 @@ Future<Map<String, dynamic>?> getUserDataByID(String? uid) async {
       }
     });
   }
+}
+
+Future<Map<String, String>?> getWorkoutMap() async {
+  Map<String, String> exerciseMap = <String, String>{};
+  String workoutName = "";
+  var classroomCode = "";
+
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(globals.user?.uid)
+      .get()
+      .then((documentSnapshot) {
+        var data = documentSnapshot.data();
+        debugPrint("Firebase");
+        classroomCode = data?["classroom_codes"][0];
+      });
+
+  await FirebaseFirestore.instance
+      .collection('workouts')
+      .where('classroomCode', isEqualTo: classroomCode)
+      .get()
+      .then((querySnapshot) {
+    for (var doc in querySnapshot.docs) {
+      var data = doc.data();
+      debugPrint("Firebase");
+      workoutName = data["workoutName"];
+    }
+  });
+
+  await FirebaseFirestore.instance
+      .collection('workouts')
+      .where('name', isEqualTo: workoutName)
+      .get()
+      .then((querySnapshot) {
+    for (var doc in querySnapshot.docs) {
+      var data = doc.data();
+      debugPrint("Firebase");
+      var exerciseMap = data["exerciseMap"];
+      return exerciseMap;
+    }
+  });
+  return exerciseMap;
 }

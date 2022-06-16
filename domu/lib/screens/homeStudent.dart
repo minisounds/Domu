@@ -1,6 +1,7 @@
 import 'package:domu/screens/workout.dart';
 import 'package:flutter/material.dart';
 import 'package:domu/screens/signup.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeStudentScreen extends StatefulWidget {
   const HomeStudentScreen({Key? key}) : super(key: key);
@@ -12,6 +13,10 @@ class HomeStudentScreen extends StatefulWidget {
 class _HomeStudentScreenState extends State<HomeStudentScreen> {
   @override
   Widget build(BuildContext context) {
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
     var workouts = <String>[
       "Jumping Jacks",
       "Pushups",

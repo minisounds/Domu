@@ -1,0 +1,30 @@
+{
+    "sourceFile": "domu/android/app/src/main/res/drawable/launch_background.xml",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1653624998452,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1653625125390,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,7 +6,7 @@\n     <!-- You can insert your own image assets here -->\r\n     <item>\r\n         <bitmap\r\n             android:gravity=\"center\"\r\n-            android:src=\"@drawable/domu\" />\r\n+            android:src=\"@drawable/domu.png\" />\r\n     </item>\r\n </layer-list>\r\n"
+                },
+                {
+                    "date": 1653625263536,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,7 +6,7 @@\n     <!-- You can insert your own image assets here -->\r\n     <item>\r\n         <bitmap\r\n             android:gravity=\"center\"\r\n-            android:src=\"@drawable/domu.png\" />\r\n+            android:src=\"@drawable/launch_image\" />\r\n     </item>\r\n </layer-list>\r\n"
+                },
+                {
+                    "date": 1653625337035,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n <?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n <!-- Modify this file to customize your launch splash screen -->\r\n <layer-list xmlns:android=\"http://schemas.android.com/apk/res/android\">\r\n-    <item android:drawable=\"@android:color/white\" />\r\n+    <item android:drawable=\"@android:color/blue\" />\r\n \r\n     <!-- You can insert your own image assets here -->\r\n     <item>\r\n         <bitmap\r\n"
+                }
+            ],
+            "date": 1653624998452,
+            "name": "Commit-0",
+            "content": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Modify this file to customize your launch splash screen -->\r\n<layer-list xmlns:android=\"http://schemas.android.com/apk/res/android\">\r\n    <item android:drawable=\"@android:color/white\" />\r\n\r\n    <!-- You can insert your own image assets here -->\r\n    <item>\r\n        <bitmap\r\n            android:gravity=\"center\"\r\n            android:src=\"@drawable/domu\" />\r\n    </item>\r\n</layer-list>\r\n"
+        }
+    ]
+}

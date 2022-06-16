@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1642743503148,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1655351629237,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,32 @@\n+import 'package:flutter/material.dart';\r\n+import 'package:firebase_auth/firebase_auth.dart';\r\n+import 'package:firebase_core/firebase_core.dart';\r\n+import 'globalVars.dart' as globals;\r\n+//import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';\r\n+import 'firebase_options.dart';\r\n import 'package:domu/screens/homeStudent.dart';\r\n-import 'package:flutter/material.dart';\r\n import 'screens/homeCoach.dart';\r\n import './screens/workout.dart';\r\n import './screens/signup.dart';\r\n+import './screens/signup.dart';\r\n \r\n-void main() {\r\n+final FirebaseAuth auth = FirebaseAuth.instance;\r\n+void main() async {\r\n+  WidgetsFlutterBinding.ensureInitialized();\r\n+  await Firebase.initializeApp(\r\n+    options: DefaultFirebaseOptions.currentPlatform,\r\n+  );\r\n+  auth.signOut();\r\n+  FirebaseAuth.instance.authStateChanges().listen((User? user) {\r\n+    if (user == null) {\r\n+      print('User is currently signed out!');\r\n+    } else {\r\n+      print('User is signed in!');\r\n+      print(user);\r\n+    }\r\n+    globals.user = user;\r\n+  });\r\n   runApp(const MyApp());\r\n }\r\n \r\n class MyApp extends StatelessWidget {\r\n@@ -27,8 +48,20 @@\n         // Notice that the counter didn't reset back to zero; the application\r\n         // is not restarted.\r\n         primarySwatch: Colors.blue,\r\n       ),\r\n-      home: const WorkoutScreen(),\r\n+      home: const SignUpScreen(),\r\n     );\r\n   }\r\n }\r\n+// class _RegisterEmailSection extends StatefulWidget {\r\n+//   final String title = 'Registration';\r\n+//   @override\r\n+//   State<StatefulWidget> createState() => \r\n+//       _RegisterEmailSectionState();\r\n+// }\r\n+// class _RegisterEmailSectionState extends State<_RegisterEmailSection> {\r\n+// @override\r\n+//   Widget build(BuildContext context) {\r\n+//     //TODO UI content here\r\n+//   }\r\n+// }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1655352678167,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n   WidgetsFlutterBinding.ensureInitialized();\r\n   await Firebase.initializeApp(\r\n     options: DefaultFirebaseOptions.currentPlatform,\r\n   );\r\n-  auth.signOut();\r\n+  //auth.signOut();\r\n   FirebaseAuth.instance.authStateChanges().listen((User? user) {\r\n     if (user == null) {\r\n       print('User is currently signed out!');\r\n     } else {\r\n"
                 }
             ],
             "date": 1642743503148,

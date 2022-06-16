@@ -4,6 +4,7 @@ import 'package:domu/screens/homeStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../globalVars.dart' as globals;
 
 class StudentJoinClassroom extends StatefulWidget {
   const StudentJoinClassroom({Key? key}) : super(key: key);
@@ -16,10 +17,9 @@ class _StudentJoinClassroomState extends State<StudentJoinClassroom> {
   final classroomCodeController = TextEditingController();
 
   void addClassroomCode() async {
-    final prefs = await SharedPreferences.getInstance();
     FirebaseFirestore.instance
         .collection('users')
-        .doc(prefs.getString('uid'))
+        .doc(globals.user?.uid)
         .update({'classroom_codes': classroomCodeController.text});
   }
 
