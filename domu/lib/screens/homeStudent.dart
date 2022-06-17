@@ -1,7 +1,9 @@
 import 'package:domu/screens/workout.dart';
+import 'package:domu/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:domu/screens/signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../utils.dart';
 
 class HomeStudentScreen extends StatefulWidget {
   const HomeStudentScreen({Key? key}) : super(key: key);
@@ -11,31 +13,31 @@ class HomeStudentScreen extends StatefulWidget {
 }
 
 class _HomeStudentScreenState extends State<HomeStudentScreen> {
+  Map<String, String> workoutMap = <String, String>{};
+  var workoutNames = [];
+  List<Widget> workoutRows = [];
+  ScrollController _scrollController = ScrollController();
+
+  _HomeStudentScreenState() {
+    getExercises();
+  }
+
+  void getExercises() async {
+    workoutMap = (await getWorkoutMap())!;
+    for (var exerciseName in workoutMap.keys) {
+      workoutNames.add(exerciseName);
+    }
+    setState(() {
+      workoutNames;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-    var workouts = <String>[
-      "Jumping Jacks",
-      "Pushups",
-      "Forehand Swings",
-    ];
-    var workoutRows = [];
-
-    for (var i = 0; i < workouts.length; i++) {
-      workoutRows.add(Container(
-        padding: const EdgeInsets.fromLTRB(20, 0, 10, 20),
-        child: ListTile(
-          leading: const Icon(Icons.star_border, color: Colors.yellow),
-          title: Text(workouts[i]),
-        ),
-      ));
-    }
-    ;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
         title: const Text(
           "Domú",
           style: TextStyle(fontSize: 30),
@@ -110,7 +112,42 @@ class _HomeStudentScreenState extends State<HomeStudentScreen> {
                       padding: const EdgeInsets.all(20),
                       child: const Text("This Week's Workout: ",
                           style: TextStyle(fontSize: 30))),
-                  ...workoutRows,
+                  Container(
+                    constraints: BoxConstraints(
+                      minHeight: 200, //minimum height
+                      minWidth: 300, // minimum width
+
+                      maxHeight: MediaQuery.of(context).size.height * 0.3,
+                      //maximum height set to 100% of vertical height
+
+                      maxWidth: MediaQuery.of(context).size.width,
+                      //maximum width set to 100% of width
+                    ),
+                    child: Scrollbar(
+                      controller: _scrollController,
+                      isAlwaysShown: true,
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: <Widget>[
+                              for (String name in workoutNames)
+                                Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 0, 10, 20),
+                                  child: ListTile(
+                                    leading: const Icon(Icons.star_border,
+                                        color: Colors.yellow),
+                                    title: Text(name),
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.push(

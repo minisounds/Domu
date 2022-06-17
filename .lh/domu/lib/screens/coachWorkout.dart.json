@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 21,
+            "activePatchIndex": 22,
             "patches": [
                 {
                     "date": 1653195124323,
@@ -92,6 +92,10 @@
                 {
                     "date": 1653198756738,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -106,11 +106,9 @@\n               ),\r\n             ]),\r\n         body: Column(children: [\r\n           const Text('Choose Workout for your class:'),\r\n-          Align(\r\n-            alignment: Alignment.center,\r\n-            child: Expanded(\r\n+          Expanded(\r\n               child: SizedBox(\r\n                 \r\n                 height: 300,\r\n                 child: ListView(\r\n@@ -118,10 +116,9 @@\n                   shrinkWrap: true,\r\n                   padding: const EdgeInsets.all(8),\r\n                   children: renderWorkoutNames(),\r\n                 ),\r\n-            )),\r\n-          ),\r\n+          )),\r\n           TextField(\r\n             controller: workoutNameController,\r\n             decoration: const InputDecoration(\r\n               border: OutlineInputBorder(),\r\n"
+                },
+                {
+                    "date": 1655443285587,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,9 @@\n         .collection(\"users\")\r\n         .doc(currentUserUid)\r\n         .get()\r\n         .then((DocumentSnapshot docSnapshot) {\r\n-      classCode = docSnapshot.data()?[\"classroom_codes\"];\r\n+      classCode = docSnapshot.data()?[\"classroomCode\"];\r\n       setState(() {\r\n         classCode;\r\n       });\r\n     });\r\n"
                 }
             ],
             "date": 1653195124323,

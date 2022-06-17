@@ -34,7 +34,7 @@ class _CoachWorkoutScreenState extends State<CoachWorkoutScreen> {
         .doc(currentUserUid)
         .get()
         .then((DocumentSnapshot docSnapshot) {
-      classCode = docSnapshot.data()?["classroom_codes"];
+      classCode = docSnapshot.data()?["classroomCode"];
       setState(() {
         classCode;
       });

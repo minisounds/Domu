@@ -53,16 +53,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     await users
         .doc(auth.currentUser?.uid)
-        .update({'classroom_codes': classroomCode});
+        .update({'classroomCode': classroomCode});
     // add classroom code to coach's user properties under "classroom_codes"
   }
 
   //function to decide where to direct the user. Check if user exists, then check if user is coach or not. Void return, handle redirects in function
   Future<void> redirectUser() async {
-    if (globals.user != null) {
+    Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);
+    if (userData != null) {
       // check identity of user
-      Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);
-      if (userData?["identity"] == "coach") {
+      if (userData["identity"] == "coach") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const HomeCoachScreen()),
@@ -95,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           'name': nameController.text,
           'email': emailController.text,
           'identity': identity,
-          'classroom_codes': [],
+          'classroomCode': "",
         });
         print("Student Account Created");
       } else {
@@ -104,7 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           'name': nameController.text,
           'email': emailController.text,
           'identity': identity,
-          'classroom_codes': []
+          'classroomCode': "",
         });
         createClassroom();
       }

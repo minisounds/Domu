@@ -20,7 +20,7 @@ class _StudentJoinClassroomState extends State<StudentJoinClassroom> {
     FirebaseFirestore.instance
         .collection('users')
         .doc(globals.user?.uid)
-        .update({'classroom_codes': classroomCodeController.text});
+        .update({'classroomCode': classroomCodeController.text});
   }
 
   @override

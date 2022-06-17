@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 6,
             "patches": [
                 {
                     "date": 1653626107918,
@@ -28,6 +28,10 @@
                 {
                     "date": 1655354968606,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,8 @@\n import 'package:flutter/material.dart';\r\n import 'package:shared_preferences/shared_preferences.dart';\r\n import 'package:cloud_firestore/cloud_firestore.dart';\r\n import '../globalVars.dart' as globals;\r\n-import '../utils.dart';\r\n \r\n class StudentJoinClassroom extends StatefulWidget {\r\n   const StudentJoinClassroom({Key? key}) : super(key: key);\r\n \r\n@@ -16,13 +15,13 @@\n \r\n class _StudentJoinClassroomState extends State<StudentJoinClassroom> {\r\n   final classroomCodeController = TextEditingController();\r\n \r\n-  FirebaseFirestore firestore = FirebaseFirestore.instance;\r\n-  CollectionReference users = FirebaseFirestore.instance.collection('users');\r\n-\r\n   void addClassroomCode() async {\r\n-    var exerciseMap = await getWorkoutMap(workoutName)\r\n+    FirebaseFirestore.instance\r\n+        .collection('users')\r\n+        .doc(globals.user?.uid)\r\n+        .update({'classroom_codes': classroomCodeController.text});\r\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n"
+                },
+                {
+                    "date": 1655443293373,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n   void addClassroomCode() async {\r\n     FirebaseFirestore.instance\r\n         .collection('users')\r\n         .doc(globals.user?.uid)\r\n-        .update({'classroom_codes': classroomCodeController.text});\r\n+        .update({'classroomCode': classroomCodeController.text});\r\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n"
                 }
             ],
             "date": 1653626107918,
