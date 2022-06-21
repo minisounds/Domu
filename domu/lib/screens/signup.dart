@@ -60,9 +60,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //function to decide where to direct the user. Check if user exists, then check if user is coach or not. Void return, handle redirects in function
   Future<void> redirectUser() async {
     Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);
+    debugPrint("UserData: $userData");
     if (userData != null) {
       // check identity of user
-      if (userData["identity"] == "coach") {
+      if (userData["identity"] == "Coach") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const HomeCoachScreen()),

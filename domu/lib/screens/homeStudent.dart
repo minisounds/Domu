@@ -16,7 +16,7 @@ class _HomeStudentScreenState extends State<HomeStudentScreen> {
   Map<String, String> workoutMap = <String, String>{};
   var workoutNames = [];
   List<Widget> workoutRows = [];
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   _HomeStudentScreenState() {
     getExercises();

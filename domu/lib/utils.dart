@@ -60,7 +60,9 @@ Future<Map<String, String>?> getWorkoutMap() async {
     for (var doc in querySnapshot.docs) {
       var data = doc.data();
       //debugPrint("Firebase");
-      workoutName = data["workoutName"];
+      if(data.containsKey("workoutName")){
+        workoutName = data["workoutName"];
+      }
     }
   });
 
@@ -76,4 +78,23 @@ Future<Map<String, String>?> getWorkoutMap() async {
     }
   });
   return exerciseMap;
+}
+
+Future<List<String>> getCoachExercises(var workoutName) async {
+  Map<String, String> exerciseMap = <String, String>{};
+  List<String> workoutNames = [];
+
+  await FirebaseFirestore.instance
+      .collection('workouts')
+      .where('name', isEqualTo: workoutName)
+      .get()
+      .then((querySnapshot) {
+    for (var doc in querySnapshot.docs) {
+      var data = doc.data();
+      //debugPrint("Firebase");
+      exerciseMap = Map<String, String>.from(data["exerciseMap"]);
+      exerciseMap.forEach((k, v) => workoutNames.add(k));
+    }
+  });
+  return workoutNames;
 }

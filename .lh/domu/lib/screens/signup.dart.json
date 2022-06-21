@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 7,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1655330695915,
@@ -36,6 +36,18 @@
                 {
                     "date": 1655442716892,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,9 +62,9 @@\n     Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);\r\n     if (userData != null) {\r\n       // check identity of user\r\n       \r\n-      if (userData?[\"identity\"] == \"coach\") {\r\n+      if (userData[\"identity\"] == \"coach\") {\r\n         Navigator.push(\r\n           context,\r\n           MaterialPageRoute(builder: (context) => const HomeCoachScreen()),\r\n         );\r\n"
+                },
+                {
+                    "date": 1655781648152,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,11 +59,11 @@\n \r\n   //function to decide where to direct the user. Check if user exists, then check if user is coach or not. Void return, handle redirects in function\r\n   Future<void> redirectUser() async {\r\n     Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);\r\n+    debugPrint(userData);\r\n     if (userData != null) {\r\n       // check identity of user\r\n-      \r\n       if (userData[\"identity\"] == \"coach\") {\r\n         Navigator.push(\r\n           context,\r\n           MaterialPageRoute(builder: (context) => const HomeCoachScreen()),\r\n"
+                },
+                {
+                    "date": 1655781696266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,9 +59,9 @@\n \r\n   //function to decide where to direct the user. Check if user exists, then check if user is coach or not. Void return, handle redirects in function\r\n   Future<void> redirectUser() async {\r\n     Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);\r\n-    debugPrint(userData);\r\n+    debugPrint(\"UserData: $userData\");\r\n     if (userData != null) {\r\n       // check identity of user\r\n       if (userData[\"identity\"] == \"coach\") {\r\n         Navigator.push(\r\n"
+                },
+                {
+                    "date": 1655781708494,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,9 +62,9 @@\n     Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);\r\n     debugPrint(\"UserData: $userData\");\r\n     if (userData != null) {\r\n       // check identity of user\r\n-      if (userData[\"identity\"] == \"coach\") {\r\n+      if (userData[\"identity\"] == \"Coach\") {\r\n         Navigator.push(\r\n           context,\r\n           MaterialPageRoute(builder: (context) => const HomeCoachScreen()),\r\n         );\r\n"
                 }
             ],
             "date": 1655330695915,

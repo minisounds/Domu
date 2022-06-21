@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 22,
+            "activePatchIndex": 25,
             "patches": [
                 {
                     "date": 1653195124323,
@@ -96,6 +96,18 @@
                 {
                     "date": 1655443285587,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,9 @@\n         .collection(\"users\")\r\n         .doc(currentUserUid)\r\n         .get()\r\n         .then((DocumentSnapshot docSnapshot) {\r\n-      classCode = docSnapshot.data()?[\"classroom_codes\"];\r\n+      classCode = docSnapshot.data()?[\"classroomCode\"];\r\n       setState(() {\r\n         classCode;\r\n       });\r\n     });\r\n"
+                },
+                {
+                    "date": 1655779053135,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -84,8 +84,10 @@\n \r\n     FirebaseFirestore.instance.collection(\"classrooms\").doc(docId).update({\r\n       \"workoutName\": workoutName,\r\n     });\r\n+\r\n+    \r\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n"
+                },
+                {
+                    "date": 1655779137886,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+import 'package:domu/screens/homeCoach.dart';\r\n import 'package:flutter/material.dart';\r\n import 'package:cloud_firestore/cloud_firestore.dart';\r\n import 'package:firebase_auth/firebase_auth.dart';\r\n \r\n@@ -71,23 +72,32 @@\n     FirebaseAuth auth = FirebaseAuth.instance;\r\n     var currentUserUid = auth.currentUser?.uid;\r\n     var docId;\r\n \r\n-    await FirebaseFirestore.instance\r\n+    if(workoutName in workoutNames){\r\n+      await FirebaseFirestore.instance\r\n         .collection(\"classrooms\")\r\n         .where(\"classroomCode\", isEqualTo: classCode)\r\n         .get()\r\n         .then((QuerySnapshot querySnapshot) {\r\n-      for (var doc in querySnapshot.docs) {\r\n-        docId = doc.id;\r\n-      }\r\n-    });\r\n+        for (var doc in querySnapshot.docs) {\r\n+          docId = doc.id;\r\n+        }\r\n+      });\r\n \r\n-    FirebaseFirestore.instance.collection(\"classrooms\").doc(docId).update({\r\n-      \"workoutName\": workoutName,\r\n-    });\r\n+      FirebaseFirestore.instance.collection(\"classrooms\").doc(docId).update({\r\n+        \"workoutName\": workoutName,\r\n+      });\r\n \r\n+      Navigator.push(\r\n+        context,\r\n+        MaterialPageRoute(\r\n+            builder: (context) => const HomeCoachScreen()));\r\n+    }\r\n+\r\n     \r\n+\r\n+\r\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n"
+                },
+                {
+                    "date": 1655779199892,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -72,9 +72,9 @@\n     FirebaseAuth auth = FirebaseAuth.instance;\r\n     var currentUserUid = auth.currentUser?.uid;\r\n     var docId;\r\n \r\n-    if(workoutName in workoutNames){\r\n+    if(workoutNames.contains(workoutName)){\r\n       await FirebaseFirestore.instance\r\n         .collection(\"classrooms\")\r\n         .where(\"classroomCode\", isEqualTo: classCode)\r\n         .get()\r\n"
                 }
             ],
             "date": 1653195124323,
