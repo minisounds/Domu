@@ -87,14 +87,15 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
                         child: const Text("This Week's Workout: ",
                             style: TextStyle(fontSize: 30))),
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CoachWorkoutScreen()),
-                        );
-                      }, 
-                      child: const Text("Add a Workout")),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const CoachWorkoutScreen()),
+                          );
+                        },
+                        child: const Text("Add a Workout")),
                   ],
                 ),
               ),

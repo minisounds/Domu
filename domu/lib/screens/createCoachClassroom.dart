@@ -54,18 +54,29 @@ class _CreateCoachClassroomScreenState
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: Center(
+                    child: Row(children: [
+                  const Text("Classroom Code: ",
+                      style: TextStyle(fontSize: 20)),
+                  Text(classroomCode,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20))
+                ]))),
+            Container(
               alignment: Alignment.center,
-              padding: const EdgeInsets.all(20),
-              child: Text(
-                "Here Is Your Classroom Code: " + classroomCode,
-                style: TextStyle(fontSize: 30),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: const Text(
+                "Make sure to note down this code to send to your students!",
+                style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
               ),
             ),
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(20),
-                child: TextButton(
-                    child: const Text("Coach Home Page"),
+                child: ElevatedButton(
+                    child: const Text("Start Assigning Workouts To Your Kids!"),
                     onPressed: () {
                       Navigator.push(
                         context,

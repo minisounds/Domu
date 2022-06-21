@@ -32,6 +32,8 @@ Future<Map<String, dynamic>?> getUserDataByID(String? uid) async {
         return null;
       }
     });
+  } else {
+    return null;
   }
 }
 
@@ -45,10 +47,10 @@ Future<Map<String, String>?> getWorkoutMap() async {
       .doc(globals.user?.uid)
       .get()
       .then((documentSnapshot) {
-        var data = documentSnapshot.data();
-        debugPrint("Firebase");
-        classroomCode = data?["classroom_codes"][0];
-      });
+    var data = documentSnapshot.data();
+    debugPrint("Firebase");
+    classroomCode = data?["classroom_codes"][0];
+  });
 
   await FirebaseFirestore.instance
       .collection('workouts')

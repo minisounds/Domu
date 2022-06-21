@@ -1,3 +1,4 @@
+import 'package:domu/screens/homeCoach.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,10 +11,10 @@ class CoachWorkoutScreen extends StatefulWidget {
 }
 
 class _CoachWorkoutScreenState extends State<CoachWorkoutScreen> {
-  var workoutName;
   var workoutNames = [];
   var className;
   var classCode;
+  var selectedWorkout;
   final workoutNameController = TextEditingController();
 
   CollectionReference workouts =
@@ -22,7 +23,7 @@ class _CoachWorkoutScreenState extends State<CoachWorkoutScreen> {
       FirebaseFirestore.instance.collection('classes');
 
   _CoachWorkoutScreenState() {
-    workoutName = "workout";
+    // workoutName = "workout";
     className = "class";
 
     //firebase call to get classCode
@@ -66,8 +67,8 @@ class _CoachWorkoutScreenState extends State<CoachWorkoutScreen> {
     return list;
   }
 
-  void chooseWorkout() async {
-    workoutName = workoutNameController.text;
+  void chooseWorkout(String workoutName) async {
+    // workoutName = workoutNameController.text;
     FirebaseAuth auth = FirebaseAuth.instance;
     var currentUserUid = auth.currentUser?.uid;
     var docId;
@@ -95,40 +96,84 @@ class _CoachWorkoutScreenState extends State<CoachWorkoutScreen> {
     */
     debugPrint("build things");
     return Scaffold(
-        appBar: AppBar(
-            // Here we take the value from the MyHomePage object that was created by
-            // the App.build method, and use it to set our appbar title.
-            title: const Text("Coach Workout"),
-            actions: [
-              TextButton(
-                child: const Text("Back"),
-                onPressed: goBack,
-              ),
-            ]),
-        body: Column(children: [
-          const Text('Choose Workout for your class:'),
-          Expanded(
-              child: SizedBox(
-                
-                height: 300,
-                child: ListView(
-                  
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: renderWorkoutNames(),
-                ),
-          )),
-          TextField(
-            controller: workoutNameController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Enter name of the workout here:',
+      appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: const Text(
+            "Coach Workout",
+          ),
+          actions: [
+            TextButton(
+              child: const Text("Back"),
+              onPressed: goBack,
             ),
+          ]),
+      body: Column(children: <Widget>[
+        Container(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          child: const Text(
+            'Choose Workout for your class:',
+            style: TextStyle(fontSize: 30),
+            textAlign: TextAlign.center,
           ),
-          TextButton(
-            child: const Text("Choose"),
-            onPressed: chooseWorkout,
-          ),
-        ]));
+        ),
+        RadioListTile<String>(
+          title: const Text('Beginner Workout (5-7 year old)'),
+          value: 'BeginnerWorkout',
+          groupValue: selectedWorkout,
+          onChanged: (String? value) {
+            setState(() {
+              selectedWorkout = value;
+            });
+
+            chooseWorkout("BeginnerWorkout");
+          },
+        ),
+        RadioListTile<String>(
+          title: const Text('Intermediate Workout (7-10 year old)'),
+          value: 'IntermediateWorkout',
+          groupValue: selectedWorkout,
+          onChanged: (String? value) {
+            setState(() {
+              selectedWorkout = value;
+            });
+
+            chooseWorkout("IntermediateWorkout");
+          },
+        ),
+        ElevatedButton(
+            child: const Text("Go Back Home"),
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HomeCoachScreen()),
+              );
+            }),
+      ]),
+
+      // Expanded(
+      //     child: SizedBox(
+
+      //       height: 300,
+      //       child: ListView(
+
+      //         shrinkWrap: true,
+      //         padding: const EdgeInsets.all(8),
+      //         children: renderWorkoutNames(),
+      //       ),
+      // )),
+      // TextField(
+      //   controller: workoutNameController,
+      //   decoration: const InputDecoration(
+      //     border: OutlineInputBorder(),
+      //     hintText: 'Enter name of the workout here:',
+      //   ),
+      // ),
+      // TextButton(
+      //   child: const Text("Choose"),
+      //   onPressed: chooseWorkout,
+      // ),
+    );
   }
 }

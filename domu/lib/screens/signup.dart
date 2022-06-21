@@ -59,10 +59,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   //function to decide where to direct the user. Check if user exists, then check if user is coach or not. Void return, handle redirects in function
   Future<void> redirectUser() async {
-    if (globals.user != null) {
+    print("hello");
+    print(globals.user?.uid);
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);
+
+    if (userData != null) {
       // check identity of user
-      Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);
-      if (userData?["identity"] == "coach") {
+      if (userData["identity"] == "Coach") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const HomeCoachScreen()),
@@ -121,6 +125,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // auth.signOut();
+    // print("user signed out!");
     redirectUser();
     return Scaffold(
       appBar: AppBar(
