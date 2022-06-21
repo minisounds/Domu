@@ -35,7 +35,7 @@ class _CreateCoachClassroomScreenState
         print(auth.currentUser?.uid);
         print('Document data: ${documentSnapshot.data()}');
         setState(() {
-          classroomCode = documentSnapshot.data()?['classroom_codes'];
+          classroomCode = documentSnapshot.data()?['classroomCode'];
         });
       } else {
         print("this document didn't exist");

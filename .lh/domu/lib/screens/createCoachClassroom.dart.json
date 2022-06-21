@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1653194520873,
@@ -12,6 +12,10 @@
                 {
                     "date": 1653194557451,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -61,21 +61,19 @@\n                 style: TextStyle(fontSize: 30),\r\n               ),\r\n             ),\r\n             Container(\r\n-              alignment: Alignment.center,\r\n-              padding: const EdgeInsets.all(20),\r\n-              child: TextButton(\r\n-                child: const Text(\"Coach Home Page\"),\r\n-                onPressed: () {\r\n-                  Navigator.push(\r\n-                    context,\r\n-                    MaterialPageRoute(\r\n-                            builder: (context) => const HomeCoachScreen ()),\r\n-                  )\r\n-                }\r\n-              )\r\n-            )\r\n+                alignment: Alignment.center,\r\n+                padding: const EdgeInsets.all(20),\r\n+                child: TextButton(\r\n+                    child: const Text(\"Coach Home Page\"),\r\n+                    onPressed: () {\r\n+                      Navigator.push(\r\n+                        context,\r\n+                        MaterialPageRoute(\r\n+                            builder: (context) => const HomeCoachScreen()),\r\n+                      );\r\n+                    }))\r\n           ]),\r\n         ));\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1655442512206,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n       if (documentSnapshot.exists) {\r\n         print(auth.currentUser?.uid);\r\n         print('Document data: ${documentSnapshot.data()}');\r\n         setState(() {\r\n-          classroomCode = documentSnapshot.data()?['classroom_codes'];\r\n+          classroomCode = documentSnapshot.data()?['classroomCode'];\r\n         });\r\n       } else {\r\n         print(\"this document didn't exist\");\r\n         return;\r\n"
                 }
             ],
             "date": 1653194520873,

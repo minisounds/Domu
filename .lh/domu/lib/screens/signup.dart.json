@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1655330695915,
@@ -20,6 +20,34 @@
                 {
                     "date": 1655352765572,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -120,9 +120,9 @@\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n-    //redirectUser();\r\n+    redirectUser();\r\n     return Scaffold(\r\n       appBar: AppBar(\r\n         // Here we take the value from the MyHomePage object that was created by\r\n         // the App.build method, and use it to set our appbar title.\r\n"
+                },
+                {
+                    "date": 1655442583281,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n         .catchError((error) => print(\"Failed to add user: $error\"));\r\n \r\n     await users\r\n         .doc(auth.currentUser?.uid)\r\n-        .update({'classroom_codes': classroomCode});\r\n+        .update({'classroomCode': classroomCode});\r\n     // add classroom code to coach's user properties under \"classroom_codes\"\r\n   }\r\n \r\n   //function to decide where to direct the user. Check if user exists, then check if user is coach or not. Void return, handle redirects in function\r\n@@ -94,9 +94,9 @@\n         await users.doc(userCredential.user?.uid).set({\r\n           'name': nameController.text,\r\n           'email': emailController.text,\r\n           'identity': identity,\r\n-          'classroom_codes': [],\r\n+          'classroom_codes': \"\",\r\n         });\r\n         print(\"Student Account Created\");\r\n       } else {\r\n         //if identity is coach, then creates a classroom and adds the id to the coach's classroom codes property\r\n"
+                },
+                {
+                    "date": 1655442599325,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -94,18 +94,18 @@\n         await users.doc(userCredential.user?.uid).set({\r\n           'name': nameController.text,\r\n           'email': emailController.text,\r\n           'identity': identity,\r\n-          'classroom_codes': \"\",\r\n+          'classroomCode': \"\",\r\n         });\r\n         print(\"Student Account Created\");\r\n       } else {\r\n         //if identity is coach, then creates a classroom and adds the id to the coach's classroom codes property\r\n         await users.doc(userCredential.user?.uid).set({\r\n           'name': nameController.text,\r\n           'email': emailController.text,\r\n           'identity': identity,\r\n-          'classroom_codes': []\r\n+          'classroomCode': \"\",\r\n         });\r\n         createClassroom();\r\n       }\r\n     } on FirebaseAuthException catch (e) {\r\n"
+                },
+                {
+                    "date": 1655442710071,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,11 +58,12 @@\n   }\r\n \r\n   //function to decide where to direct the user. Check if user exists, then check if user is coach or not. Void return, handle redirects in function\r\n   Future<void> redirectUser() async {\r\n-    if (globals.user != null) {\r\n+    Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);\r\n+    if (userData != null) {\r\n       // check identity of user\r\n-      Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);\r\n+      \r\n       if (userData?[\"identity\"] == \"coach\") {\r\n         Navigator.push(\r\n           context,\r\n           MaterialPageRoute(builder: (context) => const HomeCoachScreen()),\r\n"
+                },
+                {
+                    "date": 1655442716892,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,9 +62,9 @@\n     Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);\r\n     if (userData != null) {\r\n       // check identity of user\r\n       \r\n-      if (userData?[\"identity\"] == \"coach\") {\r\n+      if (userData[\"identity\"] == \"coach\") {\r\n         Navigator.push(\r\n           context,\r\n           MaterialPageRoute(builder: (context) => const HomeCoachScreen()),\r\n         );\r\n"
+                },
+                {
+                    "date": 1655781648152,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,11 +59,11 @@\n \r\n   //function to decide where to direct the user. Check if user exists, then check if user is coach or not. Void return, handle redirects in function\r\n   Future<void> redirectUser() async {\r\n     Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);\r\n+    debugPrint(userData);\r\n     if (userData != null) {\r\n       // check identity of user\r\n-      \r\n       if (userData[\"identity\"] == \"coach\") {\r\n         Navigator.push(\r\n           context,\r\n           MaterialPageRoute(builder: (context) => const HomeCoachScreen()),\r\n"
+                },
+                {
+                    "date": 1655781696266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,9 +59,9 @@\n \r\n   //function to decide where to direct the user. Check if user exists, then check if user is coach or not. Void return, handle redirects in function\r\n   Future<void> redirectUser() async {\r\n     Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);\r\n-    debugPrint(userData);\r\n+    debugPrint(\"UserData: $userData\");\r\n     if (userData != null) {\r\n       // check identity of user\r\n       if (userData[\"identity\"] == \"coach\") {\r\n         Navigator.push(\r\n"
+                },
+                {
+                    "date": 1655781708494,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,9 +62,9 @@\n     Map<String, dynamic>? userData = await getUserDataByID(globals.user?.uid);\r\n     debugPrint(\"UserData: $userData\");\r\n     if (userData != null) {\r\n       // check identity of user\r\n-      if (userData[\"identity\"] == \"coach\") {\r\n+      if (userData[\"identity\"] == \"Coach\") {\r\n         Navigator.push(\r\n           context,\r\n           MaterialPageRoute(builder: (context) => const HomeCoachScreen()),\r\n         );\r\n"
                 }
             ],
             "date": 1655330695915,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 23,
+            "activePatchIndex": 65,
             "patches": [
                 {
                     "date": 1655353314724,
@@ -100,6 +100,174 @@
                 {
                     "date": 1655354850121,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -46,9 +46,9 @@\n       .get()\r\n       .then((documentSnapshot) {\r\n         var data = documentSnapshot.data();\r\n         debugPrint(\"Firebase\");\r\n-        classroomCode = data[\"classroom_codes\"][0];\r\n+        classroomCode = data?[\"classroom_codes\"][0];\r\n       });\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n"
+                },
+                {
+                    "date": 1655440366417,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,9 @@\n import 'package:shared_preferences/shared_preferences.dart';\r\n import '../widgets/labeledCheckbox.dart';\r\n import 'package:cloud_firestore/cloud_firestore.dart';\r\n import 'dart:math';\r\n+import '../utils.dart';\r\n \r\n Future<Map<String, dynamic>?> getUserDataByID(String? uid) async {\r\n   if (globals.user != null) {\r\n     // CollectionReference classrooms =\r\n"
+                },
+                {
+                    "date": 1655440571158,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,8 @@\n import 'package:shared_preferences/shared_preferences.dart';\r\n import '../widgets/labeledCheckbox.dart';\r\n import 'package:cloud_firestore/cloud_firestore.dart';\r\n import 'dart:math';\r\n-import '../utils.dart';\r\n \r\n Future<Map<String, dynamic>?> getUserDataByID(String? uid) async {\r\n   if (globals.user != null) {\r\n     // CollectionReference classrooms =\r\n@@ -45,12 +44,12 @@\n       .collection('users')\r\n       .doc(globals.user?.uid)\r\n       .get()\r\n       .then((documentSnapshot) {\r\n-        var data = documentSnapshot.data();\r\n-        debugPrint(\"Firebase\");\r\n-        classroomCode = data?[\"classroom_codes\"][0];\r\n-      });\r\n+    var data = documentSnapshot.data();\r\n+    debugPrint(\"Firebase\");\r\n+    classroomCode = data?[\"classroom_codes\"][0];\r\n+  });\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('classroomCode', isEqualTo: classroomCode)\r\n"
+                },
+                {
+                    "date": 1655441229936,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -70,8 +70,9 @@\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n       var exerciseMap = data[\"exerciseMap\"];\r\n+      debugPrint(exerciseMap.keys.length);\r\n       return exerciseMap;\r\n     }\r\n   });\r\n   return exerciseMap;\r\n"
+                },
+                {
+                    "date": 1655441289648,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -70,9 +70,9 @@\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n       var exerciseMap = data[\"exerciseMap\"];\r\n-      debugPrint(exerciseMap.keys.length);\r\n+      //debugPrint(exerciseMap.keys.length);\r\n       return exerciseMap;\r\n     }\r\n   });\r\n   return exerciseMap;\r\n"
+                },
+                {
+                    "date": 1655441340460,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -49,8 +49,10 @@\n     debugPrint(\"Firebase\");\r\n     classroomCode = data?[\"classroom_codes\"][0];\r\n   });\r\n \r\n+  debugPrint(classroomCode);\r\n+\r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('classroomCode', isEqualTo: classroomCode)\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1655441348140,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -63,8 +63,10 @@\n       workoutName = data[\"workoutName\"];\r\n     }\r\n   });\r\n \r\n+  debugPrint(workoutName);\r\n+\r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('name', isEqualTo: workoutName)\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1655441358415,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -75,9 +75,8 @@\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n       var exerciseMap = data[\"exerciseMap\"];\r\n       //debugPrint(exerciseMap.keys.length);\r\n-      return exerciseMap;\r\n     }\r\n   });\r\n   return exerciseMap;\r\n }\r\n"
+                },
+                {
+                    "date": 1655441376795,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -73,10 +73,9 @@\n       .then((querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n-      var exerciseMap = data[\"exerciseMap\"];\r\n-      //debugPrint(exerciseMap.keys.length);\r\n+      exerciseMap = data[\"exerciseMap\"];\r\n     }\r\n   });\r\n   return exerciseMap;\r\n }\r\n"
+                },
+                {
+                    "date": 1655441382602,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -49,10 +49,8 @@\n     debugPrint(\"Firebase\");\r\n     classroomCode = data?[\"classroom_codes\"][0];\r\n   });\r\n \r\n-  debugPrint(classroomCode);\r\n-\r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('classroomCode', isEqualTo: classroomCode)\r\n       .get()\r\n@@ -63,10 +61,8 @@\n       workoutName = data[\"workoutName\"];\r\n     }\r\n   });\r\n \r\n-  debugPrint(workoutName);\r\n-\r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('name', isEqualTo: workoutName)\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1655441397061,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -49,8 +49,10 @@\n     debugPrint(\"Firebase\");\r\n     classroomCode = data?[\"classroom_codes\"][0];\r\n   });\r\n \r\n+  debugPrint(classroomCode);\r\n+\r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('classroomCode', isEqualTo: classroomCode)\r\n       .get()\r\n@@ -61,8 +63,10 @@\n       workoutName = data[\"workoutName\"];\r\n     }\r\n   });\r\n \r\n+  debugPrint(workoutName);\r\n+\r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('name', isEqualTo: workoutName)\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1655441417925,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -49,9 +49,9 @@\n     debugPrint(\"Firebase\");\r\n     classroomCode = data?[\"classroom_codes\"][0];\r\n   });\r\n \r\n-  debugPrint(classroomCode);\r\n+  debugPrint(\"class code: \" + classroomCode);\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('classroomCode', isEqualTo: classroomCode)\r\n"
+                },
+                {
+                    "date": 1655441431909,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -46,9 +46,9 @@\n       .get()\r\n       .then((documentSnapshot) {\r\n     var data = documentSnapshot.data();\r\n     debugPrint(\"Firebase\");\r\n-    classroomCode = data?[\"classroom_codes\"][0];\r\n+    classroomCode = data?[\"classroom_codes\"];\r\n   });\r\n \r\n   debugPrint(\"class code: \" + classroomCode);\r\n \r\n"
+                },
+                {
+                    "date": 1655441450678,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -63,9 +63,9 @@\n       workoutName = data[\"workoutName\"];\r\n     }\r\n   });\r\n \r\n-  debugPrint(workoutName);\r\n+  debugPrint(\"workout name: \" + workoutName);\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('name', isEqualTo: workoutName)\r\n"
+                },
+                {
+                    "date": 1655441492356,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,9 @@\n \r\n Future<Map<String, String>?> getWorkoutMap() async {\r\n   Map<String, String> exerciseMap = <String, String>{};\r\n   String workoutName = \"\";\r\n-  var classroomCode = \"\";\r\n+  var classCode = \"\";\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('users')\r\n       .doc(globals.user?.uid)\r\n"
+                },
+                {
+                    "date": 1655441499181,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -46,16 +46,16 @@\n       .get()\r\n       .then((documentSnapshot) {\r\n     var data = documentSnapshot.data();\r\n     debugPrint(\"Firebase\");\r\n-    classroomCode = data?[\"classroom_codes\"];\r\n+    classCode = data?[\"classroom_codes\"];\r\n   });\r\n \r\n-  debugPrint(\"class code: \" + classroomCode);\r\n+  debugPrint(\"class code: \" + classCode);\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n-      .where('classroomCode', isEqualTo: classroomCode)\r\n+      .where('classroomCode', isEqualTo: classCode)\r\n       .get()\r\n       .then((querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n"
+                },
+                {
+                    "date": 1655441588964,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,8 +54,9 @@\n \r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('classroomCode', isEqualTo: classCode)\r\n+      .limit(1)\r\n       .get()\r\n       .then((querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n"
+                },
+                {
+                    "date": 1655441650210,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,10 +56,12 @@\n       .collection('workouts')\r\n       .where('classroomCode', isEqualTo: classCode)\r\n       .limit(1)\r\n       .get()\r\n-      .then((querySnapshot) {\r\n-    for (var doc in querySnapshot.docs) {\r\n+      .then((documentSnapshot) {\r\n+    var data = documentSnapshot.data();\r\n+    workoutName = data[\"workoutName\"];\r\n+    for (var doc in documentSnapshot.docs) {\r\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n       workoutName = data[\"workoutName\"];\r\n     }\r\n"
+                },
+                {
+                    "date": 1655441672154,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,14 +54,11 @@\n \r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('classroomCode', isEqualTo: classCode)\r\n-      .limit(1)\r\n       .get()\r\n-      .then((documentSnapshot) {\r\n-    var data = documentSnapshot.data();\r\n-    workoutName = data[\"workoutName\"];\r\n-    for (var doc in documentSnapshot.docs) {\r\n+      .then((querySnapshot) {\r\n+    for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n       workoutName = data[\"workoutName\"];\r\n     }\r\n"
+                },
+                {
+                    "date": 1655441723309,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,8 +56,9 @@\n       .collection('workouts')\r\n       .where('classroomCode', isEqualTo: classCode)\r\n       .get()\r\n       .then((querySnapshot) {\r\n+    debugPrint(querySnapshot.docs.length)\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n       workoutName = data[\"workoutName\"];\r\n"
+                },
+                {
+                    "date": 1655441750736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,9 +56,9 @@\n       .collection('workouts')\r\n       .where('classroomCode', isEqualTo: classCode)\r\n       .get()\r\n       .then((querySnapshot) {\r\n-    debugPrint(querySnapshot.docs.length)\r\n+    debugPrint(\"QuerySnap length: ${querySnapshot.docs.length}\")\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n       workoutName = data[\"workoutName\"];\r\n"
+                },
+                {
+                    "date": 1655441756606,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,9 +56,9 @@\n       .collection('workouts')\r\n       .where('classroomCode', isEqualTo: classCode)\r\n       .get()\r\n       .then((querySnapshot) {\r\n-    debugPrint(\"QuerySnap length: ${querySnapshot.docs.length}\")\r\n+    debugPrint(\"QuerySnap length: ${querySnapshot.docs.length}\");\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n       workoutName = data[\"workoutName\"];\r\n"
+                },
+                {
+                    "date": 1655441794185,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,9 @@\n \r\n Future<Map<String, String>?> getWorkoutMap() async {\r\n   Map<String, String> exerciseMap = <String, String>{};\r\n   String workoutName = \"\";\r\n-  var classCode = \"\";\r\n+  String classCode = \"\";\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('users')\r\n       .doc(globals.user?.uid)\r\n"
+                },
+                {
+                    "date": 1655441887191,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n \r\n   debugPrint(\"class code: \" + classCode);\r\n \r\n   await FirebaseFirestore.instance\r\n-      .collection('workouts')\r\n+      .collection('classrooms')\r\n       .where('classroomCode', isEqualTo: classCode)\r\n       .get()\r\n       .then((querySnapshot) {\r\n     debugPrint(\"QuerySnap length: ${querySnapshot.docs.length}\");\r\n"
+                },
+                {
+                    "date": 1655441937983,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -49,10 +49,8 @@\n     debugPrint(\"Firebase\");\r\n     classCode = data?[\"classroom_codes\"];\r\n   });\r\n \r\n-  debugPrint(\"class code: \" + classCode);\r\n-\r\n   await FirebaseFirestore.instance\r\n       .collection('classrooms')\r\n       .where('classroomCode', isEqualTo: classCode)\r\n       .get()\r\n@@ -64,10 +62,8 @@\n       workoutName = data[\"workoutName\"];\r\n     }\r\n   });\r\n \r\n-  debugPrint(\"workout name: \" + workoutName);\r\n-\r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('name', isEqualTo: workoutName)\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1655442640169,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -46,9 +46,9 @@\n       .get()\r\n       .then((documentSnapshot) {\r\n     var data = documentSnapshot.data();\r\n     debugPrint(\"Firebase\");\r\n-    classCode = data?[\"classroom_codes\"];\r\n+    classCode = data?[\"classroomCode\"];\r\n   });\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('classrooms')\r\n@@ -70,9 +70,9 @@\n       .then((querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n-      exerciseMap = data[\"exerciseMap\"];\r\n+      exerciseMap = json.decode(data[\"exerciseMap\"]);\r\n     }\r\n   });\r\n   return exerciseMap;\r\n }\r\n"
+                },
+                {
+                    "date": 1655442647467,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -70,9 +70,9 @@\n       .then((querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n-      exerciseMap = json.decode(data[\"exerciseMap\"]);\r\n+      exerciseMap = (data[\"exerciseMap\"]);\r\n     }\r\n   });\r\n   return exerciseMap;\r\n }\r\n"
+                },
+                {
+                    "date": 1655443236638,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,8 +47,9 @@\n       .then((documentSnapshot) {\r\n     var data = documentSnapshot.data();\r\n     debugPrint(\"Firebase\");\r\n     classCode = data?[\"classroomCode\"];\r\n+    debugPrint(\"classCode: \" + classCode);\r\n   });\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('classrooms')\r\n"
+                },
+                {
+                    "date": 1655443473205,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -71,9 +71,9 @@\n       .then((querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       debugPrint(\"Firebase\");\r\n-      exerciseMap = (data[\"exerciseMap\"]);\r\n+      exerciseMap = Map<String, String>.from(data[\"exerciseMap\"]);\r\n     }\r\n   });\r\n   return exerciseMap;\r\n }\r\n"
+                },
+                {
+                    "date": 1655443698909,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,9 +58,9 @@\n       .then((querySnapshot) {\r\n     debugPrint(\"QuerySnap length: ${querySnapshot.docs.length}\");\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n-      debugPrint(\"Firebase\");\r\n+      //debugPrint(\"Firebase\");\r\n       workoutName = data[\"workoutName\"];\r\n     }\r\n   });\r\n \r\n"
+                },
+                {
+                    "date": 1655443705448,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,19 +45,19 @@\n       .doc(globals.user?.uid)\r\n       .get()\r\n       .then((documentSnapshot) {\r\n     var data = documentSnapshot.data();\r\n-    debugPrint(\"Firebase\");\r\n+    //debugPrint(\"Firebase\");\r\n     classCode = data?[\"classroomCode\"];\r\n-    debugPrint(\"classCode: \" + classCode);\r\n+    //debugPrint(\"classCode: \" + classCode);\r\n   });\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('classrooms')\r\n       .where('classroomCode', isEqualTo: classCode)\r\n       .get()\r\n       .then((querySnapshot) {\r\n-    debugPrint(\"QuerySnap length: ${querySnapshot.docs.length}\");\r\n+    //debugPrint(\"QuerySnap length: ${querySnapshot.docs.length}\");\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       //debugPrint(\"Firebase\");\r\n       workoutName = data[\"workoutName\"];\r\n"
+                },
+                {
+                    "date": 1655443712438,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -70,9 +70,9 @@\n       .get()\r\n       .then((querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n-      debugPrint(\"Firebase\");\r\n+      //debugPrint(\"Firebase\");\r\n       exerciseMap = Map<String, String>.from(data[\"exerciseMap\"]);\r\n     }\r\n   });\r\n   return exerciseMap;\r\n"
+                },
+                {
+                    "date": 1655780207608,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -76,4 +76,8 @@\n     }\r\n   });\r\n   return exerciseMap;\r\n }\r\n+\r\n+Future<List<String>> getCoachExercises() async{\r\n+  \r\n+}\r\n"
+                },
+                {
+                    "date": 1655780506123,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -77,7 +77,19 @@\n   });\r\n   return exerciseMap;\r\n }\r\n \r\n-Future<List<String>> getCoachExercises() async{\r\n-  \r\n+Future<List<String>> getCoachExercises() async {\r\n+  var exerciseMap = <String, String>{};\r\n+\r\n+  await FirebaseFirestore.instance\r\n+      .collection('workouts')\r\n+      .where('name', isEqualTo: workoutName)\r\n+      .get()\r\n+      .then((querySnapshot) {\r\n+    for (var doc in querySnapshot.docs) {\r\n+      var data = doc.data();\r\n+      //debugPrint(\"Firebase\");\r\n+      exerciseMap = Map<String, String>.from(data[\"exerciseMap\"]);\r\n+    }\r\n+  });\r\n }\r\n"
+                },
+                {
+                    "date": 1655780542975,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -77,9 +77,9 @@\n   });\r\n   return exerciseMap;\r\n }\r\n \r\n-Future<List<String>> getCoachExercises() async {\r\n+Future<List<String>> getCoachExercises(var workoutName) async {\r\n   var exerciseMap = <String, String>{};\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n@@ -91,5 +91,6 @@\n       //debugPrint(\"Firebase\");\r\n       exerciseMap = Map<String, String>.from(data[\"exerciseMap\"]);\r\n     }\r\n   });\r\n+  return exerciseMap.keys();\r\n }\r\n"
+                },
+                {
+                    "date": 1655780563452,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -79,8 +79,9 @@\n }\r\n \r\n Future<List<String>> getCoachExercises(var workoutName) async {\r\n   var exerciseMap = <String, String>{};\r\n+  var workoutNames = [];\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('name', isEqualTo: workoutName)\r\n@@ -91,6 +92,6 @@\n       //debugPrint(\"Firebase\");\r\n       exerciseMap = Map<String, String>.from(data[\"exerciseMap\"]);\r\n     }\r\n   });\r\n-  return exerciseMap.keys();\r\n+  return exerciseMap.keys;\r\n }\r\n"
+                },
+                {
+                    "date": 1655780578104,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -90,8 +90,9 @@\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       //debugPrint(\"Firebase\");\r\n       exerciseMap = Map<String, String>.from(data[\"exerciseMap\"]);\r\n+      workoutNames = exerciseMap.keys;\r\n     }\r\n   });\r\n   return exerciseMap.keys;\r\n }\r\n"
+                },
+                {
+                    "date": 1655780583944,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -93,6 +93,6 @@\n       exerciseMap = Map<String, String>.from(data[\"exerciseMap\"]);\r\n       workoutNames = exerciseMap.keys;\r\n     }\r\n   });\r\n-  return exerciseMap.keys;\r\n+  return workoutNames;\r\n }\r\n"
+                },
+                {
+                    "date": 1655780605811,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -79,9 +79,9 @@\n }\r\n \r\n Future<List<String>> getCoachExercises(var workoutName) async {\r\n   var exerciseMap = <String, String>{};\r\n-  var workoutNames = [];\r\n+  List<String> workoutNames = [];\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n       .where('name', isEqualTo: workoutName)\r\n"
+                },
+                {
+                    "date": 1655780613804,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -78,9 +78,9 @@\n   return exerciseMap;\r\n }\r\n \r\n Future<List<String>> getCoachExercises(var workoutName) async {\r\n-  var exerciseMap = <String, String>{};\r\n+  Map<String, String> exerciseMap = <String, String>{};\r\n   List<String> workoutNames = [];\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection('workouts')\r\n"
+                },
+                {
+                    "date": 1655780905554,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -90,9 +90,9 @@\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       //debugPrint(\"Firebase\");\r\n       exerciseMap = Map<String, String>.from(data[\"exerciseMap\"]);\r\n-      workoutNames = exerciseMap.keys;\r\n+      exerciseMap.forEach(k, v) => workoutNames.add(k);\r\n     }\r\n   });\r\n   return workoutNames;\r\n }\r\n"
+                },
+                {
+                    "date": 1655780924212,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -90,9 +90,9 @@\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       //debugPrint(\"Firebase\");\r\n       exerciseMap = Map<String, String>.from(data[\"exerciseMap\"]);\r\n-      exerciseMap.forEach(k, v) => workoutNames.add(k);\r\n+      exerciseMap.forEach((k, v) => workoutNames.add(k));\r\n     }\r\n   });\r\n   return workoutNames;\r\n }\r\n"
+                },
+                {
+                    "date": 1655781882077,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,9 +59,11 @@\n     //debugPrint(\"QuerySnap length: ${querySnapshot.docs.length}\");\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       //debugPrint(\"Firebase\");\r\n-      workoutName = data[\"workoutName\"];\r\n+      if(data.containsKey(\"workoutName\")){\r\n+        workoutName = data[\"workoutName\"];\r\n+      }\r\n     }\r\n   });\r\n \r\n   await FirebaseFirestore.instance\r\n"
                 }
             ],
             "date": 1655353314724,

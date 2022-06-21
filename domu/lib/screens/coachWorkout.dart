@@ -35,7 +35,7 @@ class _CoachWorkoutScreenState extends State<CoachWorkoutScreen> {
         .doc(currentUserUid)
         .get()
         .then((DocumentSnapshot docSnapshot) {
-      classCode = docSnapshot.data()?["classroom_codes"];
+      classCode = docSnapshot.data()?["classroomCode"];
       setState(() {
         classCode;
       });
@@ -73,19 +73,30 @@ class _CoachWorkoutScreenState extends State<CoachWorkoutScreen> {
     var currentUserUid = auth.currentUser?.uid;
     var docId;
 
-    await FirebaseFirestore.instance
+    if(workoutNames.contains(workoutName)){
+      await FirebaseFirestore.instance
         .collection("classrooms")
         .where("classroomCode", isEqualTo: classCode)
         .get()
         .then((QuerySnapshot querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        docId = doc.id;
-      }
-    });
+        for (var doc in querySnapshot.docs) {
+          docId = doc.id;
+        }
+      });
 
-    FirebaseFirestore.instance.collection("classrooms").doc(docId).update({
-      "workoutName": workoutName,
-    });
+      FirebaseFirestore.instance.collection("classrooms").doc(docId).update({
+        "workoutName": workoutName,
+      });
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const HomeCoachScreen()));
+    }
+
+    
+
+
   }
 
   @override
