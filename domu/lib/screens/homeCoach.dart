@@ -28,7 +28,7 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getExercises();
+    // getExercises();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -145,7 +145,7 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
                       ),
                     ),
                     Container(
-                       padding: const EdgeInsets.fromLTRB(20, 20, 10, 20),
+                      padding: const EdgeInsets.fromLTRB(20, 20, 10, 20),
                       alignment: Alignment.center,
                       child: Column(
                         children: [

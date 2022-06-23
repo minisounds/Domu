@@ -80,6 +80,7 @@ Future<Map<String, String>?> getWorkoutMap() async {
       exerciseMap = Map<String, String>.from(data["exerciseMap"]);
     }
   });
+
   return exerciseMap;
 }
 
@@ -99,5 +100,6 @@ Future<List<String>> getCoachExercises(var workoutName) async {
       exerciseMap.forEach((k, v) => workoutNames.add(k));
     }
   });
+
   return workoutNames;
 }
