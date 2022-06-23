@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 33,
+            "activePatchIndex": 35,
             "patches": [
                 {
                     "date": 1655779602249,
@@ -140,6 +140,14 @@
                 {
                     "date": 1655783796371,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -144,10 +144,9 @@\n                         ),\r\n                       ),\r\n                     ),\r\n                     Container(\r\n-                       padding: const EdgeInsets.fromLTRB(\r\n-                                        20, 0, 10, 20),\r\n+                       padding: const EdgeInsets.fromLTRB(20, 20, 10, 20),\r\n                       alignment: Alignment.center,\r\n                       child: Column(\r\n                         children: [\r\n                           ElevatedButton(\r\n"
+                },
+                {
+                    "date": 1655959158437,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,11 +27,12 @@\n   }\r\n \r\n   @override\r\n   Widget build(BuildContext context) {\r\n-    getExercises();\r\n+    // getExercises();\r\n     return Scaffold(\r\n       appBar: AppBar(\r\n+        automaticallyImplyLeading: false,\r\n         title: const Text(\r\n           \"Domú\",\r\n           style: TextStyle(fontSize: 30),\r\n         ),\r\n@@ -144,9 +145,9 @@\n                         ),\r\n                       ),\r\n                     ),\r\n                     Container(\r\n-                       padding: const EdgeInsets.fromLTRB(20, 20, 10, 20),\r\n+                      padding: const EdgeInsets.fromLTRB(20, 20, 10, 20),\r\n                       alignment: Alignment.center,\r\n                       child: Column(\r\n                         children: [\r\n                           ElevatedButton(\r\n"
+                },
+                {
+                    "date": 1655959238380,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,8 +31,9 @@\n     // getExercises();\r\n     return Scaffold(\r\n       appBar: AppBar(\r\n         automaticallyImplyLeading: false,\r\n+        centerTitle: true,\r\n         title: const Text(\r\n           \"Domú\",\r\n           style: TextStyle(fontSize: 30),\r\n         ),\r\n"
                 }
             ],
             "date": 1655779602249,

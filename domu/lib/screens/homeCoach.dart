@@ -31,6 +31,8 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
     // getExercises();
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
         title: const Text(
           "Domú",
           style: TextStyle(fontSize: 30),
