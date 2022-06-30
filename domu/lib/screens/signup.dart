@@ -190,6 +190,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
               child: TextField(
                 controller: passwordController,
+                obscureText: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Enter your password here',

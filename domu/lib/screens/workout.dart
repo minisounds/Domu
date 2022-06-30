@@ -37,7 +37,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   void firebasePulls() async {
     var exerciseMap = await getWorkoutMap();
     for (var exerciseName in exerciseMap!.keys) {
-        exerciseNames.add(exerciseName);
+      exerciseNames.add(exerciseName);
     }
     for (var exerciseLink in exerciseMap.values) {
       imageStrings.add(exerciseLink);
@@ -53,12 +53,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       if (index < (imageStrings.length - 1)) {
         index += 1;
         _countDownController.start();
-      }else{
+      } else {
         //Show that workout is finished somehow
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => const HomeStudentScreen()),
+          MaterialPageRoute(builder: (context) => const HomeStudentScreen()),
         );
       }
     });
@@ -70,12 +69,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     return Scaffold(
         appBar: AppBar(title: const Text("Workout"), actions: [
           Container(
-            alignment: Alignment.centerRight,
-            child: Text(
-              "Progress: ${index + 1} / ${imageStrings.length}",
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15,),
-            )
-          )
+              alignment: Alignment.centerRight,
+              child: Text(
+                "Progress: ${index + 1} / ${imageStrings.length}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ))
           //put workout progress here?
         ]),
         body: SingleChildScrollView(
@@ -83,13 +84,25 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           Container(
             child: Text(
               "${exerciseNames.isNotEmpty ? exerciseNames[index] : "Name"}",
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30,),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+              ),
+              textAlign: TextAlign.center,
             ),
             alignment: Alignment.center,
             padding: const EdgeInsets.all(8.0),
           ),
           Container(
-            child: Image.network(imageStrings.isNotEmpty ? imageStrings[index] : "https://www.freeiconspng.com/thumbs/load-icon-png/load-icon-png-8.png"),
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.65,
+              //maximum height set to 100% of vertical height
+            ),
+            child: Image.network(
+                imageStrings.isNotEmpty
+                    ? imageStrings[index]
+                    : "https://www.freeiconspng.com/thumbs/load-icon-png/load-icon-png-8.png",
+                scale: 0.8),
             alignment: Alignment.center,
             padding: const EdgeInsets.all(18.0),
           ),

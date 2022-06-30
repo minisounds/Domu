@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'globalVars.dart' as globals;
 //import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'firebase_options.dart';
+import './screens/prepareForWorkout.dart';
 import 'package:domu/screens/homeStudent.dart';
 import 'screens/homeCoach.dart';
 import './screens/workout.dart';

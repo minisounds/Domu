@@ -3,6 +3,7 @@ import 'package:domu/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:domu/screens/signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import './prepareForWorkout.dart';
 import '../utils.dart';
 
 class HomeStudentScreen extends StatefulWidget {
@@ -153,7 +154,8 @@ class _HomeStudentScreenState extends State<HomeStudentScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const WorkoutScreen()),
+                              builder: (context) =>
+                                  const PrepareForWorkoutScreen()),
                         );
                       },
                       child: const Text("START WORKOUT")),

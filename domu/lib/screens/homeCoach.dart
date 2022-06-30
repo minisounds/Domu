@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:domu/screens/coachWorkout.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../globalVars.dart' as globals;
 import '../utils.dart';
 
 class HomeCoachScreen extends StatefulWidget {
@@ -12,11 +14,60 @@ class HomeCoachScreen extends StatefulWidget {
 class _HomeCoachScreenState extends State<HomeCoachScreen> {
   final ScrollController _scrollController = ScrollController();
   var workoutNames = [];
+  String currentWorkout = "NONE";
   Map<String, String> workoutMap = <String, String>{};
 
   _HomeCoachScreenState() {
     getExercises();
   }
+
+  // // void loadChosenWorkoutName() async {
+  // //   currentWorkout = await getWorkoutName();
+  // // }
+
+  // Future<String> getWorkoutName() async {
+  //   // String workoutName;
+  //   String classCode = "";
+  //   // first: pull the classroom code from the account
+  //   // second: query the classroom and return the workout name. if the field is empty / doesn't exist, then return: "No Workout Selected Currently"
+
+  //   await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(globals.user?.uid)
+  //       .get()
+  //       .then((documentSnapshot) {
+  //     var data = documentSnapshot.data();
+  //     print("user data: ");
+  //     print(data);
+  //     if (data != null && data.containsKey("classroomCode")) {
+  //       classCode = data["classroomCode"];
+  //     }
+  //   });
+  //   print("completed classCode fetch");
+  //   await FirebaseFirestore.instance
+  //       .collection('classrooms')
+  //       .where('classroomCode', isEqualTo: classCode)
+  //       .get()
+  //       .then((querySnapshot) {
+  //     //debugPrint("QuerySnap length: ${querySnapshot.docs.length}");
+  //     for (var doc in querySnapshot.docs) {
+  //       var data = doc.data();
+  //       print("in classrooms Firebase call" + data["workoutName"]);
+  //       print("workout name:" + data['workoutName']);
+  //       currentWorkout = data["workoutName"];
+  //       // return (data["workoutName"]);
+  //       //debugPrint("Firebase");
+  //       // if (data.containsKey("workoutName")) {
+  //       //   workoutName = data["workoutName"];
+  //       //   return workoutName;
+  //       // } else {
+  //       //   return "No Workout Selected";
+  //       // }
+  //     }
+  //   });
+  //   print(currentWorkout);
+  //   return currentWorkout;
+  // }
 
   void getExercises() async {
     workoutMap = (await getWorkoutMap())!;
@@ -28,7 +79,11 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // loadChosenWorkoutName();
+    // print("currentWorkout:" + currentWorkout);
     // getExercises();
+
+    // print(currentWorkout);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -151,6 +206,7 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
                       alignment: Alignment.center,
                       child: Column(
                         children: [
+                          // Text(currentWorkout),
                           ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
@@ -160,7 +216,7 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
                                           const CoachWorkoutScreen()),
                                 );
                               },
-                              child: const Text("Add a Workout")),
+                              child: const Text("Select Workout")),
                         ],
                       ),
                     ),
