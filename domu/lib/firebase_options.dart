@@ -62,6 +62,6 @@ class DefaultFirebaseOptions {
     projectId: 'domu-34f51',
     storageBucket: 'domu-34f51.appspot.com',
     iosClientId: '591742475220-80fr8te9473t6g5darkr7ld7vknet6md.apps.googleusercontent.com',
-    iosBundleId: 'com.example.domu',
+    iosBundleId: 'com.jamma.domu',
   );
 }

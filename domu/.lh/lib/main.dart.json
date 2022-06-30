@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 42,
             "patches": [
                 {
                     "date": 1643342891580,
@@ -12,6 +12,170 @@
                 {
                     "date": 1648786837633,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,15 @@\n import 'package:flutter/material.dart';\r\n+import 'package:firebase_auth/firebase_auth.dart';\r\n import 'package:firebase_core/firebase_core.dart';\r\n+//import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';\r\n import 'firebase_options.dart';\r\n import 'package:domu/screens/homeStudent.dart';\r\n import 'screens/homeCoach.dart';\r\n import './screens/workout.dart';\r\n import './screens/signup.dart';\r\n \r\n+final FirebaseAuth auth = FirebaseAuth.instance;\r\n void main() async {\r\n   WidgetsFlutterBinding.ensureInitialized();\r\n   await Firebase.initializeApp(\r\n     options: DefaultFirebaseOptions.currentPlatform,\r\n@@ -37,4 +40,16 @@\n       home: const SignUpScreen(),\r\n     );\r\n   }\r\n }\r\n+// class _RegisterEmailSection extends StatefulWidget {\r\n+//   final String title = 'Registration';\r\n+//   @override\r\n+//   State<StatefulWidget> createState() => \r\n+//       _RegisterEmailSectionState();\r\n+// }\r\n+// class _RegisterEmailSectionState extends State<_RegisterEmailSection> {\r\n+// @override\r\n+//   Widget build(BuildContext context) {\r\n+//     //TODO UI content here\r\n+//   }\r\n+// }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1656461211898,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,23 +1,43 @@\n import 'package:flutter/material.dart';\r\n import 'package:firebase_auth/firebase_auth.dart';\r\n+import 'package:firebase_auth/firebase_storage.dart';\r\n import 'package:firebase_core/firebase_core.dart';\r\n+import 'globalVars.dart' as globals;\r\n //import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';\r\n import 'firebase_options.dart';\r\n import 'package:domu/screens/homeStudent.dart';\r\n import 'screens/homeCoach.dart';\r\n import './screens/workout.dart';\r\n import './screens/signup.dart';\r\n+import './screens/signup.dart';\r\n \r\n final FirebaseAuth auth = FirebaseAuth.instance;\r\n+final storageRef = FirebaseStorage.instance.ref();\r\n+\r\n void main() async {\r\n   WidgetsFlutterBinding.ensureInitialized();\r\n   await Firebase.initializeApp(\r\n     options: DefaultFirebaseOptions.currentPlatform,\r\n   );\r\n+  //auth.signOut();\r\n+  FirebaseAuth.instance.authStateChanges().listen((User? user) {\r\n+    if (user == null) {\r\n+      print('User is currently signed out!');\r\n+    } else {\r\n+      print('User is signed in!');\r\n+      print(user);\r\n+    }\r\n+    globals.user = user;\r\n+  });\r\n+  downloadImages();\r\n   runApp(const MyApp());\r\n }\r\n \r\n+void downloadImages() async {\r\n+  await \r\n+}\r\n+\r\n class MyApp extends StatelessWidget {\r\n   const MyApp({Key? key}) : super(key: key);\r\n \r\n   // This widget is the root of your application.\r\n"
+                },
+                {
+                    "date": 1656461233294,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n+import 'package:firebase_storage/firebase_storage.dart';\r\n import 'package:flutter/material.dart';\r\n import 'package:firebase_auth/firebase_auth.dart';\r\n-import 'package:firebase_auth/firebase_storage.dart';\r\n import 'package:firebase_core/firebase_core.dart';\r\n import 'globalVars.dart' as globals;\r\n //import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';\r\n import 'firebase_options.dart';\r\n"
+                },
+                {
+                    "date": 1656461509926,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+import 'package:cloud_firestore/cloud_firestore.dart';\r\n import 'package:firebase_storage/firebase_storage.dart';\r\n import 'package:flutter/material.dart';\r\n import 'package:firebase_auth/firebase_auth.dart';\r\n import 'package:firebase_core/firebase_core.dart';\r\n@@ -33,9 +34,16 @@\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n-  await \r\n+  await FirebaseFirestore.instance\r\n+      .collection(\"workouts\")\r\n+      .get()\r\n+      .then((QuerySnapshot querySnapshot) => {\r\n+        for(doc in querySnapshot.docs){\r\n+\r\n+        }\r\n+      });\r\n }\r\n \r\n class MyApp extends StatelessWidget {\r\n   const MyApp({Key? key}) : super(key: key);\r\n"
+                },
+                {
+                    "date": 1656461599097,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,10 +38,11 @@\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n       .then((QuerySnapshot querySnapshot) => {\r\n-        for(doc in querySnapshot.docs){\r\n-\r\n+        for(var doc in querySnapshot.docs){\r\n+          data = doc.data();\r\n+          Map<String, String> map = doc.data()[\"exerciseMap\"];\r\n         }\r\n       });\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1656461780729,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,15 +34,18 @@\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n+  List<String> exerciseList = [];\r\n+\r\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n       .then((QuerySnapshot querySnapshot) => {\r\n-        for(var doc in querySnapshot.docs){\r\n-          data = doc.data();\r\n-          Map<String, String> map = doc.data()[\"exerciseMap\"];\r\n+        for (var doc in querySnapshot.docs) {\r\n+          var data = doc.data();\r\n+          data[\"exerciseMap\"].keys.forEach((key) => exerciseList.add(key));\r\n+\r\n         }\r\n       });\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1656461789930,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n       .get()\r\n       .then((QuerySnapshot querySnapshot) => {\r\n         for (var doc in querySnapshot.docs) {\r\n           var data = doc.data();\r\n-          data[\"exerciseMap\"].keys.forEach((key) => exerciseList.add(key));\r\n+          data[\"exerciseMap\"].keys.forEach((key) => {exerciseList.add(key)});\r\n \r\n         }\r\n       });\r\n }\r\n"
+                },
+                {
+                    "date": 1656461796049,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,9 +43,8 @@\n       .then((QuerySnapshot querySnapshot) => {\r\n         for (var doc in querySnapshot.docs) {\r\n           var data = doc.data();\r\n           data[\"exerciseMap\"].keys.forEach((key) => {exerciseList.add(key)});\r\n-\r\n         }\r\n       });\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1656462396805,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,24 +29,26 @@\n       print(user);\r\n     }\r\n     globals.user = user;\r\n   });\r\n-  downloadImages();\r\n+  //downloadImages();\r\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n-  List<String> exerciseList = [];\r\n+  Map<String, String> workoutMap = [];\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n-      .then((QuerySnapshot querySnapshot) => {\r\n-        for (var doc in querySnapshot.docs) {\r\n-          var data = doc.data();\r\n-          data[\"exerciseMap\"].keys.forEach((key) => {exerciseList.add(key)});\r\n-        }\r\n-      });\r\n+      .then((QuerySnapshot querySnapshot) {\r\n+    for (var doc in querySnapshot.docs) {\r\n+      var data = doc.data();\r\n+      List<String> tempList = [];\r\n+      data[\"exerciseMap\"].keys.forEach((key) => {tempList.add(key)});\r\n+      workoutMap.add(\r\n+    }\r\n+  });\r\n }\r\n \r\n class MyApp extends StatelessWidget {\r\n   const MyApp({Key? key}) : super(key: key);\r\n"
+                },
+                {
+                    "date": 1656462410700,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n-  Map<String, String> workoutMap = [];\r\n+  Map<String, String> workoutMap = Map<String, String>{};\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1656462513971,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n-  Map<String, String> workoutMap = Map<String, String>{};\r\n+  Map<String, List<String>> workoutMap = <String, List<String>>{};\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n@@ -44,9 +44,9 @@\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       List<String> tempList = [];\r\n       data[\"exerciseMap\"].keys.forEach((key) => {tempList.add(key)});\r\n-      workoutMap.add(\r\n+      workoutMap.putIfAbsent(data[\"name\"], tempList);\r\n     }\r\n   });\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1656462526360,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n-  Map<String, List<String>> workoutMap = <String, List<String>>{};\r\n+  Map<String, List<String>> workoutMap = <String, List<String>>();\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1656462581354,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n-  Map<String, List<String>> workoutMap = <String, List<String>>();\r\n+  Map<String, dynamic> workoutMap = <String, dynamic>{};\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1656462591170,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n-  Map<String, dynamic> workoutMap = <String, dynamic>{};\r\n+  Map<String, dynamic> workoutMap = Map<String, dynamic>{};\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1656462602658,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n-  Map<String, dynamic> workoutMap = Map<String, dynamic>{};\r\n+  Map<String, dynamic> workoutMap = new Map<String, dynamic>();\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1656462619156,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n-  Map<String, dynamic> workoutMap = new Map<String, dynamic>();\r\n+  Map<String, dynamic> workoutMap = <String, dynamic>{};\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1656462638402,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,9 +43,9 @@\n       .then((QuerySnapshot querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       List<String> tempList = [];\r\n-      data[\"exerciseMap\"].keys.forEach((key) => {tempList.add(key)});\r\n+      data[\"exerciseMap\"].keys().forEach((key) => {tempList.add(key)});\r\n       workoutMap.putIfAbsent(data[\"name\"], tempList);\r\n     }\r\n   });\r\n }\r\n"
+                },
+                {
+                    "date": 1656462651208,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,9 @@\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n-  Map<String, dynamic> workoutMap = <String, dynamic>{};\r\n+  Map<String, dynamic> workoutMap = <String, List<String>>{};\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n"
+                },
+                {
+                    "date": 1656462661521,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,17 +34,17 @@\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n-  Map<String, dynamic> workoutMap = <String, List<String>>{};\r\n+  Map<String, List<String>> workoutMap = <String, List<String>>{};\r\n \r\n   await FirebaseFirestore.instance\r\n       .collection(\"workouts\")\r\n       .get()\r\n       .then((QuerySnapshot querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n-      List<String> tempList = [];\r\n+      List<String> tempList = List<String>;\r\n       data[\"exerciseMap\"].keys().forEach((key) => {tempList.add(key)});\r\n       workoutMap.putIfAbsent(data[\"name\"], tempList);\r\n     }\r\n   });\r\n"
+                },
+                {
+                    "date": 1656462678600,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n       .get()\r\n       .then((QuerySnapshot querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n-      List<String> tempList = List<String>;\r\n+      List<String> tempList = [];\r\n       data[\"exerciseMap\"].keys().forEach((key) => {tempList.add(key)});\r\n       workoutMap.putIfAbsent(data[\"name\"], tempList);\r\n     }\r\n   });\r\n"
+                },
+                {
+                    "date": 1656462810825,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,10 +43,10 @@\n       .then((QuerySnapshot querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       List<String> tempList = [];\r\n-      data[\"exerciseMap\"].keys().forEach((key) => {tempList.add(key)});\r\n-      workoutMap.putIfAbsent(data[\"name\"], tempList);\r\n+      data[\"exerciseMap\"].keys().forEach((key) => tempList.add(key));\r\n+      workoutMap[data[\"name\"]] = tempList;\r\n     }\r\n   });\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1656462953882,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,12 +43,16 @@\n       .then((QuerySnapshot querySnapshot) {\r\n     for (var doc in querySnapshot.docs) {\r\n       var data = doc.data();\r\n       List<String> tempList = [];\r\n-      data[\"exerciseMap\"].keys().forEach((key) => tempList.add(key));\r\n+      data[\"exerciseMap\"].keys.forEach((key) => tempList.add(key));\r\n       workoutMap[data[\"name\"]] = tempList;\r\n     }\r\n   });\r\n+\r\n+  for(var name in workoutMap.keys){\r\n+\r\n+  }\r\n }\r\n \r\n class MyApp extends StatelessWidget {\r\n   const MyApp({Key? key}) : super(key: key);\r\n"
+                },
+                {
+                    "date": 1656462992467,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,9 +48,10 @@\n       workoutMap[data[\"name\"]] = tempList;\r\n     }\r\n   });\r\n \r\n-  for(var name in workoutMap.keys){\r\n+  for (var name in workoutMap.keys) {\r\n+    Reference? workoutSet = storageRef.child(name);\r\n \r\n   }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1656463315495,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -49,10 +49,17 @@\n     }\r\n   });\r\n \r\n   for (var name in workoutMap.keys) {\r\n-    Reference? workoutSet = storageRef.child(name);\r\n+    List<String> workoutSet = workoutMap[name]!;\r\n+    for (var workout in workoutSet) {\r\n+      final islandRef = storageRef.child(\"$name/$workout\");\r\n+      final appDocDir = await getApplicationDocumentsDirectory();\r\n+      final filePath = \"${appDocDir.absolute}/images/island.jpg\";\r\n+      final file = File(filePath);\r\n \r\n+      final downloadTask = islandRef.writeToFile(file);\r\n+    }\r\n   }\r\n }\r\n \r\n class MyApp extends StatelessWidget {\r\n"
+                },
+                {
+                    "date": 1656463462002,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,6 @@\n+import 'dart:html';\r\n+\r\n import 'package:cloud_firestore/cloud_firestore.dart';\r\n import 'package:firebase_storage/firebase_storage.dart';\r\n import 'package:flutter/material.dart';\r\n import 'package:firebase_auth/firebase_auth.dart';\r\n"
+                },
+                {
+                    "date": 1656463649865,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,9 @@\n import 'package:firebase_storage/firebase_storage.dart';\r\n import 'package:flutter/material.dart';\r\n import 'package:firebase_auth/firebase_auth.dart';\r\n import 'package:firebase_core/firebase_core.dart';\r\n+import 'package:path_provider/path_provider.dart';\r\n import 'globalVars.dart' as globals;\r\n //import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';\r\n import 'firebase_options.dart';\r\n import 'package:domu/screens/homeStudent.dart';\r\n@@ -55,9 +56,9 @@\n     List<String> workoutSet = workoutMap[name]!;\r\n     for (var workout in workoutSet) {\r\n       final islandRef = storageRef.child(\"$name/$workout\");\r\n       final appDocDir = await getApplicationDocumentsDirectory();\r\n-      final filePath = \"${appDocDir.absolute}/images/island.jpg\";\r\n+      final filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n       final file = File(filePath);\r\n \r\n       final downloadTask = islandRef.writeToFile(file);\r\n     }\r\n"
+                },
+                {
+                    "date": 1656463696269,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,9 +57,9 @@\n     for (var workout in workoutSet) {\r\n       final islandRef = storageRef.child(\"$name/$workout\");\r\n       final appDocDir = await getApplicationDocumentsDirectory();\r\n       final filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n-      final file = File(filePath);\r\n+      final file = File.fromRawPath(filePath);\r\n \r\n       final downloadTask = islandRef.writeToFile(file);\r\n     }\r\n   }\r\n"
+                },
+                {
+                    "date": 1656463745770,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,14 +54,14 @@\n \r\n   for (var name in workoutMap.keys) {\r\n     List<String> workoutSet = workoutMap[name]!;\r\n     for (var workout in workoutSet) {\r\n-      final islandRef = storageRef.child(\"$name/$workout\");\r\n-      final appDocDir = await getApplicationDocumentsDirectory();\r\n-      final filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n-      final file = File.fromRawPath(filePath);\r\n+      var islandRef = storageRef.child(\"$name/$workout\");\r\n+      var appDocDir = await getApplicationDocumentsDirectory();\r\n+      String filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n+      var file = File(filePath);\r\n \r\n-      final downloadTask = islandRef.writeToFile(file);\r\n+      var downloadTask = islandRef.writeToFile(file);\r\n     }\r\n   }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1656463754646,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,9 +57,9 @@\n     for (var workout in workoutSet) {\r\n       var islandRef = storageRef.child(\"$name/$workout\");\r\n       var appDocDir = await getApplicationDocumentsDirectory();\r\n       String filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n-      var file = File(filePath);\r\n+      File file = File(filePath);\r\n \r\n       var downloadTask = islandRef.writeToFile(file);\r\n     }\r\n   }\r\n"
+                },
+                {
+                    "date": 1656463791840,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,9 +54,9 @@\n \r\n   for (var name in workoutMap.keys) {\r\n     List<String> workoutSet = workoutMap[name]!;\r\n     for (var workout in workoutSet) {\r\n-      var islandRef = storageRef.child(\"$name/$workout\");\r\n+      var imageRef = storageRef.child(\"$name/$workout\");\r\n       var appDocDir = await getApplicationDocumentsDirectory();\r\n       String filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n       File file = File(filePath);\r\n \r\n"
+                },
+                {
+                    "date": 1656463801022,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,9 +59,9 @@\n       var appDocDir = await getApplicationDocumentsDirectory();\r\n       String filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n       File file = File(filePath);\r\n \r\n-      var downloadTask = islandRef.writeToFile(file);\r\n+      var downloadTask = imageRef.writeToFile(file);\r\n     }\r\n   }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1656463857629,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,9 +54,9 @@\n \r\n   for (var name in workoutMap.keys) {\r\n     List<String> workoutSet = workoutMap[name]!;\r\n     for (var workout in workoutSet) {\r\n-      var imageRef = storageRef.child(\"$name/$workout\");\r\n+      var imageRef = storageRef.child( \"$name/$workout\");\r\n       var appDocDir = await getApplicationDocumentsDirectory();\r\n       String filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n       File file = File(filePath);\r\n \r\n"
+                },
+                {
+                    "date": 1656463902576,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,9 +54,9 @@\n \r\n   for (var name in workoutMap.keys) {\r\n     List<String> workoutSet = workoutMap[name]!;\r\n     for (var workout in workoutSet) {\r\n-      var imageRef = storageRef.child( \"$name/$workout\");\r\n+      var imageRef = storageRef.child(\"$name/$workout\");\r\n       var appDocDir = await getApplicationDocumentsDirectory();\r\n       String filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n       File file = File(filePath);\r\n \r\n"
+                },
+                {
+                    "date": 1656464058589,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n import 'dart:html';\r\n+import 'dart:io';\r\n \r\n import 'package:cloud_firestore/cloud_firestore.dart';\r\n import 'package:firebase_storage/firebase_storage.dart';\r\n import 'package:flutter/material.dart';\r\n"
+                },
+                {
+                    "date": 1656464068541,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n-import 'dart:html';\r\n import 'dart:io';\r\n \r\n import 'package:cloud_firestore/cloud_firestore.dart';\r\n import 'package:firebase_storage/firebase_storage.dart';\r\n"
+                },
+                {
+                    "date": 1656551442036,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n       print(user);\r\n     }\r\n     globals.user = user;\r\n   });\r\n-  //downloadImages();\r\n+  downloadImages();\r\n   runApp(const MyApp());\r\n }\r\n \r\n void downloadImages() async {\r\n"
+                },
+                {
+                    "date": 1656551533019,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -60,8 +60,27 @@\n       String filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n       File file = File(filePath);\r\n \r\n       var downloadTask = imageRef.writeToFile(file);\r\n+      downloadTask.snapshotEvents.listen((taskSnapshot) {\r\n+        switch (taskSnapshot.state) {\r\n+          case TaskState.running:\r\n+            // TODO: Handle this case.\r\n+            break;\r\n+          case TaskState.paused:\r\n+            // TODO: Handle this case.\r\n+            break;\r\n+          case TaskState.success:\r\n+            print(\"Success!\");\r\n+            break;\r\n+          case TaskState.canceled:\r\n+            // TODO: Handle this case.\r\n+            break;\r\n+          case TaskState.error:\r\n+            // TODO: Handle this case.\r\n+            break;\r\n+        }\r\n+      });\r\n     }\r\n   }\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1656551547175,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -73,11 +73,13 @@\n             print(\"Success!\");\r\n             break;\r\n           case TaskState.canceled:\r\n             // TODO: Handle this case.\r\n+            print(\"Canceled\")\r\n             break;\r\n           case TaskState.error:\r\n             // TODO: Handle this case.\r\n+            print(\"Error\");\r\n             break;\r\n         }\r\n       });\r\n     }\r\n"
+                },
+                {
+                    "date": 1656551575337,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -63,22 +63,19 @@\n       var downloadTask = imageRef.writeToFile(file);\r\n       downloadTask.snapshotEvents.listen((taskSnapshot) {\r\n         switch (taskSnapshot.state) {\r\n           case TaskState.running:\r\n-            // TODO: Handle this case.\r\n             break;\r\n           case TaskState.paused:\r\n-            // TODO: Handle this case.\r\n+            print(\"Paused\");\r\n             break;\r\n           case TaskState.success:\r\n             print(\"Success!\");\r\n             break;\r\n           case TaskState.canceled:\r\n-            // TODO: Handle this case.\r\n-            print(\"Canceled\")\r\n+            print(\"Canceled\");\r\n             break;\r\n           case TaskState.error:\r\n-            // TODO: Handle this case.\r\n             print(\"Error\");\r\n             break;\r\n         }\r\n       });\r\n"
+                },
+                {
+                    "date": 1656553171556,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,9 +54,9 @@\n \r\n   for (var name in workoutMap.keys) {\r\n     List<String> workoutSet = workoutMap[name]!;\r\n     for (var workout in workoutSet) {\r\n-      var imageRef = storageRef.child(\"$name/$workout\");\r\n+      var imageRef = storageRef.child(\"$name/$workout.gif\");\r\n       var appDocDir = await getApplicationDocumentsDirectory();\r\n       String filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n       File file = File(filePath);\r\n \r\n"
+                },
+                {
+                    "date": 1656553361394,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,8 +54,12 @@\n \r\n   for (var name in workoutMap.keys) {\r\n     List<String> workoutSet = workoutMap[name]!;\r\n     for (var workout in workoutSet) {\r\n+      var workoutName = \"Domu\";\r\n+      for (var element in workout.split(\" \")) {\r\n+        workoutName += element;\r\n+      }\r\n       var imageRef = storageRef.child(\"$name/$workout.gif\");\r\n       var appDocDir = await getApplicationDocumentsDirectory();\r\n       String filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n       File file = File(filePath);\r\n"
+                },
+                {
+                    "date": 1656553419179,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,11 +58,11 @@\n       var workoutName = \"Domu\";\r\n       for (var element in workout.split(\" \")) {\r\n         workoutName += element;\r\n       }\r\n-      var imageRef = storageRef.child(\"$name/$workout.gif\");\r\n+      var imageRef = storageRef.child(\"$name/$workoutName.gif\");\r\n       var appDocDir = await getApplicationDocumentsDirectory();\r\n-      String filePath = \"${appDocDir.absolute}/assets/$name/$workout\";\r\n+      String filePath = \"${appDocDir.absolute}/assets/$name/$workoutName\";\r\n       File file = File(filePath);\r\n \r\n       var downloadTask = imageRef.writeToFile(file);\r\n       downloadTask.snapshotEvents.listen((taskSnapshot) {\r\n"
                 }
             ],
             "date": 1643342891580,

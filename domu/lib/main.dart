@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:path_provider/path_provider.dart';
 import 'globalVars.dart' as globals;
 //import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'firebase_options.dart';
@@ -11,6 +16,8 @@ import './screens/signup.dart';
 import './screens/signup.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
+final storageRef = FirebaseStorage.instance.ref();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -26,7 +33,58 @@ void main() async {
     }
     globals.user = user;
   });
+  downloadImages();
   runApp(const MyApp());
+}
+
+void downloadImages() async {
+  Map<String, List<String>> workoutMap = <String, List<String>>{};
+
+  await FirebaseFirestore.instance
+      .collection("workouts")
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+    for (var doc in querySnapshot.docs) {
+      var data = doc.data();
+      List<String> tempList = [];
+      data["exerciseMap"].keys.forEach((key) => tempList.add(key));
+      workoutMap[data["name"]] = tempList;
+    }
+  });
+
+  for (var name in workoutMap.keys) {
+    List<String> workoutSet = workoutMap[name]!;
+    for (var workout in workoutSet) {
+      var workoutName = "Domu";
+      for (var element in workout.split(" ")) {
+        workoutName += element;
+      }
+      var imageRef = storageRef.child("$name/$workoutName.gif");
+      var appDocDir = await getApplicationDocumentsDirectory();
+      String filePath = "${appDocDir.absolute}/assets/$name/$workoutName";
+      File file = File(filePath);
+
+      var downloadTask = imageRef.writeToFile(file);
+      downloadTask.snapshotEvents.listen((taskSnapshot) {
+        switch (taskSnapshot.state) {
+          case TaskState.running:
+            break;
+          case TaskState.paused:
+            print("Paused");
+            break;
+          case TaskState.success:
+            print("Success!");
+            break;
+          case TaskState.canceled:
+            print("Canceled");
+            break;
+          case TaskState.error:
+            print("Error");
+            break;
+        }
+      });
+    }
+  }
 }
 
 class MyApp extends StatelessWidget {

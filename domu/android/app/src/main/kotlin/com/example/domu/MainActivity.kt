@@ -1,4 +1,4 @@
-package com.example.domu
+package com.jamma.domu
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.domu">
+    package="com.jamma.domu">
    <application
         android:label="domu"
         android:name="${applicationName}"
