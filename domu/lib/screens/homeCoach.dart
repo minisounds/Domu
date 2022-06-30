@@ -21,53 +21,53 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
     getExercises();
   }
 
-  // // void loadChosenWorkoutName() async {
-  // //   currentWorkout = await getWorkoutName();
-  // // }
+  void loadChosenWorkoutName() async {
+    currentWorkout = await getWorkoutName();
+  }
 
-  // Future<String> getWorkoutName() async {
-  //   // String workoutName;
-  //   String classCode = "";
-  //   // first: pull the classroom code from the account
-  //   // second: query the classroom and return the workout name. if the field is empty / doesn't exist, then return: "No Workout Selected Currently"
+  Future<String> getWorkoutName() async {
+    // String workoutName;
+    String classCode = "";
+    // first: pull the classroom code from the account
+    // second: query the classroom and return the workout name. if the field is empty / doesn't exist, then return: "No Workout Selected Currently"
 
-  //   await FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(globals.user?.uid)
-  //       .get()
-  //       .then((documentSnapshot) {
-  //     var data = documentSnapshot.data();
-  //     print("user data: ");
-  //     print(data);
-  //     if (data != null && data.containsKey("classroomCode")) {
-  //       classCode = data["classroomCode"];
-  //     }
-  //   });
-  //   print("completed classCode fetch");
-  //   await FirebaseFirestore.instance
-  //       .collection('classrooms')
-  //       .where('classroomCode', isEqualTo: classCode)
-  //       .get()
-  //       .then((querySnapshot) {
-  //     //debugPrint("QuerySnap length: ${querySnapshot.docs.length}");
-  //     for (var doc in querySnapshot.docs) {
-  //       var data = doc.data();
-  //       print("in classrooms Firebase call" + data["workoutName"]);
-  //       print("workout name:" + data['workoutName']);
-  //       currentWorkout = data["workoutName"];
-  //       // return (data["workoutName"]);
-  //       //debugPrint("Firebase");
-  //       // if (data.containsKey("workoutName")) {
-  //       //   workoutName = data["workoutName"];
-  //       //   return workoutName;
-  //       // } else {
-  //       //   return "No Workout Selected";
-  //       // }
-  //     }
-  //   });
-  //   print(currentWorkout);
-  //   return currentWorkout;
-  // }
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(globals.user?.uid)
+        .get()
+        .then((documentSnapshot) {
+      var data = documentSnapshot.data();
+      print("user data: ");
+      print(data);
+      if (data != null && data.containsKey("classroomCode")) {
+        classCode = data["classroomCode"];
+      }
+    });
+    print("completed classCode fetch");
+    await FirebaseFirestore.instance
+        .collection('classrooms')
+        .where('classroomCode', isEqualTo: classCode)
+        .get()
+        .then((querySnapshot) {
+      //debugPrint("QuerySnap length: ${querySnapshot.docs.length}");
+      for (var doc in querySnapshot.docs) {
+        var data = doc.data();
+        print("in classrooms Firebase call" + data["workoutName"]);
+        print("workout name:" + data['workoutName']);
+        currentWorkout = data["workoutName"];
+        // return (data["workoutName"]);
+        //debugPrint("Firebase");
+        // if (data.containsKey("workoutName")) {
+        //   workoutName = data["workoutName"];
+        //   return workoutName;
+        // } else {
+        //   return "No Workout Selected";
+        // }
+      }
+    });
+    print(currentWorkout);
+    return currentWorkout;
+  }
 
   void getExercises() async {
     workoutMap = (await getWorkoutMap())!;
@@ -79,11 +79,11 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // loadChosenWorkoutName();
-    // print("currentWorkout:" + currentWorkout);
-    // getExercises();
+    loadChosenWorkoutName();
+    print("currentWorkout:" + currentWorkout);
+    getExercises();
 
-    // print(currentWorkout);
+    print(currentWorkout);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -206,7 +206,7 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
                       alignment: Alignment.center,
                       child: Column(
                         children: [
-                          // Text(currentWorkout),
+                          Text("Current Selected Workout: " + currentWorkout),
                           ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
