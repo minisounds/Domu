@@ -206,7 +206,11 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
                       alignment: Alignment.center,
                       child: Column(
                         children: [
-                          Text("Current Selected Workout: " + currentWorkout),
+                          Text(
+                            "Current Selected Workout: " + currentWorkout,
+                            style: const TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center,
+                          ),
                           ElevatedButton(
                               onPressed: () {
                                 Navigator.push(

@@ -46,6 +46,7 @@ dependencies:
   firebase_core: ^1.11.0
   firebase_storage: ^10.2.7
   simple_timer: ^2.0.0
+  audioplayers: ^1.0.1
 
 dev_dependencies:
   flutter_test:
