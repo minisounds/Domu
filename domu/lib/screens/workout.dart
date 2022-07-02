@@ -113,7 +113,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             child: Image.asset(
                 exerciseNames.isNotEmpty
                     ? "assets/$workoutName/$currentExerciseName.gif"
-                    : "assets/images/sampleWorkoutImage.png",
+                    : "assets/images/loadingImage.png",
                 scale: 0.8),
             alignment: Alignment.center,
             padding: const EdgeInsets.all(18.0),
