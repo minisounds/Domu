@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:domu/screens/homeStudent.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   var workoutName = "BeginnerWorkout";
   var exerciseTime = 30;
   var _countDownController;
+  var currentExerciseName = "";
 
   CollectionReference workouts =
       FirebaseFirestore.instance.collection('workouts');
@@ -36,6 +39,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
   void firebasePulls() async {
     var exerciseMap = await getWorkoutMap();
+    workoutName = await getWorkoutName();
     for (var exerciseName in exerciseMap!.keys) {
       exerciseNames.add(exerciseName);
     }
@@ -46,12 +50,20 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       exerciseMap;
       imageStrings;
     });
+    currentExerciseName = "Domu";
+    for (var elem in exerciseNames[0].split(" ")) {
+      currentExerciseName += elem;
+    }
   }
 
   void changeWorkoutImage() async {
     setState(() {
       if (index < (imageStrings.length - 1)) {
         index += 1;
+        currentExerciseName = "Domu";
+        for (var elem in exerciseNames[index].split(" ")) {
+          currentExerciseName += elem;
+        }
         _countDownController.start();
       } else {
         //Show that workout is finished somehow
@@ -98,10 +110,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               maxHeight: MediaQuery.of(context).size.height * 0.65,
               //maximum height set to 100% of vertical height
             ),
-            child: Image.network(
-                imageStrings.isNotEmpty
-                    ? imageStrings[index]
-                    : "https://www.freeiconspng.com/thumbs/load-icon-png/load-icon-png-8.png",
+            child: Image.asset(
+                exerciseNames.isNotEmpty
+                    ? "assets/$workoutName/$currentExerciseName.gif"
+                    : "assets/images/sampleWorkoutImage.png",
                 scale: 0.8),
             alignment: Alignment.center,
             padding: const EdgeInsets.all(18.0),

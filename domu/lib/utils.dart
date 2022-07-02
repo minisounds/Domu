@@ -103,3 +103,37 @@ Future<List<String>> getCoachExercises(var workoutName) async {
 
   return workoutNames;
 }
+
+Future<String> getWorkoutName() async {
+  var workoutName = "";
+  var classCode = "";
+
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(globals.user?.uid)
+      .get()
+      .then((documentSnapshot) {
+    var data = documentSnapshot.data();
+    //debugPrint("Firebase");
+    if (data != null && data.containsKey("classroomCode")) {
+      classCode = data["classroomCode"];
+    }
+  });
+
+  await FirebaseFirestore.instance
+      .collection('classrooms')
+      .where('classroomCode', isEqualTo: classCode)
+      .get()
+      .then((querySnapshot) {
+    //debugPrint("QuerySnap length: ${querySnapshot.docs.length}");
+    for (var doc in querySnapshot.docs) {
+      var data = doc.data();
+      //debugPrint("Firebase");
+      if (data.containsKey("workoutName")) {
+        workoutName = data["workoutName"];
+      }
+    }
+  });
+
+  return workoutName;
+}
