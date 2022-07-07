@@ -3,6 +3,7 @@ import 'package:domu/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:domu/screens/signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 import './prepareForWorkout.dart';
 import '../utils.dart';
 
@@ -15,12 +16,18 @@ class HomeStudentScreen extends StatefulWidget {
 
 class _HomeStudentScreenState extends State<HomeStudentScreen> {
   Map<String, String> workoutMap = <String, String>{};
+  final Uri _url = Uri.parse(
+      'https://docs.google.com/forms/d/e/1FAIpQLSeSY4Kb-gEg5EHLZ-wgnW2s_7NGH9B-6MPDW1HBoEpb0kDdPQ/viewform');
   var workoutNames = [];
   List<Widget> workoutRows = [];
   final ScrollController _scrollController = ScrollController();
 
   _HomeStudentScreenState() {
     getExercises();
+  }
+
+  void _launchUrl() async {
+    if (!await launchUrl(_url)) throw 'Could not launch $_url';
   }
 
   void getExercises() async {
@@ -149,16 +156,19 @@ class _HomeStudentScreenState extends State<HomeStudentScreen> {
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const PrepareForWorkoutScreen()),
-                        );
-                      },
-                      child: const Text("START WORKOUT")),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const PrepareForWorkoutScreen()),
+                          );
+                        },
+                        child: const Text("START WORKOUT")),
+                  ),
                   Container(
                       alignment: Alignment.center,
                       padding: const EdgeInsets.all(10),
@@ -175,7 +185,13 @@ class _HomeStudentScreenState extends State<HomeStudentScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 15, fontStyle: FontStyle.italic),
-                      ))
+                      )),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    child: ElevatedButton(
+                        onPressed: _launchUrl,
+                        child: const Text("Give Us Feedback on the App Here!")),
+                  )
                 ],
               ),
             ),

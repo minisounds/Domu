@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:domu/screens/coachWorkout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../globalVars.dart' as globals;
+import 'package:url_launcher/url_launcher.dart';
 import '../utils.dart';
 
 class HomeCoachScreen extends StatefulWidget {
@@ -13,6 +14,8 @@ class HomeCoachScreen extends StatefulWidget {
 
 class _HomeCoachScreenState extends State<HomeCoachScreen> {
   final ScrollController _scrollController = ScrollController();
+  final Uri _url = Uri.parse(
+      'https://docs.google.com/forms/d/e/1FAIpQLSeSY4Kb-gEg5EHLZ-wgnW2s_7NGH9B-6MPDW1HBoEpb0kDdPQ/viewform');
   var workoutNames = [];
   String currentWorkout = "NONE";
   Map<String, String> workoutMap = <String, String>{};
@@ -23,6 +26,10 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
 
   void loadChosenWorkoutName() async {
     currentWorkout = await getWorkoutName();
+  }
+
+  void _launchUrl() async {
+    if (!await launchUrl(_url)) throw 'Could not launch $_url';
   }
 
   Future<String> getWorkoutName() async {
@@ -81,7 +88,6 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
   Widget build(BuildContext context) {
     loadChosenWorkoutName();
     print("currentWorkout:" + currentWorkout);
-    getExercises();
 
     print(currentWorkout);
     return Scaffold(
@@ -221,6 +227,10 @@ class _HomeCoachScreenState extends State<HomeCoachScreen> {
                                 );
                               },
                               child: const Text("Select Workout")),
+                          ElevatedButton(
+                              onPressed: _launchUrl,
+                              child: const Text(
+                                  "Give Us Feedback on the App Here!")),
                         ],
                       ),
                     ),

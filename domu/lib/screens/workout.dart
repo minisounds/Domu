@@ -19,7 +19,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   var imageStrings = [];
   var exerciseNames = [];
   var workoutName = "BeginnerWorkout";
-  var exerciseTime = 30;
+  var exerciseTime = 60;
   var _countDownController;
   var currentExerciseName = "";
 
@@ -121,7 +121,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           Container(
             height: 100,
             child: CircularCountDownTimer(
-              duration: 30,
+              duration: 60,
               initialDuration: 0,
               width: MediaQuery.of(context).size.width / 2,
               height: MediaQuery.of(context).size.height / 2,
