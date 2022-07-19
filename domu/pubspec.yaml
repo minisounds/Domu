@@ -76,6 +76,7 @@ flutter:
     - assets/sampleWorkoutImage.png
     - assets/loadingImage.png
     - assets/images/tenniskidpic.jpeg
+    - assets/sounds/DomuCompletedWorkout.mp3
     - assets/BeginnerWorkout/DomuBackhand.gif
     - assets/BeginnerWorkout/DomuBallBounce.gif
     - assets/BeginnerWorkout/DomuJumpingJacks.gif

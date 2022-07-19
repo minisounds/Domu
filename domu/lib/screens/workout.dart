@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:domu/screens/homeStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../utils.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -22,6 +21,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   var exerciseTime = 60;
   var _countDownController;
   var currentExerciseName = "";
+  final audioPlayer = AudioPlayer();
 
   CollectionReference workouts =
       FirebaseFirestore.instance.collection('workouts');
@@ -57,6 +57,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   }
 
   void changeWorkoutImage() async {
+    //call audio here
+    print("playing audio now");
+    await audioPlayer.play(AssetSource('sounds/DomuCompletedWorkout.mp3'));
     setState(() {
       if (index < (imageStrings.length - 1)) {
         index += 1;
