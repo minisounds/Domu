@@ -25,6 +25,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   var _countDownController;
   var currentExerciseName = "";
   final audioPlayer = AudioPlayer();
+  // final audioPlayer2 = AudioPlayer();
   Map<String, int> timeMap = <String, int>{};
   bool isLoaded = false;
 
@@ -60,12 +61,20 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     }
   }
 
+  void drillCompletedSound() async {
+    await audioPlayer.play(AssetSource('sounds/DomuDrillCompleted.mp3'));
+  }
+
+  void workoutCompletedSound() async {
+    await audioPlayer.play(AssetSource('sounds/DomuWorkoutCompleted.wav'));
+  }
+
   void changeWorkoutImage() async {
     //call audio here
-    print("playing audio now");
-    await audioPlayer.play(AssetSource('sounds/DomuCompletedWorkout.mp3'));
     setState(() {
       if (index < (imageStrings.length - 1)) {
+        print("playing audio now");
+        drillCompletedSound();
         index += 1;
         currentExerciseName = "Domu";
         for (var elem in exerciseNames[index].split(" ")) {
@@ -74,6 +83,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         _countDownController.restart(duration: getExerciseDuration());
       } else {
         //Show that workout is finished somehow
+        workoutCompletedSound();
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const HomeStudentScreen()),
