@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:domu/screens/homeStudent.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +25,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   var _countDownController;
   var currentExerciseName = "";
   final audioPlayer = AudioPlayer();
+  Map<String, int> timeMap = <String, int>{};
+  bool isLoaded = false;
 
   CollectionReference workouts =
       FirebaseFirestore.instance.collection('workouts');
@@ -29,16 +34,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   _WorkoutScreenState() {
     _countDownController = CountDownController();
     debugPrint("Workout");
-    /*
-    imageStrings.add(
-        "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/capsule_616x353.jpg?t=1646296970");
-    exerciseNames.add("amongus");
-    */
+
     firebasePulls();
   }
 
   void firebasePulls() async {
     var exerciseMap = await getWorkoutMap();
+    var firebaseTimeMap = await getTimeMap();
     workoutName = await getWorkoutName();
     for (var exerciseName in exerciseMap!.keys) {
       exerciseNames.add(exerciseName);
@@ -48,7 +50,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     }
     setState(() {
       exerciseMap;
+      timeMap = firebaseTimeMap!;
       imageStrings;
+      isLoaded = true;
     });
     currentExerciseName = "Domu";
     for (var elem in exerciseNames[0].split(" ")) {
@@ -67,7 +71,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         for (var elem in exerciseNames[index].split(" ")) {
           currentExerciseName += elem;
         }
-        _countDownController.start();
+        _countDownController.restart(duration: getExerciseDuration());
       } else {
         //Show that workout is finished somehow
         Navigator.push(
@@ -78,9 +82,22 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     });
   }
 
+  int getExerciseDuration() {
+    //print(timeMap);
+    if (timeMap.isNotEmpty && timeMap[exerciseNames[index]] != null) {
+      //print(timeMap[exerciseNames[index]]);
+      return timeMap[exerciseNames[index]]!;
+    } else {
+      return 5;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     debugPrint("build things");
+    if (!isLoaded) {
+      return const Scaffold();
+    }
     return Scaffold(
         appBar: AppBar(title: const Text("Workout"), actions: [
           Container(
@@ -124,7 +141,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           Container(
             height: 100,
             child: CircularCountDownTimer(
-              duration: 60,
+              duration: getExerciseDuration(),
               initialDuration: 0,
               width: MediaQuery.of(context).size.width / 2,
               height: MediaQuery.of(context).size.height / 2,
@@ -149,14 +166,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             padding: const EdgeInsets.all(5.0),
           ),
           /*
-          Container(
-            child: TextButton(
-              child: const Text("Next"),
-              onPressed: changeWorkoutImage,
-            ),
-            padding: const EdgeInsets.all(5.0),
-          )
-          */
+      Container(
+        child: TextButton(
+          child: const Text("Next"),
+          onPressed: changeWorkoutImage,
+        ),
+        padding: const EdgeInsets.all(5.0),
+      )
+      */
         ])));
   }
 }

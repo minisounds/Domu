@@ -37,6 +37,54 @@ Future<Map<String, dynamic>?> getUserDataByID(String? uid) async {
   }
 }
 
+Future<Map<String, int>?> getTimeMap() async {
+  Map<String, int> timeMap = <String, int>{};
+  String workoutName = "";
+  String classCode = "";
+
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(globals.user?.uid)
+      .get()
+      .then((documentSnapshot) {
+    var data = documentSnapshot.data();
+    //debugPrint("Firebase");
+    if (data != null && data.containsKey("classroomCode")) {
+      classCode = data["classroomCode"];
+    }
+  });
+
+  await FirebaseFirestore.instance
+      .collection('classrooms')
+      .where('classroomCode', isEqualTo: classCode)
+      .get()
+      .then((querySnapshot) {
+    //debugPrint("QuerySnap length: ${querySnapshot.docs.length}");
+    for (var doc in querySnapshot.docs) {
+      var data = doc.data();
+      //debugPrint("Firebase");
+      if (data.containsKey("workoutName")) {
+        workoutName = data["workoutName"];
+      }
+    }
+  });
+
+  await FirebaseFirestore.instance
+      .collection('workouts')
+      .where('name', isEqualTo: workoutName)
+      .get()
+      .then((querySnapshot) {
+    for (var doc in querySnapshot.docs) {
+      var data = doc.data();
+      //debugPrint("Firebase");
+      timeMap = Map<String, int>.from(data["timeMap"]);
+    }
+  });
+
+  print(timeMap);
+  return timeMap;
+}
+
 Future<Map<String, String>?> getWorkoutMap() async {
   Map<String, String> exerciseMap = <String, String>{};
   String workoutName = "";
