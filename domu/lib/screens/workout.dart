@@ -6,6 +6,7 @@ import 'package:domu/screens/homeStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:domu/screens/workoutCompleted.dart';
 import '../utils.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -25,7 +26,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   var _countDownController;
   var currentExerciseName = "";
   final audioPlayer = AudioPlayer();
-  // final audioPlayer2 = AudioPlayer();
   Map<String, int> timeMap = <String, int>{};
   bool isLoaded = false;
 
@@ -65,10 +65,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     await audioPlayer.play(AssetSource('sounds/DomuDrillCompleted.mp3'));
   }
 
-  void workoutCompletedSound() async {
-    await audioPlayer.play(AssetSource('sounds/DomuWorkoutCompleted.wav'));
-  }
-
   void changeWorkoutImage() async {
     //call audio here
     setState(() {
@@ -83,10 +79,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         _countDownController.restart(duration: getExerciseDuration());
       } else {
         //Show that workout is finished somehow
-        workoutCompletedSound();
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeStudentScreen()),
+          MaterialPageRoute(builder: (context) => const WorkoutCompleted()),
         );
       }
     });

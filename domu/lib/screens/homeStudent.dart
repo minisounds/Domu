@@ -2,6 +2,7 @@ import 'package:domu/screens/workout.dart';
 import 'package:domu/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:domu/screens/signup.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import './prepareForWorkout.dart';
