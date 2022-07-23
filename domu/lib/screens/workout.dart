@@ -45,9 +45,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     workoutName = await getWorkoutName();
     for (var exerciseName in exerciseMap!.keys) {
       exerciseNames.add(exerciseName);
+      exerciseNames.add("Get Ready");
     }
     for (var exerciseLink in exerciseMap.values) {
       imageStrings.add(exerciseLink);
+      imageStrings.add(
+          "https://cdn.pixabay.com/photo/2021/02/12/13/43/among-us-6008615__340.png");
     }
     setState(() {
       exerciseMap;
@@ -76,7 +79,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         for (var elem in exerciseNames[index].split(" ")) {
           currentExerciseName += elem;
         }
-        _countDownController.restart(duration: getExerciseDuration());
+        var exerciseDuration = 5;
+        if (index % 2 == 1) {
+          exerciseDuration = getExerciseDuration();
+          if (index == (exerciseNames.length - 1)) {
+            exerciseDuration = 0;
+          }
+        }
+        _countDownController.restart(duration: exerciseDuration);
       } else {
         //Show that workout is finished somehow
         Navigator.push(

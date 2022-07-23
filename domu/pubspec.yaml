@@ -85,6 +85,7 @@ flutter:
     - assets/BeginnerWorkout/DomuForehand.gif
     - assets/BeginnerWorkout/DomuRacquetHockey.gif
     - assets/BeginnerWorkout/DomuShufflingBalls.gif
+    - assets/BeginnerWorkout/DomuGetReady.gif
     - assets/IntermediateWorkout/DomuFastFeet.gif
     - assets/IntermediateWorkout/DomuHockeyShuffling.gif
     - assets/IntermediateWorkout/DomuJumpingJacks.gif
@@ -92,6 +93,7 @@ flutter:
     - assets/IntermediateWorkout/DomuRightHandRacquetBounce.gif
     - assets/IntermediateWorkout/DomuSwitchingLunges.gif
     - assets/IntermediateWorkout/DomuVDrill.gif
+    - assets/IntermediateWorkout/DomuGetReady.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
