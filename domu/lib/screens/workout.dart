@@ -24,10 +24,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   var workoutName = "BeginnerWorkout";
   var exerciseTime = 60;
   var _countDownController;
-  var currentExerciseName = "";
+  String currentExerciseName = "";
   final audioPlayer = AudioPlayer();
   Map<String, int> timeMap = <String, int>{};
   bool isLoaded = false;
+  String nextExerciseName = "";
 
   CollectionReference workouts =
       FirebaseFirestore.instance.collection('workouts');
@@ -43,9 +44,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     var exerciseMap = await getWorkoutMap();
     var firebaseTimeMap = await getTimeMap();
     workoutName = await getWorkoutName();
-    for (var exerciseName in exerciseMap!.keys) {
-      exerciseNames.add(exerciseName);
-      exerciseNames.add("Get Ready");
+    var exerciseMapKeys = exerciseMap!.keys;
+    for (int i = 0; i < exerciseMapKeys.length; i++) {
+      exerciseNames.add(exerciseMapKeys.elementAt(i));
+      if (i != (exerciseMapKeys.length - 1)) {
+        exerciseNames.add("Get Ready");
+      }
     }
     for (var exerciseLink in exerciseMap.values) {
       imageStrings.add(exerciseLink);
@@ -75,6 +79,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         print("playing audio now");
         drillCompletedSound();
         index += 1;
+        if (index < exerciseNames.length - 1) {
+          nextExerciseName = exerciseNames[index + 1];
+        } else {
+          nextExerciseName = "";
+        }
         currentExerciseName = "Domu";
         for (var elem in exerciseNames[index].split(" ")) {
           currentExerciseName += elem;
@@ -107,6 +116,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     }
   }
 
+  String getExerciseTitle() {
+    return exerciseNames.isNotEmpty
+        ? (index % 2 == 0
+            ? exerciseNames[index]
+            : "Next Exercise:\n$nextExerciseName")
+        : "Name";
+  }
+
   @override
   Widget build(BuildContext context) {
     debugPrint("build things");
@@ -118,7 +135,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           Container(
               alignment: Alignment.centerRight,
               child: Text(
-                "Progress: ${index + 1} / ${imageStrings.length}",
+                "Progress: ${index + 1} / ${imageStrings.length / 2}",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -130,7 +147,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             child: Column(children: [
           Container(
             child: Text(
-              "${exerciseNames.isNotEmpty ? exerciseNames[index] : "Name"}",
+              "${getExerciseTitle()}",
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
