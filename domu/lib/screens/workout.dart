@@ -28,6 +28,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   final audioPlayer = AudioPlayer();
   Map<String, int> timeMap = <String, int>{};
   bool isLoaded = false;
+  bool blobOn = true;
 
   CollectionReference workouts =
       FirebaseFirestore.instance.collection('workouts');
@@ -65,11 +66,20 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     await audioPlayer.play(AssetSource('sounds/DomuDrillCompleted.mp3'));
   }
 
+  void blobAnimation() async {
+    setState(() {
+      blobOn = !blobOn;
+    });
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      blobOn = !blobOn;
+    });
+  }
+
   void changeWorkoutImage() async {
-    //call audio here
+    blobAnimation();
     setState(() {
       if (index < (imageStrings.length - 1)) {
-        print("playing audio now");
         drillCompletedSound();
         index += 1;
         currentExerciseName = "Domu";
@@ -78,7 +88,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         }
         _countDownController.restart(duration: getExerciseDuration());
       } else {
-        //Show that workout is finished somehow
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const WorkoutCompleted()),
@@ -88,9 +97,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   }
 
   int getExerciseDuration() {
-    //print(timeMap);
     if (timeMap.isNotEmpty && timeMap[exerciseNames[index]] != null) {
-      //print(timeMap[exerciseNames[index]]);
       return timeMap[exerciseNames[index]]!;
     } else {
       return 5;
@@ -114,10 +121,28 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   fontSize: 15,
                 ),
               ))
-          //put workout progress here?
         ]),
         body: SingleChildScrollView(
             child: Column(children: [
+          Center(
+            child: AnimatedContainer(
+              width: blobOn ? 0 : MediaQuery.of(context).size.width,
+              height: blobOn ? 0 : MediaQuery.of(context).size.height,
+              color: Colors.blue,
+              alignment:
+                  blobOn ? Alignment.center : AlignmentDirectional.center,
+              duration: const Duration(seconds: 1),
+              curve: Curves.fastOutSlowIn,
+              // curve: Curves.fastOutSlowIn,
+              child: const Text("Switching Workouts Now!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 25,
+                  )),
+            ),
+          ),
           Container(
             child: Text(
               "${exerciseNames.isNotEmpty ? exerciseNames[index] : "Name"}",
@@ -171,14 +196,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             padding: const EdgeInsets.all(5.0),
           ),
           /*
-      Container(
-        child: TextButton(
-          child: const Text("Next"),
-          onPressed: changeWorkoutImage,
-        ),
-        padding: const EdgeInsets.all(5.0),
-      )
-      */
+        Container(
+          child: TextButton(
+            child: const Text("Next"),
+            onPressed: changeWorkoutImage,
+          ),
+          padding: const EdgeInsets.all(5.0),
+       ) 
+        */
         ])));
   }
 }
