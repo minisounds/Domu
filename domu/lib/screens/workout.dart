@@ -24,11 +24,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   var workoutName = "BeginnerWorkout";
   var exerciseTime = 60;
   var _countDownController;
-  var currentExerciseName = "";
+  String currentExerciseName = "";
   final audioPlayer = AudioPlayer();
   Map<String, int> timeMap = <String, int>{};
   bool isLoaded = false;
   bool blobOn = true;
+  String nextExerciseName = "";
 
   CollectionReference workouts =
       FirebaseFirestore.instance.collection('workouts');
@@ -44,11 +45,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     var exerciseMap = await getWorkoutMap();
     var firebaseTimeMap = await getTimeMap();
     workoutName = await getWorkoutName();
-    for (var exerciseName in exerciseMap!.keys) {
-      exerciseNames.add(exerciseName);
+    var exerciseMapKeys = exerciseMap!.keys;
+    for (int i = 0; i < exerciseMapKeys.length; i++) {
+      exerciseNames.add(exerciseMapKeys.elementAt(i));
     }
     for (var exerciseLink in exerciseMap.values) {
       imageStrings.add(exerciseLink);
+      imageStrings.add(
+          "https://cdn.pixabay.com/photo/2021/02/12/13/43/among-us-6008615__340.png");
     }
     setState(() {
       exerciseMap;
@@ -79,14 +83,23 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   void changeWorkoutImage() async {
     blobAnimation();
     setState(() {
-      if (index < (imageStrings.length - 1)) {
-        drillCompletedSound();
+      print(index);
+
+      if (index <= (imageStrings.length - 1)) {
         index += 1;
-        currentExerciseName = "Domu";
-        for (var elem in exerciseNames[index].split(" ")) {
-          currentExerciseName += elem;
+        drillCompletedSound();
+        if (index < exerciseNames.length - 1) {
+          print(index);
+          nextExerciseName = exerciseNames[index + 1];
+          currentExerciseName = "Domu";
+          for (var elem in exerciseNames[index].split(" ")) {
+            currentExerciseName += elem;
+          }
+          var exerciseDuration = timeMap[exerciseNames[index]];
+          _countDownController.restart(duration: exerciseDuration);
+        } else {
+          nextExerciseName = "";
         }
-        _countDownController.restart(duration: getExerciseDuration());
       } else {
         Navigator.push(
           context,
@@ -104,6 +117,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     }
   }
 
+  String getExerciseTitle() {
+    return exerciseNames.isNotEmpty
+        ? (index % 2 == 0
+            ? exerciseNames[index]
+            : "Next Exercise:\n$nextExerciseName")
+        : "Name";
+  }
+
   @override
   Widget build(BuildContext context) {
     debugPrint("build things");
@@ -115,7 +136,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           Container(
               alignment: Alignment.centerRight,
               child: Text(
-                "Progress: ${index + 1} / ${imageStrings.length}",
+                "Progress: ${index + 1} / ${imageStrings.length / 2}",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -145,7 +166,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           ),
           Container(
             child: Text(
-              "${exerciseNames.isNotEmpty ? exerciseNames[index] : "Name"}",
+              "${exerciseNames[index]}",
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
