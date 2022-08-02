@@ -185,3 +185,26 @@ Future<String> getWorkoutName() async {
 
   return workoutName;
 }
+
+Future addPoints() async {
+  var uid = globals.user?.uid;
+  var currentPoints = 0;
+
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if(documentSnapshot.data()!.containsKey('points')){
+      currentPoints = documentSnapshot.data()?['points'];
+    }
+  });
+
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .update({'points': (currentPoints + 5000)}).then((val) {
+    print("Updated Points");
+  });
+
+}

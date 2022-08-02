@@ -77,7 +77,7 @@ class _WorkoutCompletedState extends State<WorkoutCompleted> {
                         size: 30, color: Colors.yellow),
                   ),
                   TextSpan(
-                    text: " Points Won: 6,000 ",
+                    text: " Points Won: 5,000 ",
                     style: TextStyle(color: Colors.black, fontSize: 30),
                   ),
                 ],
