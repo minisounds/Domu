@@ -97,6 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           'email': emailController.text,
           'identity': identity,
           'classroomCode': "",
+          'points': 0,
         });
         print("Student Account Created");
       } else {

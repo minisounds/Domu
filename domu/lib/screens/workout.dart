@@ -78,29 +78,32 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     setState(() {
       blobOn = !blobOn;
     });
+    var exerciseDuration = timeMap[exerciseNames[index]];
+    await Future.delayed(const Duration(seconds: 1));
+    _countDownController.restart(duration: exerciseDuration);
   }
 
   void changeWorkoutImage() async {
-    blobAnimation();
     setState(() {
-      print(index);
-
-      if (index <= (imageStrings.length - 1)) {
+      if (index < (exerciseNames.length - 1)) {
         index += 1;
+        blobAnimation();
         drillCompletedSound();
-        if (index < exerciseNames.length - 1) {
-          print(index);
+        if ((index + 1) < exerciseNames.length) {
           nextExerciseName = exerciseNames[index + 1];
-          currentExerciseName = "Domu";
-          for (var elem in exerciseNames[index].split(" ")) {
-            currentExerciseName += elem;
-          }
-          var exerciseDuration = timeMap[exerciseNames[index]];
-          _countDownController.restart(duration: exerciseDuration);
         } else {
           nextExerciseName = "";
         }
+
+        currentExerciseName = "Domu";
+        for (var elem in exerciseNames[index].split(" ")) {
+          currentExerciseName += elem;
+        }
+        
       } else {
+        //Show that workout is finished somehow
+        //add points
+        addPoints();
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const WorkoutCompleted()),
