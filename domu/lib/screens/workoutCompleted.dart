@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:countup/countup.dart';
 import 'package:domu/screens/homeStudent.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
@@ -69,20 +70,24 @@ class _WorkoutCompletedState extends State<WorkoutCompleted> {
                       fontSize: 40,
                     ))),
             Center(
-                child: RichText(
-              text: const TextSpan(
-                children: [
-                  WidgetSpan(
-                    child: Icon(Icons.star_rounded,
-                        size: 30, color: Colors.yellow),
-                  ),
-                  TextSpan(
-                    text: " Points Won: 6,000 ",
-                    style: TextStyle(color: Colors.black, fontSize: 30),
-                  ),
-                ],
+              child: Text("Points Won: ",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 25,
+                  )),
+            ),
+            Countup(
+              begin: 0,
+              end: 6000,
+              duration: const Duration(seconds: 2),
+              separator: ',',
+              style: const TextStyle(
+                fontSize: 36,
+                color: Colors.black,
               ),
-            )),
+            ),
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(30),

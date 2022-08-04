@@ -49,6 +49,7 @@ dependencies:
   audioplayers: ^1.0.1
   url_launcher: ^6.1.4
   confetti: ^0.6.0
+  countup: ^0.1.4
 
 dev_dependencies:
   flutter_test:
